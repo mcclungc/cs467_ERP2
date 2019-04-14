@@ -23,7 +23,7 @@ app.set('port', process.argv[2]);//enter in port number when you run
 //set up pages and what you can do on those pages
 app.get('/', function(req, res){
 	//renders index page
-	res.render('index');
+	res.render('index', {layout: 'login'}); //changed layout
 });  
 
 //Error pages
