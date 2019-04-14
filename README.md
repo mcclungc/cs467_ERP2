@@ -1,5 +1,5 @@
 # cs467_ERP2
-#Employee Recognition Portal
+# Employee Recognition Portal
 
 Write a database-backed website used to track employee recognition awards.
 
