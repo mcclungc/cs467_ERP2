@@ -8,7 +8,7 @@
 
 var express = require('express');
 var app = express();
-var handlebars = require('express-handlebars');
+var handlebars = require('express-handlebars').create({defaultLayout:'user'}); //default layout is required but can be changed per page.
 var bodyParser = require('body-parser');
 var request = require('request');
 var mysql = require('./db.js');//go to db.js to set up database
@@ -29,7 +29,7 @@ app.get('/', function(req, res){
 //Error pages
 app.use(function(req,res){
   res.status(404);
-  res.render('404', {layout: 'error'});
+  res.render('404', {layout: 'error'}); //changed layout
 });
 
 app.use(function(err, req, res, next){
