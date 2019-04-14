@@ -24,6 +24,10 @@ app.set('port', process.argv[2]);//enter in port number when you run
 app.get('/', function(req, res){
 	//renders index page
 	res.render('index', {layout: 'login'}); //changed layout
+});
+
+app.get('/reset-password', function(req, res){
+	res.render('reset', {layout: 'login'});
 });  
 
 //Error pages
