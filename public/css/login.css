@@ -3,3 +3,34 @@
 	text-align:center;
 	margin: 0 auto;
 }
+
+html {
+	height: 100%;
+}
+
+body {
+	height: 94%;
+	margin: 0;
+}
+
+footer p, header h1 {
+	text-align:center;
+}
+
+footer p {
+	background-color: #1d1d1d;
+	color:white;
+}
+
+header {
+	height: 15%;
+}
+
+.body-container {
+	height: 80%;
+}
+
+footer {
+	height: 5%;
+	color: #1d1d1d;
+}
