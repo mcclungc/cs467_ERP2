@@ -30,6 +30,10 @@ app.get('/reset-password', function(req, res){
 	res.render('reset', {layout: 'login'});
 });  
 
+app.get('/admin', function(req, res){
+	res.render('adminHome', {layout: 'admin'});
+});
+
 //Error pages
 app.use(function(req,res){
   res.status(404);

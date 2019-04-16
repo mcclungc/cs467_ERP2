@@ -1,0 +1,57 @@
+html {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+}
+
+.leftNav {
+	position: fixed;
+	left: 0;
+	top: 50px;
+	height: 100%;
+	width: 150px;
+	background: black;
+}
+
+.leftNav a{
+	color: white;
+	text-decoration: none;
+}
+
+.topNav {
+	//position: fixed;
+	//top: 0;
+	//left: 0;
+	width: 100%;
+	background: black;
+	height: 50px;
+}
+
+.topLeft, .topRight {
+	width: 50%;
+	display: inline-block;
+}
+
+.topLeft {
+	float: left;
+}
+
+.userNav {
+	float: right;
+	color: white;
+}
+
+.subNav {
+	display: none;
+	background: black;
+}
+
+.userNav:hover .subNav {
+	display: block;
+}
+
+.bodyMain {
+	margin-left: 160px;
+}
