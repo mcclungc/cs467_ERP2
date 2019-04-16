@@ -30,8 +30,38 @@ app.get('/reset-password', function(req, res){
 	res.render('reset', {layout: 'login'});
 });  
 
+//Admin pages
 app.get('/admin', function(req, res){
 	res.render('adminHome', {layout: 'admin'});
+});
+
+app.get('/admin-account', function(req, res){
+	res.render('adminAccount', {layout: 'admin'});
+});
+
+app.get('/admin-reports', function(req, res){
+	res.render('adminReports', {layout: 'admin'});
+});
+
+app.get('/admin-usermanagement', function(req, res){
+	res.render('adminUM', {layout: 'admin'});
+});
+
+//User pages
+app.get('/home', function(req, res){
+res.render('userHome', {layout: 'user'});
+});
+
+app.get('/create-awards', function(req, res){
+res.render('userAward', {layout: 'user'});
+});
+
+app.get('/history', function(req, res){
+res.render('userHistory', {layout: 'user'});
+});
+
+app.get('/account', function(req, res){
+res.render('userAccount', {layout: 'user'});
 });
 
 //Error pages
