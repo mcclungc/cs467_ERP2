@@ -1,0 +1,42 @@
+html {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+}
+
+.topNav {
+	//position: fixed;
+	//top: 0;
+	//left: 0;
+	width: 100%;
+	background: black;
+	height: 50px;
+}
+
+.logo {
+	width: 20%;
+	display: inline-block;
+}
+
+.navBar {
+	width: 79%;
+        display: inline-block;
+	text-align: right;
+}
+
+.subNav {
+	display: none;
+	position:absolute;
+	z-index: 1;
+	text-align: left;
+}
+
+.dropDown {
+	display: inline-block;
+}
+
+.dropDown:hover .subNav {
+	display: block;
+}
