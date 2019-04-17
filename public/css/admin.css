@@ -56,3 +56,8 @@ body {
 .bodyMain {
 	margin-left: 160px;
 }
+
+.fa-user-circle {
+	font-size: 2em;
+	color: white;
+}

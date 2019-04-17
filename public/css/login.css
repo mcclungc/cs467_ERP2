@@ -13,15 +13,8 @@ body {
 	margin: 0;
 }
 
-footer p, header h1 {
+header h1 {
 	text-align: center;
-}
-
-footer p {
-	background-color: #1d1d1d;
-	color: white;
-	margin: 0;
-	padding-top: 5px;
 }
 
 header {
@@ -33,7 +26,3 @@ header {
 	margin: 0 10%;
 }
 
-footer {
-	height: 6%;
-	background-color: #1d1d1d;
-}
