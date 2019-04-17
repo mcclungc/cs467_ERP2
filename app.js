@@ -21,51 +21,79 @@ app.use(express.static('public'));
 app.set('port', process.argv[2]);//enter in port number when you run
 
 //set up pages and what you can do on those pages
-app.get('/', function(req, res){
+app.get('/', function(req, res, next){
+	//used to create dynamic metaTags
+	res.locals.metaTags = {
+		title: "Login"
+	};
 	//renders index page
 	res.render('index', {layout: 'login'}); //changed layout
 });
 
-app.get('/reset-password', function(req, res){
+app.get('/reset-password', function(req, res, next){
+	res.locals.metaTags = {
+		title: "Password Reset"
+	};
 	res.render('reset', {layout: 'login'});
 });  
 
 //Admin pages
-app.get('/admin', function(req, res){
+app.get('/admin', function(req, res, next){
 	res.render('adminHome', {layout: 'admin'});
 });
 
-app.get('/admin-account', function(req, res){
+app.get('/admin-account', function(req, res, next){
+	res.locals.metaTags = {
+		title: "| Account"
+	};
 	res.render('adminAccount', {layout: 'admin'});
 });
 
-app.get('/admin-reports', function(req, res){
+app.get('/admin-reports', function(req, res, next){
+	res.locals.metaTags = {
+		title: "| Reports"
+	};
 	res.render('adminReports', {layout: 'admin'});
 });
 
-app.get('/admin-usermanagement', function(req, res){
+app.get('/admin-usermanagement', function(req, res, next){
+	res.locals.metaTags = {
+		title: "| User Management"
+	};
 	res.render('adminUM', {layout: 'admin'});
 });
 
 //User pages
-app.get('/home', function(req, res){
-res.render('userHome', {layout: 'user'});
+app.get('/home', function(req, res, next){
+	res.locals.metaTags = {
+		title: "ERP Dashboard"
+	};
+	res.render('userHome', {layout: 'user'});
 });
 
-app.get('/create-awards', function(req, res){
-res.render('userAward', {layout: 'user'});
+app.get('/create-awards', function(req, res, next){
+	res.locals.metaTags = {
+		title: "ERP Awards"
+	};
+	res.render('userAward', {layout: 'user'});
 });
 
-app.get('/history', function(req, res){
-res.render('userHistory', {layout: 'user'});
+app.get('/history', function(req, res, next){
+	res.locals.metaTags = {
+		title: "User History"
+	};
+	res.render('userHistory', {layout: 'user'});
 });
 
-app.get('/account', function(req, res){
-res.render('userAccount', {layout: 'user'});
+app.get('/account', function(req, res, next){
+	res.locals.metaTags = {
+		title: "Account Management"
+	};
+	res.render('userAccount', {layout: 'user'});
 });
 
 //Error pages
-app.use(function(req,res){
+app.use(function(req, res, next){
   res.status(404);
   res.render('404', {layout: 'error'}); //changed layout
 });
@@ -80,3 +108,5 @@ app.use(function(err, req, res, next){
 app.listen(app.get('port'), function(){
   console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');
 });
+
+module.exports = app; //required for dynamic meta tags
