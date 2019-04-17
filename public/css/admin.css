@@ -21,34 +21,35 @@ body {
 }
 
 .topNav {
-	//position: fixed;
-	//top: 0;
-	//left: 0;
 	width: 100%;
 	background: black;
 	height: 50px;
 }
 
-.topLeft, .topRight {
-	width: 50%;
+.logo {
+	width: 20%;
 	display: inline-block;
 }
 
-.topLeft {
-	float: left;
-}
-
-.userNav {
-	float: right;
-	color: white;
+.navBar {
+	width: 79%;
+	display: inline-block;
+	text-align: right;
 }
 
 .subNav {
 	display: none;
+	position: absolute;
+	z-index: 1;
+	text-align: left;
 	background: black;
 }
 
-.userNav:hover .subNav {
+.dropDown {
+	display: inline-block;
+}
+
+.dropDown:hover .subNav {
 	display: block;
 }
 
