@@ -6,53 +6,85 @@ body {
 	margin: 0;
 }
 
-.topNav {
+#topNav {
 	width: 100%;
 	background: black;
-	overflow: hidden;
 }
 
-.logo {
-	width: 20%;
+/* Clear the container */
+#topNav::after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+#logo {
+	display: block;
+	float: left;
+	padding: 5px 20px;
+}
+
+#logo a {
+	text-decoration: none;
+	font-size: 1.5em;
+}
+
+/* Remove list styling */
+nav ul {
+	float: none;
+	text-align: center;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	position: relative;
+}
+
+/* Display nav items inline */
+nav ul li {
+	margin: 0;
 	display: inline-block;
-	overflow: hidden;
 }
 
-.navBar {
-	width: 79%;
-        display: inline-block;
-	text-align: right;
-	overflow: hidden;
-}
-
-.navBar p {
-	display: inline-block;
-}
-
-.subNav {
+/* Hide subNav */
+nav ul ul.subNav {
 	display: none;
-	position:absolute;
-	z-index: 1;
-	text-align: left;
+	position: absolute;
+	top: 70px;
+	right:0;
+	left: auto;
 }
 
-.dropDown {
-	display: inline-block;
-	overflow: hidden;
-	padding: 10px;
-	vertical-align: bottom;
-}
-
-.dropDown:hover .subNav {
+nav ul li:hover > .subNav {
 	display: block;
 }
 
-.subNav p {
+nav a {
 	display: block;
+	text-decoration: none;
+	font-size: 1.5em;
+	padding: 21px 10px;
+}
+
+nav ul ul li {
+	display: list-item;
+	float: none;
+	position: relative;
+}
+
+nav ul li:hover, nav ul li ul li:hover {
+	background-color: red;
+}
+
+nav ul li#user a {
+	padding: 10px 10px 22px 10px;
+}
+
+nav ul li#user {
+	float: right;
 }
 
 .fa-user-circle {
-	font-size: 2em;
-	color: white;
+	font-size: 1.5em;
 }
+
 

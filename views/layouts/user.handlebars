@@ -7,24 +7,23 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 	</head>
 	<body>
-		<div class="topNav">
-			<div class="logo">
+		<div id="topNav">
+			<div id="logo">
 				<p><a href="/home">Employee Recognition Portal</a></p>
 			</div>
-			<div class="navBar">
-				<p>
-					<a href="/create-awards">Create Awards</a>
-					<a href="/history">History</a>
-				</p>
-				<div class="dropDown">
-					<a class="drop" href="#"><i class="fas fa-user-circle"></i></a>
-					<div class="subNav">
-						<p><a href="/account">Account</a></p>
-						<p><a href="/">Logout</a></p>
-					</div>
-				</div>
-				
-			</div>
+			<nav id="menu">
+				<ul>
+					<li><a href="/home">Home</a></li>
+					<li><a href="/create-awards">Create Awards</a></li>
+					<li><a href="/history">History</a></li>
+      					<li id="user"><a href="#"><i class="fas fa-user-circle"></i></a>
+						<ul class="subNav">
+							<li><a href="/account">Account</a></li>
+							<li><a href="/">Logout</a></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
 		</div>
 		{{{body}}}
 	</body>
