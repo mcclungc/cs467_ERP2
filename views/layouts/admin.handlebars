@@ -7,23 +7,41 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
         </head>
         <body>
-		<div class="topNav">
-			<div class="logo">
+		<div id="topNav">
+			<div id="logo">
 				<p><a href="/admin">Employee Recognition Portal</a></p>
 			</div>
-			<div class="navBar">
-				<div class="dropDown">
-					<a href="#" class="drop"><i class="fas fa-user-circle"></i></a>
-					<div class="subNav">
-						<p><a href="/admin-account">Account</a></p>
-						<p><a href="/">Logout</a></p>
-					</div>
-				</div>
-			</div>
+			<nav id="menu">
+				<ul>
+      					<li id="user"><a href="#"><i class="fas fa-user-tie"></i></a>
+						<ul class="subNav">
+							<li><a href="/account">Account</a></li>
+							<li><a href="/">Logout</a></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+			
 		</div>
 		<div class="leftNav">
-			<p><a href="/admin-usermanagement">User Management</a></p>
-			<p><a href="/admin-reports">Reporting</a></p>
+			<ul>
+				<li><a href="/admin"><i class="fas fa-home"></i></a></li>
+				<li><a href="#"><i class="fas fa-users-cog"></i></a>
+					<ul class="subLeftNav">
+						<li class="navPrime"><a href="/admin-usermanagement">User Management</a></li>
+						<li><a href="#">Create User</a></li>
+						<li><a href="#">User History</a></li>
+						<li><a href="#">Delete User</a></li>
+					</ul>
+				</li>
+				<li><a href="#"><i class="fas fa-chart-pie"></i></a>
+					<ul class="subLeftNav">
+						<li class="navPrime"><a href="/admin-reports">Reporting</a></li>
+						<li><a href="#">Create Reports</a></li>
+						<li><a href="#">Report History</a></li>
+					</ul>
+				</li>
+			</ul>
 		</div>
 		<div class="bodyMain">
                 	{{{body}}}
