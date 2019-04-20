@@ -48,9 +48,13 @@ CREATE TABLE awards(
     certificate_id INT NOT NULL,
     recipient_name VARCHAR(255) NOT NULL,
     recipient_email VARCHAR(256) NOT NULL,
+    recipient_department_id INT NOT NULL,
+    recipient_region_id INT NOT NULL,
     presenter_id INT NOT NULL,
     sent_on DATETIME NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY fk_certificate(certificate_id) REFERENCES certificates(id) ON UPDATE CASCADE ON DELETE RESTRICT,
-    FOREIGN KEY fk_user_award(presenter_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY fk_user_award(presenter_id) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY fk_recipient_department(recipient_department_id) REFERENCES departments(id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    FOREIGN KEY fk_recipient_region(recipient_region_id) REFERENCES regions(id) ON UPDATE CASCADE ON DELETE RESTRICT
 ) ENGINE=INNODB;
