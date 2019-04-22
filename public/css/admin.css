@@ -49,6 +49,18 @@ body {
 .leftNav .subLeftNav .navPrime {
 	background-color: #03A9F4;
 }
+.leftNav .subLeftNav .navPrime a {
+	color: #fff;
+}
+
+.leftNav .subLeftNav a {
+	padding: 10px;
+}
+
+.leftNav .leftNavItem {
+	margin-block-end: 2em;
+	margin-block-start: 2em; 
+}
 
 .leftNav ul li:hover ul {
 	top: 0px;
@@ -107,10 +119,6 @@ nav ul ul.subNav {
 	background-color: #2e2e2e;
 }
 
-nav ul ul.subNav a {
-	color: #fff;
-}
-
 nav ul li:hover > .subNav {
 	display: block;
 }
@@ -127,15 +135,20 @@ nav ul ul li {
 	float: none;
 	position: relative;
 }
-
+/*
 nav ul li ul li:hover {
 	background-color: #39b5f7;
 }
+*/
 
 nav ul li#user a {
 	padding: 15px;
 	color: #999999;
 	font-size: 1.5em;
+}
+
+nav ul li#user .subNav li a:hover {
+	color: #fff;
 }
 
 nav ul li#user {
@@ -145,7 +158,7 @@ nav ul li#user {
 }
 
 .bodyMain {
-	margin-left: 160px;
+	margin-left: 50px;
 }
 
 
