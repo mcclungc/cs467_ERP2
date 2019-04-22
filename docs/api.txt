@@ -1,0 +1,104 @@
+POST /login
+
+    input
+        - email
+        - password
+
+    valid response:
+        - status: 200
+        - session cookie
+
+    invalid response:
+        - status: 401
+
+POST /password (for resetting passwords)
+
+    input:
+        - email
+
+    valid response:
+        - status: 200
+
+
+POST /users (create new user)
+
+    input:
+        - email
+        - password
+        - name
+        - signature
+        - is_admin
+        - region_id
+        - department_id
+
+GET /users (returns all users in users table)
+
+    pagination:
+        - offset
+        - limit
+
+GET /users/<:id> (Gets the user based on the user ID provided)
+
+PATCH /users/<:id> (Update the user based on the user ID and fields provided)
+
+    potential input:
+        - email
+        - password
+        - name
+        - signature
+        - is_admin
+        - region_id
+        - department_id
+
+DELETE /users/<:id> (deletes the user with the user ID from the users table)
+
+POST /awards (create new award)
+
+    input:
+        - certificate_id
+        - recipient_name
+        - recipient_email
+        - presenter_id
+        - sent_on
+
+GET /awards (returns all awards in awards table)
+
+    query options:
+        - recipient_name
+        - department
+        - region
+        - date_start
+        - date_end
+
+    pagination:
+        - offset
+        - limit
+
+GET /awards/<:id> (Gets the award based on the award ID provided)
+
+    query options:
+        - recipient_name
+        - department
+        - region
+        - date_start
+        - date_end
+        
+
+GET /awards/<:presenter_id> (Gets all the awards issued by the presenter ID)
+
+    query options:
+        - recipient_name
+        - department
+        - region
+        - date_start
+        - date_end
+
+    pagination:
+        - offset
+        - limit
+
+DELETE /awards/<:id> (Delete the award with the id)
+
+GET /certificates (Gets all the certificates)
+
+GET /certificates/<:id> (Gets the certificate based on the ID)
