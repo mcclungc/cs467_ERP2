@@ -10,3 +10,8 @@ services:
     restart: always
     ports:
       - 8080:8080
+  node:
+    build: ./src
+    restart: always
+    ports:
+      - 5000:5000

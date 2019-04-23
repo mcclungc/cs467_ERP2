@@ -4,7 +4,8 @@
   "description": "Database-backed website used to track employee recognition awards.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "author": "ERP2",
   "license": "ISC",

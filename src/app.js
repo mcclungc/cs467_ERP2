@@ -18,7 +18,7 @@ app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(express.static('public'));
-app.set('port', process.argv[2]);//enter in port number when you run
+app.set('port', 5000);//enter in port number when you run
 
 //set up pages and what you can do on those pages
 app.get('/', function(req, res, next){
