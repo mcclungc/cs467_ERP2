@@ -20,10 +20,12 @@ body {
 	color: #999999;
 	font-size: 1.5em;
 	text-decoration: none;
+	padding: 10px;
 }
 
 .leftNav a:hover {
 	color: #fff;
+	background-color: #415266;
 }
 
 .leftNav ul {
@@ -43,23 +45,24 @@ body {
 .leftNav .subLeftNav {
 	position: absolute;
 	display: none;
-	background-color: #2e2e2e;
+	background-color: #20262e;
+	width: 200px;
 }
 
 .leftNav .subLeftNav .navPrime {
 	background-color: #03A9F4;
 }
+
+.leftNav .subLeftNav li:hover {
+	background-color: #415266;
+}
+
 .leftNav .subLeftNav .navPrime a {
 	color: #fff;
 }
 
 .leftNav .subLeftNav a {
 	padding: 10px;
-}
-
-.leftNav .leftNavItem {
-	margin-block-end: 2em;
-	margin-block-start: 2em; 
 }
 
 .leftNav ul li:hover ul {
@@ -89,12 +92,13 @@ body {
 
 #logo a {
 	text-decoration: none;
-	font-size: 1.5em;
+	font-size: 20px;
+	font-weight: bold;
 	color: #fff;
 }
 
 /* Remove list styling */
-nav ul {
+#menu ul {
 	float: none;
 	text-align: center;
 	padding: 0;
@@ -104,13 +108,13 @@ nav ul {
 }
 
 /* Display nav items inline */
-nav ul li {
+#menu ul li {
 	margin: 0;
 	display: inline-block;
 }
 
 /* Hide subNav */
-nav ul ul.subNav {
+#menu ul ul.subNav {
 	display: none;
 	position: absolute;
 	top: 60px;
@@ -119,36 +123,40 @@ nav ul ul.subNav {
 	background-color: #2e2e2e;
 }
 
-nav ul li:hover > .subNav {
+#menu ul li:hover > .subNav {
 	display: block;
 }
 
-nav a {
+#menu a {
 	display: block;
 	text-decoration: none;
 	font-size: 1.5em;
 	padding: 21px 10px;
 }
 
-nav ul ul li {
+#menu ul ul.subNav li {
 	display: list-item;
 	float: none;
 	position: relative;
 }
-/*
-nav ul li ul li:hover {
-	background-color: #39b5f7;
-}
-*/
 
-nav ul li#user a {
+#menu ul li#user a {
 	padding: 15px;
 	color: #999999;
 	font-size: 1.5em;
 }
 
-nav ul li#user .subNav li a:hover {
+#menu ul li#user a:hover {
 	color: #fff;
+}
+
+#menu ul li#user .subNav li a {
+	padding: 10px;
+}
+
+#menu ul li#user .subNav li a:hover {
+	color: #fff;
+	background-color: #415266;
 }
 
 nav ul li#user {
@@ -161,4 +169,58 @@ nav ul li#user {
 	margin-left: 50px;
 }
 
+/*User Management Page CSS */
+.users {
+	background-color: #eee;
+	border-radius: 1px;
+	box-shadow: 2px 5px 8px 0px grey;
+}
 
+.umButton {
+	padding: 10px;
+	margin: 5px;
+	color: #fff;
+	text-decoration: none;
+	background-color: #03A9F4;
+	border-radius: 5px;
+}
+
+.actionBar {
+	width: 100%;
+}
+
+.side {
+	display: inline-block;
+	width: 48%;
+	padding: 5px;
+}
+
+.actionBar .searchBar {
+	color: #2e2e2e;
+}
+
+#myInput {
+	border: none;
+	border-bottom: 1px solid #999999;
+	margin-left: 10px;
+	width: 300px;
+	background-color: transparent;
+}
+
+#myInput:focus {
+	outline: none;
+}
+
+#userTable {
+	width: 100%;
+}
+
+#tableHead {
+	color: #fff;
+	background-color: #20262e;
+	text-align: left;
+}
+
+#tableHead th {
+	padding: 5px;
+}

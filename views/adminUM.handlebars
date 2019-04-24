@@ -1,21 +1,27 @@
 <div class="body-container">
 	<h1 class="pageTitle">User Management</h1>
-	<p>
-		<input type="text" id="myInput" onkeyup="search()" placeholder="Search for a user..." title="User Search Bar">
-<a href="/add-user">Add User</a></p>
-	<div class="users">
+	<div class="users"
+		<div class="actionBar">
+			<div class="searchBar side">
+				<p><i class="fas fa-search"></i><input type="text" id="myInput" onkeyup="search()" placeholder="Search for a user..." title="User Search Bar"></p>
+			</div>
+			<div class="actions side">
+				<p style="text-align:right;"><a class="umButton" href="/add-user">Remove</a><a class="umButton" href="/add-user">Edit</a><a class="umButton" href="/add-user">Add User</a></p>
+			</div>
+		</div>
 		{{#if results}}
 			<table id="userTable">
 				<tbody>
-					<tr>
+					<tr id="tableHead">
 						<th>Name</th>
 						<th>User Type</th>
-						<th></th>
+						<th>Email/Username</th>
 					</tr>
 					{{#each results}}
 					<tr>
 						<td>{{this.Name}}</td>
 						<td>{{this.Type}}</td>
+						<td>{{this.Username}}</td>
 					</tr>
 					{{/each}}
 				</tbody>
