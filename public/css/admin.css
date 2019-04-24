@@ -169,6 +169,15 @@ nav ul li#user {
 	margin-left: 50px;
 }
 
+.body-container {
+	width: 90%;
+	margin: 0 auto;
+}
+
+.pageTitle {
+	text-align: center;
+}
+
 /*User Management Page CSS */
 .users {
 	background-color: #eee;
@@ -186,12 +195,13 @@ nav ul li#user {
 }
 
 .actionBar {
-	width: 100%;
+	width: 95%;
+	margin: 0 auto;
 }
 
 .side {
 	display: inline-block;
-	width: 48%;
+	width: 49%;
 	padding: 5px;
 }
 
