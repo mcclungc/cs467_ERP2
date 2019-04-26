@@ -15,8 +15,8 @@ CREATE TABLE departments(
 CREATE TABLE users(
     id INT AUTO_INCREMENT,
     email VARCHAR(256) NOT NULL UNIQUE, -- 256 is max length an email address can be per RFC spec
-    password VARCHAR(64) NOT NULL,
-    salt VARCHAR(16) NOT NULL UNIQUE,
+    password VARCHAR(128) NOT NULL,
+    salt VARCHAR(32) NOT NULL UNIQUE,
     name VARCHAR(255) NOT NULL,
     created_on DATETIME NOT NULL,
     is_admin TINYINT(1) NOT NULL,
