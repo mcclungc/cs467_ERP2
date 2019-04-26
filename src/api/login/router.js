@@ -4,6 +4,10 @@ const db = require('../../db');
 const crypto = require('crypto');
 
 function login (req, res) {
+    if(!req.is('application/json')) {
+        res.status(400).json({ 'message': 'Request must be application/json' }).send();
+    }
+    
     const schema = Joi.object().keys ({
         email: Joi.string().max(256).email({minDomainSegments: 2, tlds: {allow: ['com']}}).required(),
         password: Joi.string().required()
@@ -11,14 +15,14 @@ function login (req, res) {
 
     Joi.validate(req.body, schema, (err, value) => {
         if (err) {
-            res.status(400).send(err.details[0].message);
+            res.status(400).json({ 'message': err.details[0].message }).send();
             return;
         } else {
             db.pool.query("SELECT * FROM users WHERE email = ?", [req.body.email], (error, results, fields) => {
                 if(error) throw error;
                 
                 if(results.length === 0) {
-                    res.status(401).send('Incorrect email and/or password');
+                    res.status(401).json({ 'message': 'Incorrect email and/or password' }).send();
                 } else {
                     db_pass = results[0].password;
                     salt = results[0].salt;
