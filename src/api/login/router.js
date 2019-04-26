@@ -27,10 +27,11 @@ function login (req, res) {
                         if (err) throw err;
                         
                         if(derivedKey.toString('hex') !== db_pass) {
-                            res.status(401).send('Incorrect email and/or password');
+                            res.status(401).json({ 'message': 'Incorrect email and/or password' }).send();
                         } else {
                             // Temporarily set default cookie for 30 minutes
-                            res.cookie('erp_session', '4a680909dd214c23a4ed0accd978c031', { expires: new Date(Date.now() + 1800000)})
+                            res.cookie('erp_session', '4a680909dd214c23a4ed0accd978c031', { expires: new Date(Date.now() + 1800000) })
+                            res.json({ 'is_admin': results[0].is_admin });
                             res.status(200).send();
                         }
                     });
