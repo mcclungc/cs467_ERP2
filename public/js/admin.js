@@ -11,7 +11,7 @@ function search(){
 	table = document.getElementById("userTable");
 	tr = table.getElementsByTagName("tr");
 	for( itr = 0; itr < tr.length; itr++){
-		td = tr[itr].getElementsByTagName("td")[0];
+		td = tr[itr].getElementsByTagName("td")[1];
 		if(td){
 			if(td.innerHTML.toUpperCase().indexOf(filter) > -1){
 				tr[itr].style.display = "";
@@ -34,6 +34,7 @@ function sortToggle(){
 	}
 }
 
+//Sort in ascending order
 function sortAscending(col) {
 	ascending = true;
 	var sorted = false;
@@ -56,6 +57,7 @@ function sortAscending(col) {
 	}
 }
 
+//Check to see if all rows are in ascending order
 function checkAscending(array, col){
 	var itr;
 	for(itr = 0; itr < array.length - 1; itr++){
@@ -66,7 +68,7 @@ function checkAscending(array, col){
 	return true;
 }
 
-//Sory in descending order
+//Sort in descending order
 function sortDescending(col) {
 	ascending = false;
 	var sorted = false;
@@ -100,11 +102,88 @@ function checkDescending(array, col){
 	return true;
 }
 
+//Toggle on checkmark for custom checkboxes
+function checkToggle() {
+	if(this.parentNode.parentNode.id == "tableHead"){
+		if(this.childNodes[0].classList.contains("checkoff")){
+			var table = document.getElementById("userTable");
+			var checks = table.getElementsByClassName("fa-check");
+			var i;
+			for(i = 0; i < checks.length; i++){
+				checks[i].classList.remove("checkoff");
+				checks[i].classList.add("checkon");
+			}
+		}
+		else if(this.childNodes[0].classList.contains("checkon")){
+			var tab = document.getElementById("userTable");
+			var check = tab.getElementsByClassName("fa-check");
+			var j;
+			for(j = 0; j < check.length; j++){
+				check[j].classList.remove("checkon");
+				check[j].classList.add("checkoff");
+			}
+		}
+	}
+	else{
+		if(this.childNodes[0].classList.contains("checkoff")){
+			this.childNodes[0].classList.remove("checkoff");
+			this.childNodes[0].classList.add("checkon");
+		}
+		else{
+			var tHead = document.getElementById("tableHead");
+			var cellCheck = tHead.cells[0];
+			var parentCheck = cellCheck.getElementsByClassName("fa-check");
+			if(parentCheck[0].classList.contains("checkon")){
+				parentCheck[0].classList.remove("checkon");
+				parentCheck[0].classList.add("checkoff");
+			}
+			this.childNodes[0].classList.remove("checkon");
+			this.childNodes[0].classList.add("checkoff");
+		}
+	}
+	anyActive();
+}
+
+//Alters buttons to me active or inactive due to the checkmarks
+function anyActive(){
+	var x, y;
+	var buttons = document.getElementsByClassName("umButton");
+	var area = document.getElementById("userTable");
+	var activeChecks = area.getElementsByClassName("checkon");
+	if(activeChecks.length > 0){
+		for(x = 0; x < buttons.length; x++){
+			buttons[x].classList.remove("inactive");
+			buttons[x].removeEventListener("click", function(event){
+				event.preventDefault();
+			});
+		}
+	}
+	else{
+		for(y = 0; y < buttons.length - 1; y++){
+			buttons[y].classList.add("inactive");
+			buttons[y].addEventListener("click", function(event){
+				event.preventDefault();
+			});
+		}
+	}
+}
+
+
 var ascending = true;
 var toggle = document.getElementsByClassName("sort");
-var i;
+var toggleCheck = document.getElementsByClassName("checkMark");
+var i, j, k;
 for(i = 0; i < toggle.length; i++){
 	toggle[i].addEventListener("click", sortToggle);
 }
-sortAscending(0);
+for (j = 0; j < toggleCheck.length; j++) {
+	toggleCheck[j].addEventListener("click", checkToggle);
+}
 
+//Deactivate inactive buttons
+var inactiveButtons = getElementsByClassName("inactive");
+for(k = 0; k < inactiveButtons.length; k++){
+	inactiveButtons[x].addEventListener("click", function(event){
+		event.preventDefault();
+	});
+}

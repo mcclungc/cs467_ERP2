@@ -118,7 +118,7 @@ body {
 #menu ul ul.subNav {
 	display: none;
 	position: absolute;
-	top: 60px;
+	top: 59px;
 	right: 0;
 	left: auto;
 	background-color: #2e2e2e;
@@ -194,11 +194,21 @@ body {
 	text-decoration: none;
 	background-color: #03A9F4;
 	border-radius: 5px;
-	transition: 0.5s;
+	cursor: pointer;
+	transition: all 0.5s ease-out;
+	-webkit-transition: all 0.5s ease-out;
+	-moz-transition: all 0.5s ease-out;
+	-ms-transition: all 0.5s ease-out;
+	-o-transition: all 0.5s ease-out;
 }
 
 .umButton:hover {
 	background-color: #415266;
+}
+
+.umButton.inactive {
+	background-color: darkgray;
+	cursor: default;
 }
 
 .actionBar {
@@ -208,7 +218,7 @@ body {
 
 .side {
 	display: inline-block;
-	width: 49%;
+	width: 48%;
 	padding: 5px;
 }
 
@@ -232,6 +242,15 @@ body {
 	width: 100%;
 }
 
+#userTable .row:hover {
+	background-color: #dcdcdc;
+	transition: all 0.5s ease-out;
+	-webkit-transition: all 0.5s ease-out;
+	-moz-transition: all 0.5s ease-out;
+	-ms-transition: all 0.5s ease-out;
+	-o-transition: all 0.5s ease-out;
+}
+
 #tableHead {
 	color: #fff;
 	background-color: #20262e;
@@ -241,3 +260,31 @@ body {
 #tableHead th {
 	padding: 5px;
 }
+
+.checkBox {
+	width: 50px;
+}
+
+.checkBox .checkMark {
+	height: 16px;
+	width: 16px;
+	background-color: white;
+	border-radius: 5px;
+	transition: all 0.5s ease-out;
+	-webkit-transition: all 0.5s ease-out;
+	-moz-transition: all 0.5s ease-out;
+	-ms-transition: all 0.5s ease-out;
+	-o-transition: all 0.5s ease-out;
+	border: 2px solid #FFFFFF;
+	margin: 0 auto;
+}
+
+.checkoff {
+	display: none !important;
+}
+
+.checkon {
+	display: block !important;
+	color: black;
+}
+
