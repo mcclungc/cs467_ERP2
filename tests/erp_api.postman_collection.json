@@ -1,0 +1,431 @@
+{
+	"info": {
+		"_postman_id": "d14d393f-7850-4249-88c9-39a4036cad2e",
+		"name": "erp_api",
+		"description": "Test the API for the ERP Web Application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login",
+			"item": [
+				{
+					"name": "Login James Smith",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c7e7d546-c8dc-4a17-9111-a159953fcdee",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Set-Cookie is present\", function () {",
+									"    pm.response.to.have.header(\"Set-Cookie\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Check cookie name\", function () {",
+									"    pm.cookies.has(\"erp_session\")",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"james.smith@acme.com\",\n\t\"password\": \"James\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/login",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Robert Johnson",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e3679aca-e92e-4bd6-9b38-139ca36b45e2",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Set-Cookie is present\", function () {",
+									"    pm.response.to.have.header(\"Set-Cookie\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Check cookie name\", function () {",
+									"    pm.cookies.has(\"erp_session\")",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"robert.johnson@acme.com\",\n\t\"password\": \"Robert\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/login",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login John Williams",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e3679aca-e92e-4bd6-9b38-139ca36b45e2",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Set-Cookie is present\", function () {",
+									"    pm.response.to.have.header(\"Set-Cookie\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Check cookie name\", function () {",
+									"    pm.cookies.has(\"erp_session\")",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"john.williams@acme.com\",\n\t\"password\": \"John\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/login",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Michael Jones",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e3679aca-e92e-4bd6-9b38-139ca36b45e2",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Set-Cookie is present\", function () {",
+									"    pm.response.to.have.header(\"Set-Cookie\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Check cookie name\", function () {",
+									"    pm.cookies.has(\"erp_session\")",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"michael.jones@acme.com\",\n\t\"password\": \"Michael\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/login",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Mary Davis",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e3679aca-e92e-4bd6-9b38-139ca36b45e2",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Set-Cookie is present\", function () {",
+									"    pm.response.to.have.header(\"Set-Cookie\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Check cookie name\", function () {",
+									"    pm.cookies.has(\"erp_session\")",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"mary.davis@acme.com\",\n\t\"password\": \"Mary\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/login",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Patricia Miller",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e3679aca-e92e-4bd6-9b38-139ca36b45e2",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Set-Cookie is present\", function () {",
+									"    pm.response.to.have.header(\"Set-Cookie\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Check cookie name\", function () {",
+									"    pm.cookies.has(\"erp_session\")",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"patricia.miller@acme.com\",\n\t\"password\": \"Patricia\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/login",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Jennifer Wilson",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e3679aca-e92e-4bd6-9b38-139ca36b45e2",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Set-Cookie is present\", function () {",
+									"    pm.response.to.have.header(\"Set-Cookie\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Check cookie name\", function () {",
+									"    pm.cookies.has(\"erp_session\")",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"jennifer.wilson@acme.com\",\n\t\"password\": \"Jennifer\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/login",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Linda Moore",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e3679aca-e92e-4bd6-9b38-139ca36b45e2",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Set-Cookie is present\", function () {",
+									"    pm.response.to.have.header(\"Set-Cookie\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Check cookie name\", function () {",
+									"    pm.cookies.has(\"erp_session\")",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"linda.moore@acme.com\",\n\t\"password\": \"Linda\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/login",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
