@@ -168,22 +168,59 @@ function anyActive(){
 	}
 }
 
+//JS for the lightbox, remove, and edit buttons
+function remove() {
+	var rButton = document.getElementById("removeButton");
+	var table = document.getElementById("userTable");
+	if(!rButton.classList.contains("inactive")){
+		var rBox = document.getElementById("lightBox");
+		var rContent = document.getElementById("lightBox-Inner");
+		var checks = table.getElementsByClassName("checkon");
+		var i;
+		var names = "";
+		for(i = 0; i < checks.length; i++){
+			var entry = checks[i].parentNode.parentNode.parentNode;
+			if(entry.id != "tableHead"){
+				var cellName = entry.getElementsByClassName("name");
+				names = names + " " + cellName[0].innerText;
+			}
+		}
+		rContent.innerHTML = "<p>Are you sure you want to remove" + names + "?</p><p><button>Yes</button><button>No</button></p>";
+		rBox.classList.remove("hidden");
+	}
+}
 
+function closeLightBox() {
+	var lightB = document.getElementById("lightBox");
+	lightB.classList.add("hidden");
+}
+
+//Global Variables
 var ascending = true;
+var removeButton = document.getElementById("removeButton");
+var close = document.getElementById("close");
 var toggle = document.getElementsByClassName("sort");
 var toggleCheck = document.getElementsByClassName("checkMark");
 var i, j, k;
+var inactiveButtons = document.getElementsByClassName("inactive");
+
+//Event Listeners
+removeButton.addEventListener("click", remove);
+close.addEventListener("click", closeLightBox);
+
+//Loop to activate sorting
 for(i = 0; i < toggle.length; i++){
 	toggle[i].addEventListener("click", sortToggle);
 }
+
+//Loop to activate checkmarks
 for (j = 0; j < toggleCheck.length; j++) {
 	toggleCheck[j].addEventListener("click", checkToggle);
 }
 
 //Deactivate inactive buttons
-var inactiveButtons = getElementsByClassName("inactive");
 for(k = 0; k < inactiveButtons.length; k++){
-	inactiveButtons[x].addEventListener("click", function(event){
+	inactiveButtons[k].addEventListener("click", function(event){
 		event.preventDefault();
 	});
 }

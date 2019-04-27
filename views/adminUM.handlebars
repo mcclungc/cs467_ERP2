@@ -6,7 +6,10 @@
 				<p><i class="fas fa-search"></i><input type="text" id="myInput" onkeyup="search()" placeholder="Search for a user..." title="User Search Bar"></p>
 			</div>
 			<div class="actions side">
-				<p style="text-align:right;"><a class="umButton inactive" href="#">Remove</a><a class="umButton inactive" href="#">Edit</a><a class="umButton" href="/add-user">Add User</a></p>
+				<p style="text-align:right;">
+					<a id="removeButton" class="umButton inactive" href="#">Remove</a>
+					<a id="editButton" class="umButton inactive" href="#">Edit</a>
+					<a class="umButton" href="/add-user">Add User</a></p>
 			</div>
 		</div>
 		
@@ -25,7 +28,7 @@
 						<td class="checkBox">
 							<div class="checkMark"><i class="fas fa-check checkoff"></i></div>
 						</td>
-						<td>is</td>
+						<td class="name">is</td>
 						<td>ype</td>
 						<td>User</td>
 					</tr>
@@ -33,7 +36,7 @@
                                                 <td class="checkBox">
                                                         <div class="checkMark"><i class="fas fa-check checkoff"></i></div>
                                                 </td>
-                                                <td>this</td>
+                                                <td class="name">this</td>
                                                 <td>Type</td>
                                                 <td>Username</td>
                                         </tr>
@@ -41,7 +44,7 @@
                                                 <td class="checkBox">
                                                         <div class="checkMark"><i class="fas fa-check checkoff"></i></div>
                                                 </td>
-                                                <td>gis</td>
+                                                <td class="name">gis</td>
                                                 <td>dype</td>
                                                 <td>Usert</td>
                                         </tr>
@@ -49,5 +52,13 @@
 				</tbody>
 			</table>
 		
+	</div>
+</div>
+<div id="lightBox" class="hidden">
+	<div id="close">
+		<i class="fas fa-times"></i>
+	</div>
+	<div id="lightBox-Inner">
+		This is a test.
 	</div>
 </div>
