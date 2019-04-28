@@ -311,13 +311,19 @@ body {
 #lightBox-Inner {
 	position: relative;
 	background-color: #fff;
-	width: 70%;
+	width: 50%;
 	top: 50%;
 	margin: 0 auto;
+	padding: 15px;
+	box-shadow: 2px 5px 8px 0px grey;
 }
 
 #lightBox-Inner p {
 	text-align: center;
+}
+
+#lightNox-Inner .lightBox-Button {
+	margin: 5px 20px;
 }
 
 #close {
@@ -329,3 +335,23 @@ body {
 	font-size: 1.2em;
 	cursor: pointer;
 }
+
+#createUserForm {
+	margin: 0 auto;
+	width: 70%;
+}
+
+#createUserForm .button{
+	text-align: center;
+}
+
+#createUserForm .fields {
+	display: inline-block;
+	width: 48%;
+	text-align: center;
+}
+
+#createUserForm fieldset {
+	padding: 25px;
+}
+

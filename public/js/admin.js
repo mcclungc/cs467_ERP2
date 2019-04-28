@@ -180,12 +180,12 @@ function remove() {
 		var names = "";
 		for(i = 0; i < checks.length; i++){
 			var entry = checks[i].parentNode.parentNode.parentNode;
-			if(entry.id != "tableHead"){
+			if(entry.id != "tableHead" && entry.style.display != "none"){
 				var cellName = entry.getElementsByClassName("name");
 				names = names + " " + cellName[0].innerText;
 			}
 		}
-		rContent.innerHTML = "<p>Are you sure you want to remove" + names + "?</p><p><button>Yes</button><button>No</button></p>";
+		rContent.innerHTML = '<p>Are you sure you want to remove' + names + '?</p><p><button class="lightBox-button" onclick="deleteUser()">Yes</button><button class="lightBox-button" onclick="closeLightBox()">No</button></p>';
 		rBox.classList.remove("hidden");
 	}
 }
@@ -193,6 +193,11 @@ function remove() {
 function closeLightBox() {
 	var lightB = document.getElementById("lightBox");
 	lightB.classList.add("hidden");
+}
+
+//Function to delete user from the table and database
+function deleteUser() {
+
 }
 
 //Global Variables

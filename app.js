@@ -63,6 +63,13 @@ app.get('/admin-usermanagement', function(req, res, next){
 	res.render('adminUM', {layout: 'admin'});
 });
 
+app.get('/add-user', function(req, res, next){
+	res.locals.metaTags = {
+		title: "| Create User"
+	};
+	res.render('adminCreateUser', {layout: 'admin'});
+});
+
 //User pages
 app.get('/home', function(req, res, next){
 	res.locals.metaTags = {
