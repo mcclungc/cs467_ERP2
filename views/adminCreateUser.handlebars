@@ -1,23 +1,21 @@
 <link rel="stylesheet" href="css/createUser.css" type="text/css">
-<div class="body-container">
-	<h1 class="pageTitle">Create a User</h1>
-	<div id="createUserForm">
-		<form>
-			<fieldset>
-				<p class="fields">Username: <input id="userName" name="userName" type="email" placeholder="email@email.com" autocomplete="on" required></p>
-				<p class="fields">Password: <input id="password" name="password" type="password" placeholder="******" required></p>
-				<p class="fields">Name: <input id="name" name="name" type="text" placeholder="ex: John Doe" autocomplete="on" required></p>
-				<p class="fields">Department: <input id="department" name="department" type="type" placeholder="ex: Customer Service" autocomplete="on" required></p>
-				<p class="fields">Region: <input id="region" name="region" type="type" placeholder="ex: Texas" autocomplete="on" required></p>
-				<p class="fields">User Type:
-					<select name="userType" required>
-						<option value=""> - </option>
-						<option value="user">User</option>
-						<option value=admin">Admin</option>
-					</select>
-				</p>
-				<p class="button"><input id="createUser" type="submit" value="Create User"></p>
-			</fieldset>
-		</form>
-	</div>
+<h1 class="pageTitle">Create a User</h1>
+<div id="createUserForm">
+	<form>
+		<fieldset>
+			<p class="fields">Username: <input id="userName" name="userName" type="email" placeholder="email@email.com" autocomplete="on" required></p>
+			<p class="fields">Password: <input id="password" name="password" type="password" placeholder="******" required></p>
+			<p class="fields">Name: <input id="name" name="name" type="text" placeholder="ex: John Doe" autocomplete="on" required></p>
+			<p class="fields">Department: <input id="department" name="department" type="type" placeholder="ex: Customer Service" autocomplete="on" required></p>
+			<p class="fields">Region: <input id="region" name="region" type="type" placeholder="ex: Texas" autocomplete="on" required></p>
+			<p class="fields">User Type:
+				<select name="userType" required>
+					<option value=""> - </option>
+					<option value="user">User</option>
+					<option value=admin">Admin</option>
+				</select>
+			</p>
+			<p class="button"><input id="createUser" type="submit" value="Create User"></p>
+		</fieldset>
+	</form>
 </div>

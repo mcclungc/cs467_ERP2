@@ -26,7 +26,7 @@
 
 .umButton.inactive {
 	background-color: darkgray;
-	cursor: default;
+	cursor: not-allowed;
 }
 
 .actionBar {
@@ -95,6 +95,7 @@
 	-o-transition: all 0.5s ease-out;
 	border: 2px solid #FFFFFF;
 	margin: 0 auto;
+	cursor: pointer;
 }
 
 .checkoff {
@@ -104,4 +105,8 @@
 .checkon {
 	display: block !important;
 	color: black;
+}
+
+.sort {
+	cursor: pointer;
 }

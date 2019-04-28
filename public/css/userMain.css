@@ -26,12 +26,13 @@ body {
 
 #logo a {
 	text-decoration: none;
+	font-weight: bold;
 	font-size: 1.5em;
 	color: #fff;
 }
 
 /* Remove list styling */
-nav ul {
+#menu ul {
 	float: none;
 	text-align: right;
 	padding: 0;
@@ -41,26 +42,27 @@ nav ul {
 }
 
 /* Display nav items inline */
-nav ul li {
+#menu ul li {
 	margin: 0;
 	display: inline-block;
 }
 
 /* Hide subNav */
-nav ul ul.subNav {
+#menu ul ul.subNav {
 	display: none;
 	position: absolute;
 	top: 70px;
 	right:0;
 	left: auto;
-	background: #2e2e2e;
+	background: #20262e;
+	box-shadow: 2px 5px 8px 0px grey;
 }
 
-nav ul li:hover > .subNav {
+#menu ul li:hover > .subNav {
 	display: block;
 }
 
-nav a {
+#menu a {
 	display: block;
 	text-decoration: none;
 	font-size: 1.5em;
@@ -68,29 +70,38 @@ nav a {
 	color: #999999;
 }
 
-nav ul ul li {
+#menu ul ul.subNav li {
 	display: list-item;
 	float: none;
 	position: relative;
 	text-align: center;
 }
 
-nav ul li#user a {
+#menu ul li#user a {
 	padding: 10px 10px 22px 10px;
 	color: #999999;
 }
 
-nav a:hover, nav ul li#user a:hover {
-	color: white;
+#menu a:hover, #menu ul li#user a:hover {
+	color: #fff;
 }
 
-nav ul li#user {
+#menu ul li#user .subNav li a:hover {
+	color: #fff;
+	background-color: #415266;
+}
+
+#menu ul li#user {
 	float: right;
 	margin-right: 25px; 
 }
 
 .fa-user-circle {
 	font-size: 1.5em;
+}
+
+.body-container {
+	padding: 10px 5%;
 }
 
 
