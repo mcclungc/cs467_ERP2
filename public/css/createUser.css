@@ -1,0 +1,18 @@
+#createUserForm {
+	margin: 0 auto;
+	width: 70%;
+}
+
+#createUserForm .button{
+	text-align: center;
+}
+
+#createUserForm .fields {
+	display: inline-block;
+	width: 48%;
+	text-align: center;
+}
+
+#createUserForm fieldset {
+	padding: 25px;
+}
