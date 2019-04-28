@@ -1,73 +1,71 @@
 <link rel="stylesheet" href="css/umTable.css" type="text/css">
 <link rel="stylesheet" href="css/lightBox.css" type="text/css">
-<div class="body-container">
-	<h1 class="pageTitle">User Management</h1>
-	<div class="users">
-		<div class="actionBar">
-			<div class="searchBar side">
-				<p><i class="fas fa-search"></i><input type="text" id="myInput" onkeyup="search()" placeholder="Search for a user..." title="User Search Bar"></p>
-			</div>
-			<div class="actions side">
-				<p style="text-align:right;">
-					<a id="removeButton" class="umButton inactive" href="#">Remove</a>
-					<a id="editButton" class="umButton inactive" href="#">Edit</a>
-					<a class="umButton" href="/add-user">Add User</a></p>
-			</div>
+<h1 class="pageTitle">User Management</h1>
+<div class="users">
+	<div class="actionBar">
+		<div class="searchBar side">
+			<p><i class="fas fa-search"></i><input type="text" id="myInput" onkeyup="search()" placeholder="Search for a user..." title="User Search Bar"></p>
 		</div>
-		
-			<table id="userTable">
-				<tbody id="tableBody">
-					<tr id="tableHead">
-						<td class="checkBox">
-							<div class="checkMark"><i class="fas fa-check checkoff"></i></div>
-						</td>
-						<th>Name <i class="sort fas fa-sort"></i></th>
-						<th>User Type <i class="sort fas fa-sort"></i></th>
-						<th>Email/Username <i class="sort fas fa-sort"></i></th>
-						<th>Department <i class="sort fas fa-sort"></i></th>
-						<th>Region <i class="sort fas fa-sort"></i></th>
-						<th>User Type <i class="sort fas fa-sort"></i></th>
-					</tr>
-					
-					<tr class = "row">
-						<td class="checkBox">
-							<div class="checkMark"><i class="fas fa-check checkoff"></i></div>
-						</td>
-						<td class="name">is</td>
-						<td>ype</td>
-						<td>User</td>
-						<td>User</td>
-						<td>User</td>
-					</tr>
-					<tr class = "row">
-                                                <td class="checkBox">
-                                                        <div class="checkMark"><i class="fas fa-check checkoff"></i></div>
-                                                </td>
-                                                <td class="name">this</td>
-                                                <td>Type</td>
-                                                <td>Username</td>
-						<td>Admin</td>
-						<td>Admin</td>
-						<td>Admin</td>
-
-                                        </tr>
-					<tr class = "row">
-                                                <td class="checkBox">
-                                                        <div class="checkMark"><i class="fas fa-check checkoff"></i></div>
-                                                </td>
-                                                <td class="name">gis</td>
-                                                <td>dype</td>
-                                                <td>Usert</td>
-						<td>Admin</td>
-						<td>Admin</td>
-						<td>Admin</td>
-                                        </tr>
-					
-				</tbody>
-			</table>
-		
+		<div class="actions side">
+			<p style="text-align:right;">
+				<a id="removeButton" class="umButton inactive" href="#">Remove</a>
+				<a id="editButton" class="umButton inactive" href="#">Edit</a>
+				<a class="umButton" href="/add-user">Add User</a></p>
+		</div>
 	</div>
+	
+		<table id="userTable">
+			<tbody id="tableBody">
+				<tr id="tableHead">
+					<td class="checkBox">
+						<div class="checkMark"><i class="fas fa-check checkoff"></i></div>
+					</td>
+					<th>Name <i class="sort fas fa-sort"></i></th>
+					<th>User Type <i class="sort fas fa-sort"></i></th>
+					<th>Email/Username <i class="sort fas fa-sort"></i></th>
+					<th>Department <i class="sort fas fa-sort"></i></th>
+					<th>Region <i class="sort fas fa-sort"></i></th>
+					<th>User Type <i class="sort fas fa-sort"></i></th>
+				</tr>
+				
+				<tr class = "row">
+					<td class="checkBox">
+						<div class="checkMark"><i class="fas fa-check checkoff"></i></div>
+					</td>
+					<td class="name">is</td>
+					<td>ype</td>
+					<td>User</td>
+					<td>User</td>
+					<td>User</td>
+				</tr>
+				<tr class = "row">
+                                               <td class="checkBox">
+                                                       <div class="checkMark"><i class="fas fa-check checkoff"></i></div>
+                                               </td>
+                                               <td class="name">this</td>
+                                               <td>Type</td>
+                                               <td>Username</td>
+					<td>Admin</td>
+					<td>Admin</td>
+					<td>Admin</td>
+                                        </tr>
+				<tr class = "row">
+                                               <td class="checkBox">
+                                                       <div class="checkMark"><i class="fas fa-check checkoff"></i></div>
+                                               </td>
+                                               <td class="name">gis</td>
+                                               <td>dype</td>
+                                               <td>Usert</td>
+					<td>Admin</td>
+					<td>Admin</td>
+					<td>Admin</td>
+                                       </tr>
+				
+			</tbody>
+		</table>
+	
 </div>
+
 <div id="lightBox" class="hidden">
 	<div id="close">
 		<i class="fas fa-times"></i>
