@@ -1,0 +1,107 @@
+/*User Management Page CSS */
+.users {
+	background-color: #eee;
+	border-radius: 1px;
+	box-shadow: 2px 5px 8px 0px grey;
+}
+
+.umButton {
+	padding: 10px;
+	margin: 5px;
+	color: #fff;
+	text-decoration: none;
+	background-color: #03A9F4;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: all 0.5s ease-out;
+	-webkit-transition: all 0.5s ease-out;
+	-moz-transition: all 0.5s ease-out;
+	-ms-transition: all 0.5s ease-out;
+	-o-transition: all 0.5s ease-out;
+}
+
+.umButton:hover {
+	background-color: #415266;
+}
+
+.umButton.inactive {
+	background-color: darkgray;
+	cursor: default;
+}
+
+.actionBar {
+	width: 95%;
+	margin: 0 auto;
+}
+
+.side {
+	display: inline-block;
+	width: 48%;
+	padding: 5px;
+}
+
+.actionBar .searchBar {
+	color: #2e2e2e;
+}
+
+#myInput {
+	border: none;
+	border-bottom: 1px solid #999999;
+	margin-left: 10px;
+	width: 300px;
+	background-color: transparent;
+}
+
+#myInput:focus {
+	outline: none;
+}
+
+#userTable {
+	width: 100%;
+}
+
+#userTable .row:hover {
+	background-color: #dcdcdc;
+	transition: all 0.5s ease-out;
+	-webkit-transition: all 0.5s ease-out;
+	-moz-transition: all 0.5s ease-out;
+	-ms-transition: all 0.5s ease-out;
+	-o-transition: all 0.5s ease-out;
+}
+
+#tableHead {
+	color: #fff;
+	background-color: #20262e;
+	text-align: left;
+}
+
+#tableHead th {
+	padding: 5px;
+}
+
+.checkBox {
+	width: 50px;
+}
+
+.checkBox .checkMark {
+	height: 16px;
+	width: 16px;
+	background-color: white;
+	border-radius: 5px;
+	transition: all 0.5s ease-out;
+	-webkit-transition: all 0.5s ease-out;
+	-moz-transition: all 0.5s ease-out;
+	-ms-transition: all 0.5s ease-out;
+	-o-transition: all 0.5s ease-out;
+	border: 2px solid #FFFFFF;
+	margin: 0 auto;
+}
+
+.checkoff {
+	display: none !important;
+}
+
+.checkon {
+	display: block !important;
+	color: black;
+}
