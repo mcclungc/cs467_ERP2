@@ -185,7 +185,7 @@ function remove() {
 				names = names + " " + cellName[0].innerText;
 			}
 		}
-		rContent.innerHTML = '<p>Are you sure you want to remove' + names + '?</p><p><button class="lightBox-button" onclick="deleteUser()">Yes</button><button class="lightBox-button" onclick="closeLightBox()">No</button></p>';
+		rContent.innerHTML = '<p>Are you sure you want to remove:' + names + '?</p><p><button class="lightBox-button" onclick="deleteUser()">Yes</button><button class="lightBox-button" onclick="closeLightBox()">No</button></p>';
 		rBox.classList.remove("hidden");
 	}
 }
@@ -193,6 +193,32 @@ function remove() {
 function closeLightBox() {
 	var lightB = document.getElementById("lightBox");
 	lightB.classList.add("hidden");
+}
+
+//edit user(s) from selected
+function edit() {
+	var eButton = document.getElementById("editButton");
+	var table = document.getElementById("userTable");
+	if(!eButton.classList.contains("inactive")){
+		var eBox = document.getElementById("lightBox");
+		var eContent = document.getElementById("lightBox-Inner");
+		var checks = table.getElementsByClassName("checkon");
+		var i;
+		var names = "";
+		for(i = 0; i < checks.length; i++){
+			var entry = checks[i].parentNode.parentNode.parentNode;
+			if(entry.id != "tableHead" && entry.style.display != "none"){
+				var cellName = entry.getElementsByClassName("name");
+				names = names + " " + cellName[0].innerText;
+			}
+		}
+		eContent.innerHTML = '<p>Are you sure you want to edit:' + names + '?</p><p><button class="lightBox-button" onclick="editUser()">Yes</button><button class="lightBox-button" onclick="closeLightBox()">No</button></p>';
+		eBox.classList.remove("hidden");
+	}
+}
+
+function editUser() {
+
 }
 
 //Function to delete user from the table and database
@@ -203,6 +229,7 @@ function deleteUser() {
 //Global Variables
 var ascending = true;
 var removeButton = document.getElementById("removeButton");
+var editButton = document.getElementById("editButton");
 var close = document.getElementById("close");
 var toggle = document.getElementsByClassName("sort");
 var toggleCheck = document.getElementsByClassName("checkMark");
@@ -212,6 +239,7 @@ var inactiveButtons = document.getElementsByClassName("inactive");
 //Event Listeners
 removeButton.addEventListener("click", remove);
 close.addEventListener("click", closeLightBox);
+editButton.addEventListener("click", edit);
 
 //Loop to activate sorting
 for(i = 0; i < toggle.length; i++){
