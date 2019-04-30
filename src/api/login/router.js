@@ -3,6 +3,42 @@ const Joi = require('@hapi/joi');
 const db = require('../../db');
 const crypto = require('crypto');
 
+function querySession(session_id) {
+    db.pool.query("SELECT count(id) as count FROM sessions WHERE id = ?", [session_id], (error, results, fields) => {
+        if(error) throw error;
+
+        return results[0].count;
+    });
+}
+
+function createSession(user_id, expiration) {
+    return new Promise((resolve, reject) => {
+        let sessionIDCount = 0;
+        let sessionID = '';
+        do {
+            sessionID = crypto.randomBytes(8).toString('hex');
+            sessionIDCount = querySession(sessionID);
+        } while(sessionIDCount > 0);
+        
+        data = {id: sessionID, user_id: user_id, expires: expiration};
+
+        db.pool.query("DELETE FROM sessions WHERE user_id = ?", [user_id], (error, results, fields) => {
+            if(error) {
+                reject(error);
+            }
+
+            db.pool.query("INSERT INTO sessions SET ?", [data],
+            (error, results, fields) => {
+                if(error) {
+                    reject(error);
+                } else {
+                    resolve(sessionID);
+                }
+            });
+        })
+    });
+}
+
 function login (req, res) {
     if(!req.is('application/json')) {
         res.status(400).json({ 'message': 'Request must be application/json' }).send();
@@ -34,9 +70,14 @@ function login (req, res) {
                             res.status(401).json({ 'message': 'Incorrect email and/or password' }).send();
                         } else {
                             // Temporarily set default cookie for 30 minutes
-                            res.cookie('erp_session', '4a680909dd214c23a4ed0accd978c031', { expires: new Date(Date.now() + 1800000) })
-                            res.json({ 'is_admin': results[0].is_admin });
-                            res.status(200).send();
+                            expiration = new Date(Date.now() + 1800000);
+                            createSession(results[0].id, expiration).then(sessionID => {
+                                res.cookie('erp_session', sessionID, { expires:  expiration });
+                                res.json({ 'is_admin': results[0].is_admin });
+                                res.status(200).send();
+                            }).catch(error => {
+                                throw error;
+                            })
                         }
                     });
                 }
