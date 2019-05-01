@@ -1378,6 +1378,332 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "session",
+			"item": [
+				{
+					"name": "Session Good admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "97ede942-9c55-48ed-a158-fc3ecca6987e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/admin",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Session Good admin-account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "97ede942-9c55-48ed-a158-fc3ecca6987e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/admin-account",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"admin-account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Session Good admin-reports",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "97ede942-9c55-48ed-a158-fc3ecca6987e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/admin-reports",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"admin-reports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Session Good admin-usermanagement",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "97ede942-9c55-48ed-a158-fc3ecca6987e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/admin-usermanagement",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"admin-usermanagement"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Non-Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c7e7d546-c8dc-4a17-9111-a159953fcdee",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"james.smith@acme.com\",\n\t\"password\": \"James\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/login",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Session Good home",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "97ede942-9c55-48ed-a158-fc3ecca6987e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/home",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"home"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Session Good create-awards",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "97ede942-9c55-48ed-a158-fc3ecca6987e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/create-awards",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"create-awards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Session Good history",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "97ede942-9c55-48ed-a158-fc3ecca6987e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/history",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"history"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Session Good account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "97ede942-9c55-48ed-a158-fc3ecca6987e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/account",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"account"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
