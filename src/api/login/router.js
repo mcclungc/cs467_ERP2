@@ -73,6 +73,7 @@ function login (req, res) {
                             expiration = new Date(Date.now() + 1800000);
                             createSession(results[0].id, expiration).then(sessionID => {
                                 res.cookie('erp_session', sessionID, { expires:  expiration });
+                                res.cookie('erp_is_admin', results[0].is_admin, { expires:  expiration });
                                 res.json({ 'is_admin': results[0].is_admin });
                                 res.status(200).send();
                             }).catch(error => {
