@@ -58,3 +58,11 @@ CREATE TABLE awards(
     FOREIGN KEY fk_recipient_department(recipient_department_id) REFERENCES departments(id) ON UPDATE CASCADE ON DELETE RESTRICT,
     FOREIGN KEY fk_recipient_region(recipient_region_id) REFERENCES regions(id) ON UPDATE CASCADE ON DELETE RESTRICT
 ) ENGINE=INNODB;
+
+
+CREATE EVENT e_minute_session
+    ON SCHEDULE
+      EVERY 1 MINUTE
+    COMMENT 'Clears out sessions table each minute for expired records.'
+    DO
+      DELETE FROM sessions WHERE expires <= utc_timestamp();
