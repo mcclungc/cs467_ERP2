@@ -33,7 +33,7 @@ body {
 	padding: 5px;
 }
 
-.signInForm #login {
+.signInForm .submit {
 	padding: 10px;
 	font-size: 1em;
 	transition: all 0.5s ease-out;
@@ -47,7 +47,7 @@ body {
 	cursor: pointer;
 }
 
-.signInForm #login:hover {
+.signInForm .submit:hover {
 	background-color: #20262e;
 }
 

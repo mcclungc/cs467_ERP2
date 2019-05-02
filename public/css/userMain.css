@@ -108,6 +108,8 @@ body {
 
 .body-container {
 	padding: 10px 5%;
+	display: block;
+	height: 85vh;
 }
 
 
