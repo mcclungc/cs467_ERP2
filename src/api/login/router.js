@@ -69,7 +69,6 @@ function login (req, res) {
                         if(derivedKey.toString('hex') !== db_pass) {
                             res.status(401).json({ 'message': 'Incorrect email and/or password' }).send();
                         } else {
-                            // Temporarily set default cookie for 30 minutes
                             expiration = new Date(Date.now() + 1800000);
                             createSession(results[0].id, expiration).then(sessionID => {
                                 res.cookie('erp_session', sessionID, { expires:  expiration });

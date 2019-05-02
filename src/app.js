@@ -57,21 +57,21 @@ app.get('/reset-password', function(req, res, next){
 //Admin pages
 app.get('/admin', function(req, res, next){
 	if(!req.cookies.erp_is_admin) {
-		res.status(401).json({ 'message': "Session cookie not provided" }).send();
+		res.redirect('/');
 	} else if(req.cookies.erp_is_admin === '1') {
 		sessionValidation(req.cookies).then(user_id => {
 			res.render('adminHome', {layout: 'admin'});
 		}).catch(error => {
-			res.status(401).json({ 'message': error }).send();
+			res.redirect('/');
 		})
 	} else {
-		res.status(401).json({ 'message': "Not an admin account" }).send();
+		res.redirect('/');
 	}
 });
 
 app.get('/admin-account', function(req, res, next){
 	if(!req.cookies.erp_is_admin) {
-		res.status(401).json({ 'message': "Session cookie not provided" }).send();
+		res.redirect('/');
 	} else if(req.cookies.erp_is_admin === '1') {
 		sessionValidation(req.cookies).then(user_id => {
 			res.locals.metaTags = {
@@ -79,16 +79,16 @@ app.get('/admin-account', function(req, res, next){
 			};
 			res.render('adminAccount', {layout: 'admin'});
 		}).catch(error => {
-			res.status(401).json({ 'message': error }).send();
+			res.redirect('/');
 		})
 	} else {
-		res.status(401).json({ 'message': "Not an admin account" }).send();
+		res.redirect('/');
 	}
 });
 
 app.get('/admin-reports', function(req, res, next){
 	if(!req.cookies.erp_is_admin) {
-		res.status(401).json({ 'message': "Session cookie not provided" }).send();
+		res.redirect('/');
 	} else if(req.cookies.erp_is_admin === '1') {
 		sessionValidation(req.cookies).then(user_id => {
 			res.locals.metaTags = {
@@ -96,16 +96,16 @@ app.get('/admin-reports', function(req, res, next){
 			};
 			res.render('adminReports', {layout: 'admin'});
 		}).catch(error => {
-			res.status(401).json({ 'message': error }).send();
+			res.redirect('/');
 		})
 	} else {
-		res.status(401).json({ 'message': "Not an admin account" }).send();
+		res.redirect('/');
 	}
 });
 
 app.get('/admin-usermanagement', function(req, res, next){
 	if(!req.cookies.erp_is_admin) {
-		res.status(401).json({ 'message': "Session cookie not provided" }).send();
+		res.redirect('/');
 	} else if(req.cookies.erp_is_admin === '1') {
 		sessionValidation(req.cookies).then(user_id => {
 			res.locals.metaTags = {
@@ -113,17 +113,17 @@ app.get('/admin-usermanagement', function(req, res, next){
 			};
 			res.render('adminUM', {layout: 'admin'});
 		}).catch(error => {
-			res.status(401).json({ 'message': error }).send();
+			res.redirect('/');
 		})
 	} else {
-		res.status(401).json({ 'message': "Not an admin account" }).send();
+		res.redirect('/');
 	}
 });
 
 //User pages
 app.get('/home', function(req, res, next){
 	if(!req.cookies.erp_is_admin) {
-		res.status(401).json({ 'message': "Session cookie not provided" }).send();
+		res.redirect('/');
 	} else if(req.cookies.erp_is_admin === '0') {
 		sessionValidation(req.cookies).then(user_id => {
 			res.locals.metaTags = {
@@ -131,16 +131,16 @@ app.get('/home', function(req, res, next){
 			};
 			res.render('userHome', {layout: 'user'});
 		}).catch(error => {
-			res.status(401).json({ 'message': error }).send();
+			res.redirect('/');
 		})
 	} else {
-		res.status(401).json({ 'message': "Not an admin account" }).send();
+		res.redirect('/');
 	}
 });
 
 app.get('/create-awards', function(req, res, next){
 	if(!req.cookies.erp_is_admin) {
-		res.status(401).json({ 'message': "Session cookie not provided" }).send();
+		res.redirect('/');
 	} else if(req.cookies.erp_is_admin === '0') {
 		sessionValidation(req.cookies).then(user_id => {
 			res.locals.metaTags = {
@@ -148,16 +148,16 @@ app.get('/create-awards', function(req, res, next){
 			};
 			res.render('userAward', {layout: 'user'});
 		}).catch(error => {
-			res.status(401).json({ 'message': error }).send();
+			res.redirect('/');
 		})
 	} else {
-		res.status(401).json({ 'message': "Not an admin account" }).send();
+		res.redirect('/');
 	}
 });
 
 app.get('/history', function(req, res, next){
 	if(!req.cookies.erp_is_admin) {
-		res.status(401).json({ 'message': "Session cookie not provided" }).send();
+		res.redirect('/');
 	} else if(req.cookies.erp_is_admin === '0') {
 		sessionValidation(req.cookies).then(user_id => {
 			res.locals.metaTags = {
@@ -165,16 +165,16 @@ app.get('/history', function(req, res, next){
 			};
 			res.render('userHistory', {layout: 'user'});
 		}).catch(error => {
-			res.status(401).json({ 'message': error }).send();
+			res.redirect('/');
 		})
 	} else {
-		res.status(401).json({ 'message': "Not an admin account" }).send();
+		res.redirect('/');
 	}
 });
 
 app.get('/account', function(req, res, next){
 	if(!req.cookies.erp_is_admin) {
-		res.status(401).json({ 'message': "Session cookie not provided" }).send();
+		res.redirect('/');
 	} else if(req.cookies.erp_is_admin === '0') {
 		sessionValidation(req.cookies).then(user_id => {
 			res.locals.metaTags = {
@@ -182,10 +182,10 @@ app.get('/account', function(req, res, next){
 			};
 			res.render('userAccount', {layout: 'user'});
 		}).catch(error => {
-			res.status(401).json({ 'message': error }).send();
+			res.redirect('/');
 		})
 	} else {
-		res.status(401).json({ 'message': "Not an admin account" }).send();
+		res.redirect('/');
 	}
 });
 
