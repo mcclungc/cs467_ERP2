@@ -18,7 +18,7 @@
 	padding: 25px;
 }
 
-.createForm input, .createForm select {
+.createForm .fields input, .createForm select {
 	background-color: #eee;
 	border: none;
 	padding: 5px;
@@ -37,6 +37,7 @@
 	background-color: #03A9F4;
 	color: #fff;
 	cursor: pointer;
+	border: none;
 }
 
 .createForm .button .submit:hover {
@@ -46,5 +47,9 @@
 .createForm .fields {
 	display: inline-block;
 	width: 48%;
+	text-align: center;
+}
+
+.createForm .oddField {
 	text-align: center;
 }
