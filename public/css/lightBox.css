@@ -35,6 +35,22 @@
 
 #lightBox-Inner .lightBox-button {
 	margin: 5px 20px;
+	padding: 10px;
+	border: none;
+	color: #fff;
+	text-decoration: none;
+	background-color: #03A9F4;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: all 0.5s ease-out;
+	-webkit-transition: all 0.5s ease-out;
+	-moz-transition: all 0.5s ease-out;
+	-ms-transition: all 0.5s ease-out;
+	-o-transition: all 0.5s ease-out;
+}
+
+#lightBox-Inner .lightBox-button:hover {
+	background-color: #415266;
 }
 
 #close {
