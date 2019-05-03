@@ -1,4 +1,4 @@
-#createUserForm {
+.createForm {
 	margin: 5% auto;
 	width: 70%;
 	box-shadow: 0 14px 28px gray;
@@ -9,22 +9,23 @@
 	text-align: center;
 }
 
-#createUserForm .button{
+.createForm .button{
 	text-align: center;
 }
 
-#createUserForm form fieldset {
+.createForm form fieldset {
 	border: none;
 	padding: 25px;
 }
 
-#createUserForm input, #createUserForm select {
+.createForm input, .createForm select {
 	background-color: #eee;
 	border: none;
 	padding: 5px;
+	width: 80%;
 }
 
-#createUserForm .button .submit {
+.createForm .button .submit {
 	padding: 10px;
 	font-size: 1em;
 	transition: all 0.5s ease-out;
@@ -38,11 +39,11 @@
 	cursor: pointer;
 }
 
-#createUserForm .button .submit:hover {
+.createForm .button .submit:hover {
 	background-color: #20262e;
 }
 
-#createUserForm .fields {
+.createForm .fields {
 	display: inline-block;
 	width: 48%;
 	text-align: center;
