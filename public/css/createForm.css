@@ -1,0 +1,55 @@
+.createForm {
+	margin: 5% auto;
+	width: 70%;
+	box-shadow: 0 14px 28px gray;
+	border-radius: 5px;
+}
+
+.title {
+	text-align: center;
+}
+
+.createForm .button{
+	text-align: center;
+}
+
+.createForm form fieldset {
+	border: none;
+	padding: 25px;
+}
+
+.createForm .fields input, .createForm select {
+	background-color: #eee;
+	border: none;
+	padding: 5px;
+	width: 80%;
+}
+
+.createForm .button .submit {
+	padding: 10px;
+	font-size: 1em;
+	transition: all 0.5s ease-out;
+	-webkit-transition: all 0.5s ease-out;
+	-moz-transition: all 0.5s ease-out;
+	-ms-transition: all 0.5s ease-out;
+	-o-transition: all 0.5s ease-out;
+	border-radius: 5px;
+	background-color: #03A9F4;
+	color: #fff;
+	cursor: pointer;
+	border: none;
+}
+
+.createForm .button .submit:hover {
+	background-color: #20262e;
+}
+
+.createForm .fields {
+	display: inline-block;
+	width: 48%;
+	text-align: center;
+}
+
+.createForm .oddField {
+	text-align: center;
+}
