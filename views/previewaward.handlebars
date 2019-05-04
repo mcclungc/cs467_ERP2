@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  {{{_sections.head}}}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--<link rel="stylesheet" href="/css/stylesheet.css" > -->
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+   <!-- <script src="deleteawardrecord.js"></script> -->
+ </head>
+ <body>
+     <div class = "container"
+<h1>Award Record</h1>
+    <div class = "container table">
+        <table>
+            <thead>
+                <th>Record ID</th> 
+                <th>Award Type</th> 
+                <th>Date</th> 
+                <th>Recipient</th>
+                <th>Awarder</th> 
+            </thead>
+         <tbody> 
+        <tr> 
+            <td>{{awardrecord.awardID}}</td> 
+            <td>{{awardrecord.awardtype}}</td>            
+            <td>{{awardrecord.date}}</td> 
+            <td>{{awardrecord.recipient}} </td>
+            <td>{{awardrecord.awarder}}</td>
+            
+            <td>
+                <input type="button" name="delete" value="Delete" onclick="deleteAwardRecord({{this.recordID}})">
+                <input type="hidden" id="delete{{this.recordId}}">
+            </td>
+        </tr> 
+        </tbody> 
+        </table>
+    </div>
+    <a href="../latexfiles/{{awardrecord.awardfilename}}" download="{{awardrecord.recipient_name}}Award{{awardrecord.awardID}}.pdf"> <button 
+    class="download">Download as PDF</button></a>  
+
+    <!--
+    <a href="../latexfiles/{{awardrecord.eomawardfilename}}" download="{{awardrecord.awardfilename}}"> <button 
+    class="download">Download as PDF</button></a> -->
+    </div>
+
+  </body>
+<footer>
+
+</footer>
+
+</html>

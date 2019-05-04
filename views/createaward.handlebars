@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  {{{_sections.head}}}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+ </head>
+ <body>
+    <div class = "container">
+        <h1>Create an Employee Award</h1>
+        <p>Complete this form to personalize and preview an Employee award.</p>
+        <h3>Award Details:</h3>
+        <form id="addAward" action="award" method="post">
+            <label>Recipient Name: </label><input type="text" name="recipient_name"><br></br>
+            <label>Recipient Email: </label><input type="text" name="recipient_email"><br></br>
+            <label> Award Type:  </label><br/>
+            <select name="awardtype"> 
+                {{#each awardtypes}}
+                <option value="{{id}}">{{certificate_type}}</option>
+                {{/each}}
+           
+            </select></br>
+            <label>Awarded By: </label><br/>
+            <select name="awarder">
+                {{#each awarders}}
+                <option value="{{id}}">{{name}}</option>
+                {{/each}}
+            </select>
+        <br/>
+        <label> Award Date:  </label><br/>
+        <input type="date" name="date"><br/>
+        <br/>
+        <input type="submit" value="Create Award Record">
+    </form>
+    </br>
+    </div>
+    <div class = "container table">
+        <h3>Existing Award Records:</h3>
+        <table>
+            <thead>
+                <th>Record ID</th> 
+                <th>Award Type</th>
+                <th>Date</th> 
+                <th>Recipient</th>
+                <th>Awarder</th> 
+            </thead>
+         <tbody> 
+        {{#each awardrecords}} 
+        <tr> 
+            <td>{{this.recordID}}</td> 
+            <td>{{this.awardtype}}</td> 
+            <td>{{this.date}}</td> 
+            <td>{{this.recipient}} </td>
+            <td>{{this.awarder}}</td>
+                 
+            <td><a href="/award/{{this.recordID}}"><input type="button" value="Preview"></a></td>
+
+        </tr> 
+        {{/each}} 
+  
+    </tbody> 
+        </table>
+    
+    </div>
+</body>
+<footer>
+
+</footer>
+
+</html>
