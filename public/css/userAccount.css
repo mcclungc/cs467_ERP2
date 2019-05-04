@@ -1,0 +1,26 @@
+
+P { text-align: center }
+
+H1 { text-align: center }
+
+#sigPadDiv {
+    padding: 0;
+    margin: auto;
+    display: block;
+    width: 500px;
+}
+
+#uploadSigDiv {
+    padding: 0;
+    margin: auto;
+    display: block;
+    width: 500px;
+}
+
+#uploadSig {
+    float: left;
+}
+
+.submitButtons {
+   float: right;
+}
