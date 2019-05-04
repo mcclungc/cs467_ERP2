@@ -1,0 +1,82 @@
+\documentclass[landscape[16pt]{scrartcl}%allows larger default font size
+\usepackage{pdflscape} %landscape
+\usepackage[landscape ]{geometry} %landscape
+
+\usepackage{graphicx} %supports images
+
+\usepackage{xcolor} %color
+\usepackage{wallpaper}%place image as wallpaper background
+\usepackage{setspace} %allows special linespacing
+\usepackage[12pt]{moresize}%allows larger font sizing
+
+\usepackage{ulem} %underline
+\usepackage{datatool} %pull data from csv file and add to document
+
+%---------------------------------------------Custom color definitions
+\definecolor{title}{rgb}{0, 0, 0}
+\definecolor{company}{RGB}{161,67,5}
+
+
+
+%------------------------------
+%\graphicspath{ {./images/} } %set default graphics if not in current
+
+
+% CS467
+% Simple Award Template
+% working out the orientation, incorporation of decorations, and placement
+% load personalized data from csv file
+\DTLloaddb{award}{awarddata.csv}
+
+\begin{document}
+
+%--------------------------------------i
+\CenterWallPaper{}{background1.jpg} %set graphic as certificate background
+% must reference upon use of this free wallpaper
+%<a href="https://pngtree.com/free-backgrounds">free background photos from pngtree.com</a>
+%--------------------------------------
+
+\linespread{2}\selectfont %affect linespacing without using setspace package
+
+\pagestyle{empty} %no page numbering
+
+
+% For each record (line) in database 'names'
+% Assign field values by name to macros
+\DTLforeach{award}{\rname=RecipientName,  \awarder=Awarder, \date=Date}{
+
+{
+\vskip2em
+\centering
+{\huge\bfseries\color{company} Acme Company, Inc.}\par
+\vskip3em
+{\Huge \bfseries\color{blue} EMPLOYEE OF THE MONTH}
+\vskip2em\par
+  \vfill
+{\LARGE This Certificate is awarded to }\par
+\vskip2em
+{\Large \bfseries\MakeUppercase{ {\rname }}}\par
+
+\vskip2em\par
+{\Large  in appreciation for outstanding contributions}\par
+{\Large  to company productivity and morale.}\par
+
+}
+
+  \vfill
+  \hfill
+  \begin{minipage}{.4\textwidth}
+   \par
+    Awarded by:\par
+    \vskip1cm
+\includegraphics[width=4cm]{sig.png} 
+ \par
+  %  \rule{8em}{.5pt}
+    \vskip-1em
+ \awarder\par
+\date\par
+
+  \end{minipage}
+}   
+
+\end{document}

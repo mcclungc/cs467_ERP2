@@ -19,6 +19,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.set('port', process.argv[2]);//enter in port number when you run
+app.set('mysql', mysql);
+
 
 //set up pages and what you can do on those pages
 app.get('/', function(req, res, next){
@@ -98,6 +100,9 @@ app.get('/account', function(req, res, next){
 	};
 	res.render('userAccount', {layout: 'user'});
 });
+
+//award routes handled by award.js
+app.use("/award", require("./award.js"));
 
 //Error pages
 app.use(function(req, res, next){
