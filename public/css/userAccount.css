@@ -1,7 +1,6 @@
-
-P { text-align: center }
-
-H1 { text-align: center }
+.sigSection {
+	text-align: center;
+}
 
 #sigPadDiv {
     padding: 0;
