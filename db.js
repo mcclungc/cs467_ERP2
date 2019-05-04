@@ -7,7 +7,7 @@
 */
 
 var mysql = require('mysql');
-/*
+
 var pool = mysql.createPool({
   connectionLimit : 10,
   host            : '',
@@ -15,13 +15,6 @@ var pool = mysql.createPool({
   password        : '',
   database        : ''
 });
-*/
-var pool = mysql.createPool({
-  connectionLimit : 10,
-  host            : 'localhost',
-  user            : 'root',
-  password        : 'myr00t',
-  database        : 'erp'
-});
+
 
 module.exports.pool = pool;
