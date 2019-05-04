@@ -1,29 +1,20 @@
-<html>
-<head>
 <link rel="stylesheet" type="text/css" href="/css/userAccount.css">
-</head>
-<body>
-    <br>
-    <h1>Free Draw Your Signature</h1>
-    <div id="sigPadDiv">
-        <canvas 
-            id="signaturePad" width="500" height="100" style="border:1px solid #000000;">
-        </canvas> 
+<h1 class="title">User Account Settings</h1>
+<h2>Free Draw Your Signature</h2>
+<div id="sigPadDiv">
+	<canvas id="signaturePad" width="500" height="100" style="border:1px solid #000000;">
+	</canvas> 
        
-        <br>
-        <button id="clearFunc" type="button">Clear</button> 
-        <button id="submitSig" class="submitButtons" type="button">Submit</button> 
-    </div>
-    <br><br>
-    
-    <h1>Upload a Signature from a File<h1>
-    <div id="uploadSigDiv">
-        <img id="sigPic" width=500 height=100/>
-        <br>
-        <input id=uploadSig type="file" accept="image/*" onchange="loadFile(event)">
-        <button id="submitUploadedSig" class="submitButtons" type="button">Submit</button> 
-    <div>
-
-    <script type="text/javascript" src="/js/userAccount.js"></script>
-</body>
-</html>
+	<br>
+	<button id="clearFunc" type="button">Clear</button> 
+	<button id="submitSig" class="submitButtons" type="button">Submit</button> 
+</div>
+<br><br>
+<h2>Upload a Signature from a File<h2>
+<div id="uploadSigDiv">
+	<img id="sigPic" width=500 height=100/>
+	<br>
+	<input id=uploadSig type="file" accept="image/*" onchange="loadFile(event)">
+	<button id="submitUploadedSig" class="submitButtons" type="button">Submit</button> 
+<div>
+<script type="text/javascript" src="/js/userAccount.js"></script>

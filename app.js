@@ -85,6 +85,7 @@ app.get('/create-awards', function(req, res, next){
 		title: "ERP Awards"
 	};
 	res.render('userAward', {layout: 'user'});
+	//res.render('createaward', {layout: 'user'});
 });
 
 app.get('/history', function(req, res, next){
