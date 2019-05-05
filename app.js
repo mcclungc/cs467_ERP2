@@ -72,6 +72,13 @@ app.get('/add-user', function(req, res, next){
 	res.render('adminCreateUser', {layout: 'admin'});
 });
 
+app.get('/admin-change-password', function(req, res, next){
+	res.locals.metaTags = {
+		title: "| Change Password"
+	};
+	res.render('adminPassword', {layout: 'admin'});
+});
+
 //User pages
 app.get('/home', function(req, res, next){
 	res.locals.metaTags = {
@@ -101,6 +108,14 @@ app.get('/account', function(req, res, next){
 	};
 	res.render('userAccount', {layout: 'user'});
 });
+
+app.get('/change-password', function(req, res, next){
+	res.locals.metaTags = {
+		title: "| Change Password"
+	};
+	res.render('userPassword', {layout: 'user'});
+});
+
 
 //award routes handled by award.js
 app.use("/award", require("./award.js"));

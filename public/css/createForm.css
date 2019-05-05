@@ -24,11 +24,7 @@
 .createForm .button .submit {
 	padding: 10px;
 	font-size: 1em;
-	transition: all 0.5s ease-out;
-	-webkit-transition: all 0.5s ease-out;
-	-moz-transition: all 0.5s ease-out;
-	-ms-transition: all 0.5s ease-out;
-	-o-transition: all 0.5s ease-out;
+	text-decoration: none;
 	border-radius: 5px;
 	background-color: #03A9F4;
 	color: #fff;
