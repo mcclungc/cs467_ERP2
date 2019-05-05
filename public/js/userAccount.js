@@ -1,18 +1,16 @@
-
-
+var updateSig = document.getElementById("updateSig");
+var sigChange = document.getElementById("sigChange");
 var sigPad = document.getElementById("signaturePad")
 var clearButton = document.getElementById("clearFunc")
 var submitSigButton = document.getElementById("submitSig")
 var uploadSigButton = document.getElementById("uploadSig")
 var submitUploadedSigButton = document.getElementById("submitUploadedSig")
 
+//Event Listeners
 submitSigButton.addEventListener("click",sendHandDrawnSigToDatabase)
-
-
+updateSig.addEventListener("click", showSigSection);
 submitUploadedSigButton.addEventListener("click",sendUploadedSigToDatabase)
-
 clearButton.addEventListener("click", clearSig)
-
 sigPad.addEventListener("mousemove", draw)
 sigPad.addEventListener("mousedown", setMouseDownTrue)
 sigPad.addEventListener("mouseup", setMouseDownFalse)
@@ -20,6 +18,11 @@ sigPad.addEventListener("mouseout", setMouseDownFalse)
 
 var pointArray = []
 var mousedown = false
+
+//Display signature section
+function showSigSection() {
+	sigChange.style.display = "block";
+}
 
 function draw(e){
     if (mousedown){
