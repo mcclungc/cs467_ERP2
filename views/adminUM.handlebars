@@ -1,16 +1,15 @@
-<link rel="stylesheet" href="css/umTable.css" type="text/css">
+<link rel="stylesheet" href="css/table.css" type="text/css">
 <link rel="stylesheet" href="css/lightBox.css" type="text/css">
 <h1 class="title">User Management</h1>
-<div class="users">
+<div class="tableContainer">
 	<div class="actionBar">
 		<div class="searchBar side">
 			<p><i class="fas fa-search"></i><input type="text" id="myInput" onkeyup="search()" placeholder="Search for a user..." title="User Search Bar"></p>
 		</div>
 		<div class="actions side">
 			<p style="text-align:right;">
-				<a id="removeButton" class="umButton inactive" href="#">Remove</a>
-				<a id="editButton" class="umButton inactive" href="#">Edit</a>
-				<a class="umButton" href="/add-user">Add User</a></p>
+				<a id="removeButton" class="actionButton inactive" href="#">Remove</a>
+				<a class="actionButton" href="/add-user">Add User</a></p>
 		</div>
 	</div>
 	
@@ -28,7 +27,7 @@
 					<th>User Type <i class="sort fas fa-sort"></i></th>
 				</tr>
 				
-				<tr class = "row">
+				<tr class="row">
 					<td class="checkBox">
 						<div class="checkMark"><i class="fas fa-check checkoff"></i></div>
 					</td>
@@ -37,6 +36,8 @@
 					<td>User</td>
 					<td>User</td>
 					<td>User</td>
+					<td>another</td>
+					<td><p><button class="editButton">Edit</button></p></td>
 				</tr>
 				<tr class = "row">
                                                <td class="checkBox">
@@ -48,6 +49,7 @@
 					<td>Admin</td>
 					<td>Admin</td>
 					<td>Admin</td>
+					<td><p><button class="editButton">Edit</button><p></td>
                                         </tr>
 				<tr class = "row">
                                                <td class="checkBox">
@@ -59,6 +61,7 @@
 					<td>Admin</td>
 					<td>Admin</td>
 					<td>Admin</td>
+					<td><p><button class="editButton">Edit</button><p></td>
                                        </tr>
 				
 			</tbody>

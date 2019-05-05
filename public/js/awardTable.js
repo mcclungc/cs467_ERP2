@@ -147,7 +147,7 @@ function checkToggle() {
 //Alters buttons to me active or inactive due to the checkmarks
 function anyActive(){
 	var x, y;
-	var buttons = document.getElementsByClassName("aButton");
+	var buttons = document.getElementsByClassName("actionButton");
 	var area = document.getElementById("awardTable");
 	var activeChecks = area.getElementsByClassName("checkon");
 	if(activeChecks.length > 0){

@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="css/createForm.css" type="text/css">
+<link rel="stylesheet" href="css/table.css" type="text/css">
 <h1 class="title">Create an Employee Award</h1>
 <div id="createAward" class="createForm">
 	<form id="addAward" action="award" method="post"i>
@@ -28,28 +29,28 @@
 	</form>
 </div>
 
-<div class="container table">
+<div class="tableContainer">
 	<h3>Existing Award Records:</h3>
-		<table>
-			<thead>
-				<th>Record ID</th> 
-				<th>Award Type</th>
-				<th>Date</th> 
-				<th>Recipient</th>
-				<th>Awarder</th> 
-			</thead>
-			<tbody> 
-				{{#each awardrecords}} 
-				<tr> 
-					<td>{{this.recordID}}</td> 
-					<td>{{this.awardtype}}</td> 
-					<td>{{this.date}}</td> 
-					<td>{{this.recipient}} </td>
-					<td>{{this.awarder}}</td>
-					<td><a href="/award/{{this.recordID}}"><input type="button" value="Preview"></a></td>
-				</tr> 
-				{{/each}} 
-			</tbody> 
-		</table>    
+	<table>
+		<thead id="tableHead">
+			<th>Record ID</th> 
+			<th>Award Type</th>
+			<th>Date</th> 
+			<th>Recipient</th>
+			<th>Awarder</th> 
+		</thead>
+		<tbody id="tableBody"> 
+			{{#each awardrecords}} 
+			<tr class="row"> 
+				<td>{{this.recordID}}</td> 
+				<td>{{this.awardtype}}</td> 
+				<td>{{this.date}}</td> 
+				<td>{{this.recipient}} </td>
+				<td>{{this.awarder}}</td>
+				<td><a href="/award/{{this.recordID}}"><input type="button" value="Preview"></a></td>
+			</tr> 
+			{{/each}} 
+		</tbody> 
+	</table>    
 </div>
 

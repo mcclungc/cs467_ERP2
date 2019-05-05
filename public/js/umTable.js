@@ -147,7 +147,7 @@ function checkToggle() {
 //Alters buttons to me active or inactive due to the checkmarks
 function anyActive(){
 	var x, y;
-	var buttons = document.getElementsByClassName("umButton");
+	var buttons = document.getElementsByClassName("actionButton");
 	var area = document.getElementById("userTable");
 	var activeChecks = area.getElementsByClassName("checkon");
 	if(activeChecks.length > 0){
@@ -195,26 +195,16 @@ function closeLightBox() {
 	lightB.classList.add("hidden");
 }
 
-//edit user(s) from selected
+//edit user selected and display prompt
 function edit() {
-	var eButton = document.getElementById("editButton");
-	var table = document.getElementById("userTable");
-	if(!eButton.classList.contains("inactive")){
-		var eBox = document.getElementById("lightBox");
-		var eContent = document.getElementById("lightBox-Inner");
-		var checks = table.getElementsByClassName("checkon");
-		var i;
-		var names = "";
-		for(i = 0; i < checks.length; i++){
-			var entry = checks[i].parentNode.parentNode.parentNode;
-			if(entry.id != "tableHead" && entry.style.display != "none"){
-				var cellName = entry.getElementsByClassName("name");
-				names = names + " " + cellName[0].innerText;
-			}
-		}
-		eContent.innerHTML = '<p>Are you sure you want to edit:' + names + '?</p><p><button class="lightBox-button" onclick="editUser()">Yes</button><button class="lightBox-button" onclick="closeLightBox()">No</button></p>';
-		eBox.classList.remove("hidden");
-	}
+	var user = this.parentNode.parentNode.parentNode;
+	var userName = user.getElementsByClassName("name");
+	var eBox = document.getElementById("lightBox");
+	var eContent = document.getElementById("lightBox-Inner");
+	var i;
+	var name = userName[0].innerText;
+	eContent.innerHTML = '<p>Are you sure you want to edit: ' + name + '?</p><p><button class="lightBox-button" onclick="editUser()">Yes</button><button class="lightBox-button" onclick="closeLightBox()">No</button></p>';
+	eBox.classList.remove("hidden");
 }
 
 function editUser() {
@@ -228,18 +218,19 @@ function deleteUser() {
 
 //Global Variables
 var ascending = true;
+var searchBar = document.getElementById("myInput");
 var removeButton = document.getElementById("removeButton");
-var editButton = document.getElementById("editButton");
+var editButtons = document.getElementsByClassName("editButton");
 var close = document.getElementById("close");
 var toggle = document.getElementsByClassName("sort");
 var toggleCheck = document.getElementsByClassName("checkMark");
-var i, j, k;
+var i, j, k, l;
 var inactiveButtons = document.getElementsByClassName("inactive");
 
 //Event Listeners
 removeButton.addEventListener("click", remove);
+searchBar.addEventListener("keyup", search);
 close.addEventListener("click", closeLightBox);
-editButton.addEventListener("click", edit);
 
 //Loop to activate sorting
 for(i = 0; i < toggle.length; i++){
@@ -251,6 +242,10 @@ for (j = 0; j < toggleCheck.length; j++) {
 	toggleCheck[j].addEventListener("click", checkToggle);
 }
 
+//Lopp to activate edit buttons
+for(l = 0; l < editButtons.length; l++){
+	editButtons[l].addEventListener("click", edit);
+}
 //Deactivate inactive buttons
 for(k = 0; k < inactiveButtons.length; k++){
 	inactiveButtons[k].addEventListener("click", function(event){
