@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
         <head>
+		{{{_sections.head}}}
                 <meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
                 <title>Admin {{metaTags.title}}</title>
-		<link rel="stylesheet" href="css/admin.css" type="text/css">
+		<link rel="stylesheet" href="css/adminMain.css" type="text/css">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
         </head>
         <body>
@@ -15,7 +17,7 @@
 				<ul>
       					<li id="user"><a href="#"><i class="fas fa-user-tie"></i></a>
 						<ul class="subNav">
-							<li><a href="/account">Account</a></li>
+							<li><a href="/admin-account">Account</a></li>
 							<li><a href="/">Logout</a></li>
 						</ul>
 					</li>
@@ -29,9 +31,8 @@
 				<li class="leftNavItem"><a href="#"><i class="fas fa-users-cog"></i></a>
 					<ul class="subLeftNav">
 						<li class="navPrime"><a href="/admin-usermanagement">User Management</a></li>
-						<li><a href="#">Create User</a></li>
+						<li><a href="/add-user">Create User</a></li>
 						<li><a href="#">User History</a></li>
-						<li><a href="#">Delete User</a></li>
 					</ul>
 				</li>
 				<li class="leftNavItem"><a href="#"><i class="fas fa-chart-pie"></i></a>
@@ -44,7 +45,9 @@
 			</ul>
 		</div>
 		<div class="bodyMain">
-                	{{{body}}}
+			<div class="body-container">
+                		{{{body}}}
+			</div>
 		</div>
         </body>
 </html>

@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="css/table.css" type="text/css">
+<h1 class="title">Award Record</h1>
+<div class = "tableContainer">
+	<table>
+		<thead id="tableHead">
+			<th>Record ID</th> 
+			<th>Award Type</th> 
+			<th>Date</th> 
+			<th>Recipient</th>
+			<th>Awarder</th> 
+		</thead>
+		<tbody id="tableBody"> 
+			<tr class="row"> 
+				<td>{{awardrecord.awardID}}</td> 
+				<td>{{awardrecord.awardtype}}</td>     
+				<td>{{awardrecord.date}}</td> 
+				<td>{{awardrecord.recipient}}</td>
+				<td>{{awardrecord.awarder}}</td>
+				<td>
+					<input type="button" name="delete" value="Delete" onclick="deleteAwardRecord({{this.recordID}})">
+					<input type="hidden" id="delete{{this.recordId}}">
+				</td>
+			</tr> 
+		</tbody> 
+	</table>
+</div>
+<a href="../latexfiles/{{awardrecord.awardfilename}}" download="{{awardrecord.recipient_name}}Award{{awardrecord.awardID}}.pdf"> <button class="download">Download as PDF</button></a>  

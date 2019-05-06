@@ -1,0 +1,43 @@
+.card {
+	background-color: #e9e9ea;
+	border-radius: 5px;
+	margin: 0 auto;
+	height: 300px;
+	width: 300px;
+	transition: all 0.5s ease-out;
+	-webkit-transition: all 0.5s ease-out;
+	-moz-transition: all 0.5s ease-out;
+	-ms-transition: all 0.5s ease-out;
+	-o-transition: all 0.5s ease-out;
+	cursor: pointer;
+	box-shadow: 3px 1px 8px grey;
+}
+
+.picture {
+	width: 60%;
+	margin: 0 auto;
+	display: block;
+	padding-top: 23px;
+}
+
+.cardTitle {
+	text-align: center;
+	text-decoration: none;
+	color: #2e2e2e;
+}
+
+.cardHyperlink {
+	text-decoration: none;
+}
+
+.card:hover {
+	transform: scale(1.05);
+	box-shadow: 6px 3px 6px 1px gray;
+}
+
+.cardContainer {
+	width: 49.5%;
+	display: inline-block;
+	position: relative;
+	top: 20%;
+}

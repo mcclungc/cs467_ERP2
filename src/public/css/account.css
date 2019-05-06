@@ -1,0 +1,25 @@
+.accountInfo {
+	width: 80%;
+	margin: 0 auto;
+	border-radius: 5px;
+	padding: 20px;
+}
+
+.heading {
+	font-weight: bold;
+}
+
+.accountButton {
+	padding: 10px;
+	margin: 5px;
+	color: #fff;
+	background-color: #03A9F4;
+	border-radius: 5px;
+	cursor: pointer;
+	border: none;
+	text-decoration: none;
+}
+
+.accountButton:hover {
+	background-color: #415266;
+}

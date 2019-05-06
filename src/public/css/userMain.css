@@ -1,0 +1,118 @@
+html {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+}
+
+#topNav {
+	width: 100%;
+	background: #03A9F4;
+	box-shadow: 0px 1px 4px grey;
+}
+
+/* Clear the container */
+#topNav::after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+#logo {
+	display: block;
+	float: left;
+	padding: 5px 20px;
+}
+
+#logo a {
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 1.5em;
+	color: #fff;
+}
+
+/* Remove list styling */
+#menu ul {
+	float: none;
+	text-align: right;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	position: relative;
+}
+
+/* Display nav items inline */
+#menu ul li {
+	margin: 0;
+	display: inline-block;
+}
+
+/* Hide subNav */
+#menu ul ul.subNav {
+	display: none;
+	position: absolute;
+	top: 68px;
+	right:0;
+	left: auto;
+	background: #20262e;
+	box-shadow: 2px 5px 8px 0px grey;
+}
+
+#menu ul li:hover > .subNav {
+	display: block;
+}
+
+#menu a {
+	display: block;
+	text-decoration: none;
+	font-size: 1.5em;
+	padding: 21px 10px;
+	color: #fff;
+	font-weight: bold;
+}
+
+#menu ul ul.subNav li {
+	display: list-item;
+	float: none;
+	position: relative;
+	text-align: center;
+}
+
+#menu ul li#user a {
+	padding: 10px 10px 22px 10px;
+	color: #fff;
+}
+
+#menu a:hover, #menu ul li#user a:hover {
+	color: #20262e;
+}
+
+#menu ul li#user .subNav li a {
+	padding: 10px;
+}
+
+#menu ul li#user .subNav li a:hover {
+	color: #fff;
+	background-color: #415266;
+}
+
+#menu ul li#user {
+	float: right;
+	margin-right: 25px; 
+}
+
+.fa-user-circle {
+	font-size: 1.5em;
+}
+
+.body-container {
+	padding: 10px 5%;
+	display: block;
+	height: 85vh;
+}
+
+.title {
+	text-align: center;
+}
+

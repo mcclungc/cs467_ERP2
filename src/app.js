@@ -21,6 +21,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static('public'));
 app.use('/api', require('./api/login/router'));
+app.use("/award", require("./award.js"));
 app.set('port', 5000);//enter in port number when you run
 
 function sessionValidation(cookie) {	
@@ -120,6 +121,40 @@ app.get('/admin-usermanagement', function(req, res, next){
 	}
 });
 
+app.get('/add-user', function(req, res, next){
+	if(!req.cookies.erp_is_admin) {
+		res.redirect('/');
+	} else if(req.cookies.erp_is_admin === '1') {
+		sessionValidation(req.cookies).then(user_id => {
+			res.locals.metaTags = {
+				title: "| Create User"
+			};
+			res.render('adminCreateUser', {layout: 'admin'});
+		}).catch(error => {
+			res.redirect('/');
+		})
+	} else {
+		res.redirect('/');
+	}
+});
+
+app.get('/admin-change-password', function(req, res, next){
+	if(!req.cookies.erp_is_admin) {
+		res.redirect('/');
+	} else if(req.cookies.erp_is_admin === '1') {
+		sessionValidation(req.cookies).then(user_id => {
+			res.locals.metaTags = {
+				title: "| Change Password"
+			};
+			res.render('adminPassword', {layout: 'admin'});
+		}).catch(error => {
+			res.redirect('/');
+		})
+	} else {
+		res.redirect('/');
+	}
+});
+
 //User pages
 app.get('/home', function(req, res, next){
 	if(!req.cookies.erp_is_admin) {
@@ -181,6 +216,23 @@ app.get('/account', function(req, res, next){
 				title: "Account Management"
 			};
 			res.render('userAccount', {layout: 'user'});
+		}).catch(error => {
+			res.redirect('/');
+		})
+	} else {
+		res.redirect('/');
+	}
+});
+
+app.get('/change-password', function(req, res, next){
+	if(!req.cookies.erp_is_admin) {
+		res.redirect('/');
+	} else if(req.cookies.erp_is_admin === '0') {
+		sessionValidation(req.cookies).then(user_id => {
+			res.locals.metaTags = {
+				title: "| Change Password"
+			};
+			res.render('userPassword', {layout: 'user'});
 		}).catch(error => {
 			res.redirect('/');
 		})

@@ -1,1 +1,79 @@
-<p>User history of what awards they created.</p>
+<link rel="stylesheet" href="css/table.css" type="text/css">
+<link rel="stylesheet" href="css/lightBox.css" type="text/css">
+<h1 class="title">Award History</h1>
+<div class="tableContainer">
+	<div class="actionBar">
+		<div class="searchBar side">
+			<p><i class="fas fa-search"></i><input type="text" id="myInput" placeholder="Search for an employee..." title="Employee Search Bar"></p>
+		</div>
+		<div class="actions side">
+			<p style="text-align:right;">
+				<a id="removeButton" class="actionButton inactive" href="#">Remove</a>
+				<a class="actionButton" href="/create-awards">Create Award</a></p>
+		</div>
+	</div>
+	
+		<table id="awardTable">
+			<tbody id="tableBody">
+				<tr id="tableHead">
+					<td class="checkBox">
+						<div class="checkMark"><i class="fas fa-check checkoff"></i></div>
+					</td>
+					<th>Employee Name <i class="sort fas fa-sort"></i></th>
+					<th>Award Type <i class="sort fas fa-sort"></i></th>
+					<th>Department <i class="sort fas fa-sort"></i></th>
+					<th>Region <i class="sort fas fa-sort"></i></th>
+					<th>Employee Email <i class="sort fas fa-sort"></i></th>
+					<th>Creation Date <i class="sort fas fa-sort"></i></th>
+					<th>Preview</th>
+				</tr>
+				
+				<tr class="row">
+					<td class="checkBox">
+						<div class="checkMark"><i class="fas fa-check checkoff"></i></div>
+					</td>
+					<td class="name">is</td>
+					<td class="awardType">ype</td>
+					<td>User</td>
+					<td>User</td>
+					<td>User</td>
+					<td>User</td>
+					<td><a href="/award/{{this.recordID}}"><input type="button" value="Preview"></a></td>
+				</tr>
+				<tr class = "row">
+                                               <td class="checkBox">
+                                                       <div class="checkMark"><i class="fas fa-check checkoff"></i></div>
+                                               </td>
+                                               <td class="name">this</td>
+                                               <td class="awardType">Type</td>
+                                               <td>Username</td>
+					<td>Admin</td>
+					<td>Admin</td>
+					<td>Admin</td>
+                                        </tr>
+				<tr class = "row">
+                                               <td class="checkBox">
+                                                       <div class="checkMark"><i class="fas fa-check checkoff"></i></div>
+                                               </td>
+                                               <td class="name">gis</td>
+                                               <td class="awardType">dype</td>
+                                               <td>Usert</td>
+					<td>Admin</td>
+					<td>Admin</td>
+					<td>Admin</td>
+                                       </tr>
+				
+			</tbody>
+		</table>
+	
+</div>
+
+<div id="lightBox" class="hidden">
+	<div id="close">
+		<i class="fas fa-times"></i>
+	</div>
+	<div id="lightBox-Inner">
+		This is a test.
+	</div>
+</div>
+<script type="text/javascript" src="js/awardTable.js"></script>

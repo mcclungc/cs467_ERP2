@@ -1,1 +1,38 @@
-<p>User Account page</p>
+<link rel="stylesheet" type="text/css" href="/css/userAccount.css">
+<link rel="stylesheet" type="text/css" href="/css/account.css">
+<h1 class="title">User Account Settings</h1>
+<div class="accountInfo">
+        <p><strong class="heading">Name:</strong> </p>
+        <p><strong class="heading">Email Address:</strong> </p>
+	<p><strong class="heading">Region:</strong> </p>
+	<p><strong class="heading">Department:</strong> </p>
+	<p><strong class="heading">Last Updated:</strong> </p>
+	<p><strong class="heading">Account Creation Date:</strong> </p>
+        <p style="text-align: center;">
+                <button id="updateInfo" class="accountButton">Update Information</button>
+		<a id="changePass" class="accountButton" href="/change-password">Change Password</a>
+		<button id="updateSig" class="accountButton">Change Signature</button>
+        </p>
+</div>
+
+
+<div id="sigChange">
+	<h2 class="sigSection">Free Draw Your Signature</h2>
+	<div id="sigPadDiv">
+		<canvas id="signaturePad" width="500" height="100" style="border:1px solid #000000;">
+		</canvas> 
+		<p>
+			<button id="clearFunc" type="button" class="accountButton">Clear</button> 
+			<button id="submitSig" class="submitButtons accountButton" type="button">Submit</button> 
+		</p>
+	</div>
+	<h2 class="sigSection">Upload a Signature from a File</h2>
+	<div id="uploadSigDiv">
+		<img id="sigPic" width=500 height=100/>
+		<p>
+			<input id=uploadSig type="file" accept="image/*" onchange="loadFile(event)">
+			<button id="submitUploadedSig" class="submitButtons accountButton" type="button">Submit</button> 
+		</p>
+	<div>
+</div>
+<script type="text/javascript" src="/js/userAccount.js"></script>

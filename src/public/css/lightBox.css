@@ -1,0 +1,64 @@
+#lightBox {
+        display: block;
+        height: 100%;
+        width: 100%;
+        z-index: 200;
+        background-color: #2f2f2fd1;
+        position: fixed;
+        top: 0;
+        left: 0;
+        transition: all 0.5s ease-out;
+        -webkit-transition: all 0.5s ease-out;
+        -moz-transition: all 0.5s ease-out;
+        -ms-transition: all 0.5s ease-out;
+        -o-transition: all 0.5s ease-out;
+}
+
+#lightBox.hidden {
+	display: none;
+}
+
+#lightBox-Inner {
+	position: relative;
+	background-color: #fff;
+	width: 50%;
+	top: 50%;
+	margin: 0 auto;
+	padding: 15px;
+	box-shadow: 2px 5px 8px 0px black;
+	border-radius: 1px;
+}
+
+#lightBox-Inner p {
+	text-align: center;
+}
+
+#lightBox-Inner .lightBox-button {
+	margin: 5px 20px;
+	padding: 10px;
+	border: none;
+	color: #fff;
+	text-decoration: none;
+	background-color: #03A9F4;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: all 0.5s ease-out;
+	-webkit-transition: all 0.5s ease-out;
+	-moz-transition: all 0.5s ease-out;
+	-ms-transition: all 0.5s ease-out;
+	-o-transition: all 0.5s ease-out;
+}
+
+#lightBox-Inner .lightBox-button:hover {
+	background-color: #415266;
+}
+
+#close {
+	position: absolute;
+	top: 0;
+        right: 0;
+        padding: 15px;
+        color: white;
+        font-size: 1.2em;
+        cursor: pointer;
+}

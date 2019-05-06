@@ -1,1 +1,56 @@
-<p>User page for creating awards</p>
+<link rel="stylesheet" href="css/createForm.css" type="text/css">
+<link rel="stylesheet" href="css/table.css" type="text/css">
+<h1 class="title">Create an Employee Award</h1>
+<div id="createAward" class="createForm">
+	<form id="addAward" action="award" method="post">
+		<fieldset>
+			<p style="text-align:center;">Complete this form to personalize and preview an Employee award.</p>
+			<p class="fields"><input id="name" name="recipient_name" type="text" placeholder="Recipient Name" autocomplete="on" required></p>
+			<p class="fields"><input id="email" name="recipient_email" type="email" placeholder="Recipient Email" autocomplete="on" required></p>
+			<p class="fields">
+				<select name="awardtype" required>
+					<option value="">Award Type</option>
+					{{#each awardtypes}}
+					<option value="{{id}}">{{certificate_type}}</option>
+					{{/each}}
+				</select>
+			</p>
+			<p class="fields">
+				<select name="awarder" required>
+					<option value="">Awarded By</option>
+					{{#each awarders}}
+					<option value="{{id}}">{{name}}</option>
+					{{/each}}
+				</select>
+			</p>
+			<p class="oddField">Award Date: <input type="date" name="date" required></p>
+			<p class="button"><input class="submit" id="createAward" type="submit" value="Create Award Record"></p>
+		</fieldset>
+	</form>
+</div>
+
+<div class="tableContainer">
+	<h3>Existing Award Records:</h3>
+	<table>
+		<thead id="tableHead">
+			<th>Record ID</th> 
+			<th>Award Type</th>
+			<th>Date</th> 
+			<th>Recipient</th>
+			<th>Awarder</th> 
+		</thead>
+		<tbody id="tableBody"> 
+			{{#each awardrecords}} 
+			<tr class="row"> 
+				<td>{{this.recordID}}</td> 
+				<td>{{this.awardtype}}</td> 
+				<td>{{this.date}}</td> 
+				<td>{{this.recipient}} </td>
+				<td>{{this.awarder}}</td>
+				<td><a href="/award/{{this.recordID}}"><input type="button" value="Preview"></a></td>
+			</tr> 
+			{{/each}} 
+		</tbody> 
+	</table>    
+</div>
+
