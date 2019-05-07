@@ -1,0 +1,96 @@
+html {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+}
+
+#topNav {
+	width: 100%;
+	background: #2e2e2e;
+}
+
+/* Clear the container */
+#topNav::after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+#logo {
+	display: block;
+	float: left;
+	padding: 5px 20px;
+}
+
+#logo a {
+	text-decoration: none;
+	font-size: 1.5em;
+	color: #fff;
+}
+
+/* Remove list styling */
+nav ul {
+	float: none;
+	text-align: right;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	position: relative;
+}
+
+/* Display nav items inline */
+nav ul li {
+	margin: 0;
+	display: inline-block;
+}
+
+/* Hide subNav */
+nav ul ul.subNav {
+	display: none;
+	position: absolute;
+	top: 70px;
+	right:0;
+	left: auto;
+	background: #2e2e2e;
+}
+
+nav ul li:hover > .subNav {
+	display: block;
+}
+
+nav a {
+	display: block;
+	text-decoration: none;
+	font-size: 1.5em;
+	padding: 21px 10px;
+	color: #999999;
+}
+
+nav ul ul li {
+	display: list-item;
+	float: none;
+	position: relative;
+	text-align: center;
+}
+
+nav ul li#user a {
+	padding: 10px 10px 22px 10px;
+	color: #999999;
+}
+
+nav a:hover, nav ul li#user a:hover {
+	color: white;
+}
+
+nav ul li#user {
+	float: right;
+	margin-right: 25px; 
+}
+
+.fa-user-circle {
+	font-size: 1.5em;
+}
+
+

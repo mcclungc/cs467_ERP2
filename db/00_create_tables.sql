@@ -15,8 +15,8 @@ CREATE TABLE departments(
 CREATE TABLE users(
     id INT AUTO_INCREMENT,
     email VARCHAR(256) NOT NULL UNIQUE, -- 256 is max length an email address can be per RFC spec
-    password VARCHAR(64) NOT NULL,
-    salt VARCHAR(16) NOT NULL UNIQUE,
+    password VARCHAR(128) NOT NULL,
+    salt VARCHAR(32) NOT NULL UNIQUE,
     name VARCHAR(255) NOT NULL,
     created_on DATETIME NOT NULL,
     is_admin TINYINT(1) NOT NULL,
@@ -58,3 +58,11 @@ CREATE TABLE awards(
     FOREIGN KEY fk_recipient_department(recipient_department_id) REFERENCES departments(id) ON UPDATE CASCADE ON DELETE RESTRICT,
     FOREIGN KEY fk_recipient_region(recipient_region_id) REFERENCES regions(id) ON UPDATE CASCADE ON DELETE RESTRICT
 ) ENGINE=INNODB;
+
+
+CREATE EVENT e_minute_session
+    ON SCHEDULE
+      EVERY 1 MINUTE
+    COMMENT 'Clears out sessions table each minute for expired records.'
+    DO
+      DELETE FROM sessions WHERE expires <= utc_timestamp();

@@ -1,0 +1,164 @@
+html {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+}
+
+/* Left Navigation with fly outs */
+.leftNav {
+	position: fixed;
+	left: 0;
+	height: 100%;
+	width: 50px;
+	text-align: center;
+	background-color: #2e2e2e;
+}
+
+.leftNav a{
+	color: #999999;
+	font-size: 1.5em;
+	text-decoration: none;
+}
+
+.leftNav a:hover {
+	color: #fff;
+}
+
+.leftNav ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.leftNav ul li:hover {
+	position: relative;
+}
+
+.leftNav ul li a, .leftNav ul li ul li a{
+	display: inline-block;
+}
+
+.leftNav .subLeftNav {
+	position: absolute;
+	display: none;
+	background-color: #2e2e2e;
+}
+
+.leftNav .subLeftNav .navPrime {
+	background-color: #03A9F4;
+}
+.leftNav .subLeftNav .navPrime a {
+	color: #fff;
+}
+
+.leftNav .subLeftNav a {
+	padding: 10px;
+}
+
+.leftNav .leftNavItem {
+	margin-block-end: 2em;
+	margin-block-start: 2em; 
+}
+
+.leftNav ul li:hover ul {
+	top: 0px;
+	left: 50px;
+	display: block;
+}
+
+/* Top Navigation */
+#topNav {
+	width: 100%;
+	background-color: #2e2e2e;
+}
+
+/* Clear the container */
+#topNav::after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+#logo {
+	display: block;
+	float: left;
+	margin-left: 50px;
+}
+
+#logo a {
+	text-decoration: none;
+	font-size: 1.5em;
+	color: #fff;
+}
+
+/* Remove list styling */
+nav ul {
+	float: none;
+	text-align: center;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	position: relative;
+}
+
+/* Display nav items inline */
+nav ul li {
+	margin: 0;
+	display: inline-block;
+}
+
+/* Hide subNav */
+nav ul ul.subNav {
+	display: none;
+	position: absolute;
+	top: 60px;
+	right: 0;
+	left: auto;
+	background-color: #2e2e2e;
+}
+
+nav ul li:hover > .subNav {
+	display: block;
+}
+
+nav a {
+	display: block;
+	text-decoration: none;
+	font-size: 1.5em;
+	padding: 21px 10px;
+}
+
+nav ul ul li {
+	display: list-item;
+	float: none;
+	position: relative;
+}
+/*
+nav ul li ul li:hover {
+	background-color: #39b5f7;
+}
+*/
+
+nav ul li#user a {
+	padding: 15px;
+	color: #999999;
+	font-size: 1.5em;
+}
+
+nav ul li#user .subNav li a:hover {
+	color: #fff;
+}
+
+nav ul li#user {
+	float: right;
+	margin-right: 25px;
+	margin-top: 2px; 
+}
+
+.bodyMain {
+	margin-left: 50px;
+}
+
+
