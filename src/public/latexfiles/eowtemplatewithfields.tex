@@ -43,7 +43,7 @@
 
 % For each record (line) in database 'names'
 % Assign field values by name to macros
-\DTLforeach{award}{\rname=RecipientName,  \awarder=Awarder, \date=Date}{
+\DTLforeach{award}{\rname=RecipientName,  \rdept=RecipientDept, \awarder=Awarder, \date=Date}{
 
 {
 \vskip2em
@@ -56,7 +56,7 @@
 {\LARGE This Certificate is awarded to }\par
 \vskip2em
 {\Large \bfseries\color{blue}\MakeUppercase{ {\rname }}}\par
-
+{\ \bfseries\color{blue}{ {\rdept } Department}}\par
 \vskip2em\par
 {\Large  in appreciation for}\par
 {\Large  helping us survive until Friday.}\par
