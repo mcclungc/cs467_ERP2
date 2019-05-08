@@ -1,1 +1,4 @@
 node_modules/*
+src/db.js
+src/package.json
+src/public/latexfiles/*.csv
