@@ -153,6 +153,13 @@ app.get('/add-user', function(req, res, next){
 	}
 });
 
+app.post('/add-user', function(req, res, next){
+	console.log(req.body);
+	var context = {};
+	context.results = "Received!";
+	res.send(context)
+});
+
 app.get('/admin-change-password', function(req, res, next){
 	if(!req.cookies.erp_is_admin) {
 		res.redirect('/');
