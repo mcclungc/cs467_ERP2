@@ -61,6 +61,13 @@ app.get('/reset-password', function(req, res, next){
 		title: "Password Reset"
 	};
 	res.render('reset', {layout: 'login'});
+});
+
+app.post('/reset-password', function(req, res, next){
+	console.log(req.body);
+	var context = {};
+	context.results = "Received!";
+	res.send(context)
 });  
 
 //Admin pages
