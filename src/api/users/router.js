@@ -159,7 +159,35 @@ function getUsers(req, res) {
     }
 }
 
+function getUser(res, req) {
+    if(!req.cookies.erp_session) {
+        res.status(401).json({ 'message': 'Invalid User' }).send();
+    } else {
+        sessionValidation(req.cookies.erp_session).then(() => {
+            db.pool.query("SELECT * FROM users WHERE id = ?", [req.params.id], (err, results, fields) => {
+                if(results.length == 0) {
+                    res.status(200).json({}).send();
+                } else {
+                    const data = {
+                        "id": results.id,
+                        "email": results.email,
+                        "name": results.name,
+                        "created_on": results.created_on,
+                        "is_admin": results.is_admin,
+                        "region_id": results.region_id,
+                        "department_id": results.department_id
+                    }
+                    res.status(200).send(data);
+                }
+            });
+        }).catch(error => {
+            res.status(401).json({ 'message': error }).send();
+        })
+    }
+}
+
 router.post('/users', createUser);
 router.get('/users', getUsers);
+router.get('/users/:id', getUser);
 
 module.exports = router;
