@@ -1,9 +1,8 @@
 /*Javascript to Login to website*/
 
 var submitButton = document.getElementById("login");
-submitButton.addEventListener("click", login);
-
-function login(){
+submitButton.addEventListener("click", function(event) {
+	event.preventDefault();
 	var req = new XMLHttpRequest();
 	var form = document.getElementById("loginForm");
 	var user = document.getElementById("user");
@@ -22,5 +21,4 @@ function login(){
 		}
 	});
 	req.send(JSON.stringify(entries));
-}
-
+});
