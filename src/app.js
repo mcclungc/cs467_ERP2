@@ -177,6 +177,14 @@ app.get('/admin-change-password', function(req, res, next){
 	}
 });
 
+app.post('/admin-change-password', function(req, res, next){
+	console.log(req.body);
+	var context = {};
+	context.results = "Received!";
+	res.send(context)
+});
+
+
 //User pages
 app.get('/home', function(req, res, next){
 	if(!req.cookies.erp_is_admin) {
@@ -262,6 +270,14 @@ app.get('/change-password', function(req, res, next){
 		res.redirect('/');
 	}
 });
+
+app.post('/change-password', function(req, res, next){
+	console.log(req.body);
+	var context = {};
+	context.results = "Received!";
+	res.send(context)
+});
+
 
 //Error pages
 app.use(function(req, res, next){
