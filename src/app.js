@@ -204,7 +204,7 @@ app.get('/home', function(req, res, next){
 	}
 });
 
-app.get('/create-awards', function(req, res, next){
+app.get('/award', function(req, res, next){
 	if(!req.cookies.erp_is_admin) {
 		res.redirect('/');
 	} else if(req.cookies.erp_is_admin === '0') {
@@ -212,7 +212,7 @@ app.get('/create-awards', function(req, res, next){
 			res.locals.metaTags = {
 				title: "ERP Awards"
 			};
-			res.render('userAward', {layout: 'user'});
+			res.render('createaward', {layout: 'user'});
 		}).catch(error => {
 			res.redirect('/');
 		})
