@@ -22,7 +22,7 @@ app.use(cookieParser());
 app.use(express.static('public'));
 app.use('/api', require('./api/login/router'));
 app.use("/award", require("./award.js"));
-app.set('port', 7999);//enter in port number when you run
+app.set('port', 5000);//enter in port number when you run
 app.set('mysql', mysql);
 
 function sessionValidation(cookie) {	

@@ -1,24 +1,39 @@
-/*Javascript to Login to website*/
+// /*Javascript to Login to website*/
 
-var submitButton = document.getElementById("login");
-submitButton.addEventListener("click", function(event) {
-	event.preventDefault();
-	var req = new XMLHttpRequest();
-	var form = document.getElementById("loginForm");
-	var user = document.getElementById("user");
-	var pass = document.getElementById("password");
-	var entries = {};
-	entries.userName = user.value;
-	entries.password = pass.value;
-	req.open("POST", "/", true);
-	req.setRequestHeader('Content-Type','application/json');
-	req.addEventListener('load', function() {
-		if (req.status >= 200 && req.status < 400) {
-			var response = JSON.parse(req.responseText);
-			console.log(response);
-		} else {
-			console.log("Error in network request: " + req.statusText);
-		}
-	});
-	req.send(JSON.stringify(entries));
+$(function() {
+    $("#login").click((e) => {
+        e.preventDefault();
+
+		let email = $('#email').val();
+		let password = $('#password').val();
+
+        // Set the base data object
+        data = {
+            "email": email,
+            "password": password
+        };
+
+        $.ajax({
+            url: "/api/login",
+            type: "POST",
+            data: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json; charset=utf-8"
+            },
+            dataType: "json",
+            success: (res, status, jq) => {
+				const host = window.location.host;
+				
+				if(res.is_admin == 0) {
+					window.location.replace('http://' + host + '/home');
+				} else {
+					window.location.replace('http://' + host + '/admin');
+				}
+            },
+            error: (jq, status, err) => {
+				$("#email").val('');
+				$("#password").val('');
+            }
+        })
+    });
 });
