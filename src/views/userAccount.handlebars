@@ -2,12 +2,17 @@
 <link rel="stylesheet" type="text/css" href="/css/account.css">
 <h1 class="title">User Account Settings</h1>
 <div class="accountInfo">
-        <p><strong class="heading">Name:</strong> </p>
-        <p><strong class="heading">Email Address:</strong> </p>
-	<p><strong class="heading">Region:</strong> </p>
-	<p><strong class="heading">Department:</strong> </p>
-	<p><strong class="heading">Last Updated:</strong> </p>
-	<p><strong class="heading">Account Creation Date:</strong> </p>
+	<form id="accountForm" method="post">
+		<fieldset>
+		        <p><strong class="heading">Name:</strong> <span class="currentInfo">John Smith</span></p>
+		        <p><strong class="heading">Email Address:</strong> <span class="currentInfo">test@test.com</span></p>
+			<p><strong class="heading">Region:</strong> <span class="currentInfo">England</span></p>
+			<p><strong class="heading">Department:</strong> <span class="currentInfo">CS</span></p>
+			<p><strong class="heading">Last Updated:</strong> <span class="lastUpdate">time</span></p>
+			<p><strong class="heading">Account Creation Date:</strong> </p>
+			<p style="display:none; text-align: center;"><input class="submit" id="update" type="submit" value="Update"></p>
+		</fieldset>
+	</form>
         <p style="text-align: center;">
                 <button id="updateInfo" class="accountButton">Update Information</button>
 		<a id="changePass" class="accountButton" href="/change-password">Change Password</a>

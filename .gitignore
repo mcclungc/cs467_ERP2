@@ -2,3 +2,4 @@ node_modules/*
 src/db.js
 src/package.json
 src/public/latexfiles/*.csv
+src/public/latexfiles/output/*.pdf

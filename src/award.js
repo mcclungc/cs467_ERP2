@@ -8,6 +8,7 @@ module.exports = function(){
         //https://stackoverflow.com/questions/27072866/how-to-remove-all-files-from-directory-without-removing-directory-in-node-js/42182416
         var path = require('path');
         var directory = 'public/latexfiles/output';
+        console.log('Current directory: ' + process.cwd());
         fs.readdir(directory, (err, files) => {
             if (err) throw err;
           
@@ -20,7 +21,7 @@ module.exports = function(){
     }
 
     function renderLatexDoc(awardtype,context){    
-        cleanupOutputDir(); //delete existing files in latex output directory
+       // cleanupOutputDir(); //delete existing files in latex output directory
         //as discussed at https://stackoverflow.com/questions/41560344/how-to-use-a-pdflatex-child-process-to-get-a-pdf-as-a-stream-in-node-js     
         var process = require('process');
         process.chdir('public/latexfiles');  
@@ -28,7 +29,7 @@ module.exports = function(){
         if (awardtype == 1)
         {
             templateName = 'eomtemplatewithfields.tex';
-            var awardfilename ='eomaward' + context.awardrecord.awardID; 
+            var awardfilename ='eomaward'; 
             context.awardrecord.awardfilename = awardfilename;
             //console.log(context.awardrecord.awardfilename);
             var spawn  = require('child_process').spawn;
@@ -38,7 +39,7 @@ module.exports = function(){
         else if (awardtype ==2)
         {
             templateName = 'eowtemplatewithfields.tex';
-            var awardfilename = 'eowaward'+ context.awardrecord.awardID ;
+            var awardfilename = 'eowaward';
             context.awardrecord.awardfilename = awardfilename;
             var spawn  = require('child_process').spawn;
             var jobname = '-jobname='+awardfilename;
