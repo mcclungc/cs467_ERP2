@@ -1622,12 +1622,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{domain}}/create-awards",
+							"raw": "{{domain}}/award",
 							"host": [
 								"{{domain}}"
 							],
 							"path": [
-								"create-awards"
+								"award"
 							]
 						}
 					},
@@ -1698,6 +1698,1757 @@
 							],
 							"path": [
 								"account"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "Create User As Non-Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('Invalid User');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"corey.immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e3679aca-e92e-4bd6-9b38-139ca36b45e2",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Set-Cookie is present\", function () {",
+									"    pm.response.to.have.header(\"Set-Cookie\");",
+									"});",
+									"",
+									"pm.test(\"Check cookie name\", function () {",
+									"    pm.cookies.has(\"erp_session\")",
+									"});",
+									"",
+									"pm.test(\"is_admin Check\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.is_admin).to.eql(1);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "2fff139f-2e22-47bb-baaa-8deb6877681a",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"admin@acme.com\",\n\t\"password\": \"admin\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/login",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Email longer than 256",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"email length error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"email\" length must be less than or equal to 256 characters long');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadmin@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Email one domain segment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"email error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"email\" must be a valid email');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"corey.immke@acme\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Email Invalid Domain",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"email error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"email\" must be a valid email');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"corey.immke@acme.org\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Email without at sign",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"email error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"email\" must be a valid email');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"acme.org\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Email Script Tag",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"email error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"email\" must be a valid email');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"<script src='abc.com'></script>\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Email Empty String",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"email length error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"email\" is not allowed to be empty');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Email is a number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"email error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"email\" must be a string');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": 4,\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Email is a boolean",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"email error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"email\" must be a string');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": true,\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Email is missing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"email error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"email\" is required');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Password Empty String",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"password error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"password\" is not allowed to be empty');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Password is a number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"password error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"password\" must be a string');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": 2,\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Password is a boolean",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"password error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"password\" must be a string');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": true,\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Password is missing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"password error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"password\" is required');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Name Longer than 255",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"name error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"name\" length must be less than or equal to 255 characters long');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immkeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Name Empty String",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"name error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"name\" is not allowed to be empty');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Name is a number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"name error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"name\" must be a string');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": 82,\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Name is a boolean",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"name error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"name\" must be a string');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": false,\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Name is null",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"name error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"name\" must be a string');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": null,\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Name is missing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"name error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"name\" is required');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User is_admin negative",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"is_admin error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"is_admin\" must be larger than or equal to 0');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": -1,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User is_admin greater than 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"is_admin error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"is_admin\" must be less than or equal to 1');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 2,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User is_admin is a float",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"is_admin error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"is_admin\" must be an integer');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0.4,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User is_admin is a boolean",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"is_admin error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"is_admin\" must be a number');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": true,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User is_admin is null",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"is_admin error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"is_admin\" must be a number');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": null,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User is_admin is missing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"is_admin error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"is_admin\" is required');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User region_id negative",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"region_id error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"region_id\" must be a positive number');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": -1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User department_id negative",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"department_id error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"department_id\" must be a positive number');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": -2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User region_id is a float",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"region_id error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"region_id\" must be an integer');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1.5,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User region_id is a boolean",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"region_id error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"region_id\" must be a number');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": false,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User region_id is null",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"region_id error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"region_id\" must be a number');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": null,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User department_id is a float",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"department_id error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"department_id\" must be an integer');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2.6\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User department_id is a boolean",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"department_id error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"department_id\" must be a number');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": true\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User department_id is null",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"department_id error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"department_id\" must be a number');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": null\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Extra Parameter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"extra parameter error message\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql('\"script\" is not allowed');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2,\n\t\"script\": \"<script src='hello.com'></script>\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
 							]
 						}
 					},

@@ -5,15 +5,22 @@ const crypto = require('crypto');
 
 function sessionValidation(cookie) {	
 	return new Promise((resolve, reject) => {
-		mysql.pool.query("SELECT * FROM sessions WHERE id = ?", [cookie], (error, results, fields) => {
-			if(error) throw error;
+		db.pool.query("SELECT * FROM sessions WHERE id = ?", [cookie], (error, results, fields) => {
+			if(error) throw(error);
 
 			if(results.length === 0) {
 				reject('Session ID Invalid');
 			} else {
-				resolve();
+                db.pool.query("SELECT * FROM users WHERE id = ?", [results[0].user_id], (error, results, fields) => {
+                    if(error) throw(error);
+                    
+                    if(results.length === 0) {
+                        reject('User does not exist');
+                    }
+                    resolve(results[0].is_admin);
+                });
 			}
-		})
+		});
 	});
 }
 
@@ -38,45 +45,49 @@ function createUser(req, res) {
     if(!req.cookies.erp_session) {
         res.status(401).json({ 'message': 'Invalid User' }).send();
     } else {
-        sessionValidation(req.cookies.erp_session).then(() => {
-            const schema = Joi.object().keys ({
-                email: Joi.string().max(256).email({minDomainSegments: 2, tlds: {allow: ['com']}}).required(),
-                password: Joi.string().required(),
-                name: Joi.string().max(255).trim().required(),
-                signature: Joi.any().optional(),
-                is_admin: Joi.number().min(0).max(1).integer().required(),
-                region_id: Joi.number().positive().integer().optional(),
-                department_id: Joi.number().positive().integer().optional()
-            });
-        
-            Joi.validate(req.body, schema, (err, value) => {
-                if (err) {
-                    res.status(400).json({ 'message': err.details[0].message }).send();
-                    return;
-                } else {
-                    salt = createSalt();
-                    
-                    crypto.pbkdf2(req.body.password, salt, 100000, 64, 'sha512', (err, derivedKey) => {
-                        if (err) throw err;
-                        today = new Date(Date.now());
-        
-                        db.pool.query("INSERT INTO users(email, password, salt, name, created_on, is_admin, signature, region_id, department_id) VALUES(?,?,?,?,?,?,?,?,?)",
-                        [req.body.email, derivedKey.toString('hex'), salt, req.body.name, today, req.body.is_admin, req.body.signature, req.body.region_id, req.body.department_id],
-                        (error, results, fields) => {
-                            if(error) throw error;
-        
-                            data = {
-                                "id": results.insertId,
-                                "email": req.body.email,
-                                "name": req.body.name,
-                                "created_on": today
-                            }
-        
-                            res.status(200).send(data);
+        sessionValidation(req.cookies.erp_session).then(admin => {
+            if(admin !== 1) {
+                res.status(401).json({ 'message': 'Invalid User' }).send();
+            } else {
+                const schema = Joi.object().keys ({
+                    email: Joi.string().max(256).email({minDomainSegments: 2, tlds: {allow: ['com']}}).required(),
+                    password: Joi.string().required(),
+                    name: Joi.string().max(255).trim().required(),
+                    signature: Joi.any().optional(),
+                    is_admin: Joi.number().min(0).max(1).integer().required(),
+                    region_id: Joi.number().positive().integer().optional(),
+                    department_id: Joi.number().positive().integer().optional()
+                });
+            
+                Joi.validate(req.body, schema, (err, value) => {
+                    if (err) {
+                        res.status(400).json({ 'message': err.details[0].message }).send();
+                        return;
+                    } else {
+                        salt = createSalt();
+                        
+                        crypto.pbkdf2(req.body.password, salt, 100000, 64, 'sha512', (err, derivedKey) => {
+                            if (err) throw err;
+                            today = new Date(Date.now());
+            
+                            db.pool.query("INSERT INTO users(email, password, salt, name, created_on, is_admin, signature, region_id, department_id) VALUES(?,?,?,?,?,?,?,?,?)",
+                            [req.body.email, derivedKey.toString('hex'), salt, req.body.name, today, req.body.is_admin, req.body.signature, req.body.region_id, req.body.department_id],
+                            (error, results, fields) => {
+                                if(error) throw error;
+            
+                                data = {
+                                    "id": results.insertId,
+                                    "email": req.body.email,
+                                    "name": req.body.name,
+                                    "created_on": today
+                                }
+            
+                                res.status(200).send(data);
+                            });
                         });
-                    });
-                }
-            });
+                    }
+                });
+            }
         }).catch(error => {
             res.status(401).json({ 'message': error }).send();
         })
@@ -120,7 +131,7 @@ function getUsers(req, res) {
     if(!req.cookies.erp_session) {
         res.status(401).json({ 'message': 'Invalid User' }).send();
     } else {
-        sessionValidation(req.cookies.erp_session).then(() => {
+        sessionValidation(req.cookies.erp_session).then(admin => {
             let is_admin = null;
             let region_id = null;
             let department_id = null;
@@ -163,7 +174,7 @@ function getUser(res, req) {
     if(!req.cookies.erp_session) {
         res.status(401).json({ 'message': 'Invalid User' }).send();
     } else {
-        sessionValidation(req.cookies.erp_session).then(() => {
+        sessionValidation(req.cookies.erp_session).then(admin => {
             db.pool.query("SELECT * FROM users WHERE id = ?", [req.params.id], (err, results, fields) => {
                 if(results.length == 0) {
                     res.status(200).json({}).send();
