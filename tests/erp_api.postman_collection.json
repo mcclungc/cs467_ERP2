@@ -3453,6 +3453,915 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"verify email\", function () {",
+									"    pm.expect(jsonData.email).to.eql('immke@acme.com');",
+									"});",
+									"",
+									"pm.test(\"verify name\", function () {",
+									"    pm.expect(jsonData.name).to.eql('Corey Immke');",
+									"});",
+									"",
+									"pm.test(\"Responds with an id\", function () {",
+									"    pm.response.to.have.jsonBody(\"id\");",
+									"});",
+									"",
+									"pm.test(\"Responds with a created_on\", function () {",
+									"    pm.response.to.have.jsonBody(\"created_on\");",
+									"});",
+									"",
+									"pm.globals.set(\"user_id\", jsonData.id);",
+									"pm.globals.set(\"created_on\", jsonData.created_on);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Same User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"verify message\", function () {",
+									"    pm.expect(jsonData.message).to.eql('Account already exists');",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immke\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ac309834-4ac0-468a-83fa-5a13a6c8c543",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"jsonData.forEach(function(element) {",
+									"    pm.test(\"Responds with an id\", function () {",
+									"        pm.expect(element).to.have.property(\"id\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with an email\", function () {",
+									"        pm.expect(element).to.have.property(\"email\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a name\", function () {",
+									"        pm.expect(element).to.have.property(\"name\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a created_on\", function () {",
+									"        pm.expect(element).to.have.property(\"created_on\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a is_admin\", function () {",
+									"        pm.expect(element).to.have.property(\"is_admin\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a region_id\", function () {",
+									"        pm.expect(element).to.have.property(\"region_id\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a department_id\", function () {",
+									"        pm.expect(element).to.have.property(\"department_id\");",
+									"    });",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Admin Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ac309834-4ac0-468a-83fa-5a13a6c8c543",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"jsonData.forEach(function(element) {",
+									"    pm.test(\"Responds with an id\", function () {",
+									"        pm.expect(element).to.have.property(\"id\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with an email\", function () {",
+									"        pm.expect(element).to.have.property(\"email\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a name\", function () {",
+									"        pm.expect(element).to.have.property(\"name\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a created_on\", function () {",
+									"        pm.expect(element).to.have.property(\"created_on\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a is_admin\", function () {",
+									"        pm.expect(element).to.have.property(\"is_admin\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a region_id\", function () {",
+									"        pm.expect(element).to.have.property(\"region_id\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a department_id\", function () {",
+									"        pm.expect(element).to.have.property(\"department_id\");",
+									"    });",
+									"    ",
+									"    pm.test(\"is_admin equals 1\", function () {",
+									"        pm.expect(element.is_admin).to.eql(1);",
+									"    });",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/api/users?is_admin=1",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "is_admin",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Non-Admin Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ac309834-4ac0-468a-83fa-5a13a6c8c543",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"jsonData.forEach(function(element) {",
+									"    pm.test(\"Responds with an id\", function () {",
+									"        pm.expect(element).to.have.property(\"id\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with an email\", function () {",
+									"        pm.expect(element).to.have.property(\"email\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a name\", function () {",
+									"        pm.expect(element).to.have.property(\"name\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a created_on\", function () {",
+									"        pm.expect(element).to.have.property(\"created_on\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a is_admin\", function () {",
+									"        pm.expect(element).to.have.property(\"is_admin\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a region_id\", function () {",
+									"        pm.expect(element).to.have.property(\"region_id\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a department_id\", function () {",
+									"        pm.expect(element).to.have.property(\"department_id\");",
+									"    });",
+									"    ",
+									"    pm.test(\"is_admin equals 0\", function () {",
+									"        pm.expect(element.is_admin).to.eql(0);",
+									"    });",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/api/users?is_admin=0",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "is_admin",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users region 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ac309834-4ac0-468a-83fa-5a13a6c8c543",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"jsonData.forEach(function(element) {",
+									"    pm.test(\"Responds with an id\", function () {",
+									"        pm.expect(element).to.have.property(\"id\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with an email\", function () {",
+									"        pm.expect(element).to.have.property(\"email\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a name\", function () {",
+									"        pm.expect(element).to.have.property(\"name\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a created_on\", function () {",
+									"        pm.expect(element).to.have.property(\"created_on\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a is_admin\", function () {",
+									"        pm.expect(element).to.have.property(\"is_admin\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a region_id\", function () {",
+									"        pm.expect(element).to.have.property(\"region_id\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a department_id\", function () {",
+									"        pm.expect(element).to.have.property(\"department_id\");",
+									"    });",
+									"    ",
+									"    pm.test(\"region_id equals 1\", function () {",
+									"        pm.expect(element.region_id).to.eql(1);",
+									"    });",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/api/users?region_id=1",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "region_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users department 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ac309834-4ac0-468a-83fa-5a13a6c8c543",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"jsonData.forEach(function(element) {",
+									"    pm.test(\"Responds with an id\", function () {",
+									"        pm.expect(element).to.have.property(\"id\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with an email\", function () {",
+									"        pm.expect(element).to.have.property(\"email\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a name\", function () {",
+									"        pm.expect(element).to.have.property(\"name\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a created_on\", function () {",
+									"        pm.expect(element).to.have.property(\"created_on\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a is_admin\", function () {",
+									"        pm.expect(element).to.have.property(\"is_admin\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a region_id\", function () {",
+									"        pm.expect(element).to.have.property(\"region_id\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a department_id\", function () {",
+									"        pm.expect(element).to.have.property(\"department_id\");",
+									"    });",
+									"    ",
+									"    pm.test(\"department_id equals 2\", function () {",
+									"        pm.expect(element.department_id).to.eql(2);",
+									"    });",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/api/users?department_id=2",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "department_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users region 1 department 4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ac309834-4ac0-468a-83fa-5a13a6c8c543",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"jsonData.forEach(function(element) {",
+									"    pm.test(\"Responds with an id\", function () {",
+									"        pm.expect(element).to.have.property(\"id\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with an email\", function () {",
+									"        pm.expect(element).to.have.property(\"email\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a name\", function () {",
+									"        pm.expect(element).to.have.property(\"name\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a created_on\", function () {",
+									"        pm.expect(element).to.have.property(\"created_on\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a is_admin\", function () {",
+									"        pm.expect(element).to.have.property(\"is_admin\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a region_id\", function () {",
+									"        pm.expect(element).to.have.property(\"region_id\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a department_id\", function () {",
+									"        pm.expect(element).to.have.property(\"department_id\");",
+									"    });",
+									"    ",
+									"    pm.test(\"region_id equals 1\", function () {",
+									"        pm.expect(element.region_id).to.eql(1);",
+									"    });",
+									"    ",
+									"    pm.test(\"department_id equals 4\", function () {",
+									"        pm.expect(element.department_id).to.eql(4);",
+									"    });",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/api/users?department_id=4&region_id=1",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "department_id",
+									"value": "4"
+								},
+								{
+									"key": "region_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Non-Admin Users region 1 department 4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ac309834-4ac0-468a-83fa-5a13a6c8c543",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"jsonData.forEach(function(element) {",
+									"    pm.test(\"Responds with an id\", function () {",
+									"        pm.expect(element).to.have.property(\"id\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with an email\", function () {",
+									"        pm.expect(element).to.have.property(\"email\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a name\", function () {",
+									"        pm.expect(element).to.have.property(\"name\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a created_on\", function () {",
+									"        pm.expect(element).to.have.property(\"created_on\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a is_admin\", function () {",
+									"        pm.expect(element).to.have.property(\"is_admin\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a region_id\", function () {",
+									"        pm.expect(element).to.have.property(\"region_id\");",
+									"    });",
+									"    ",
+									"    pm.test(\"Responds with a department_id\", function () {",
+									"        pm.expect(element).to.have.property(\"department_id\");",
+									"    });",
+									"    ",
+									"    pm.test(\"region_id equals 1\", function () {",
+									"        pm.expect(element.region_id).to.eql(1);",
+									"    });",
+									"    ",
+									"    pm.test(\"department_id equals 4\", function () {",
+									"        pm.expect(element.department_id).to.eql(4);",
+									"    });",
+									"    ",
+									"    pm.test(\"is_admin equals 0\", function () {",
+									"        pm.expect(element.is_admin).to.eql(0);",
+									"    });",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/api/users?department_id=4&region_id=1&is_admin=0",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "department_id",
+									"value": "4"
+								},
+								{
+									"key": "region_id",
+									"value": "1"
+								},
+								{
+									"key": "is_admin",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Previously Created User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ac309834-4ac0-468a-83fa-5a13a6c8c543",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"id value\", function () {",
+									"    pm.expect(jsonData.id).to.eql(pm.globals.get(\"user_id\"));",
+									"});",
+									"",
+									"pm.test(\"email value\", function () {",
+									"    pm.expect(jsonData.email).to.eql('immke@acme.com');",
+									"});",
+									"",
+									"pm.test(\"name value\", function () {",
+									"    pm.expect(jsonData.name).to.eql('Corey Immke');",
+									"});",
+									"",
+									"pm.test(\"email value\", function () {",
+									"    pm.expect(jsonData.email).to.eql('immke@acme.com');",
+									"});",
+									"",
+									"pm.test(\"created_on value\", function () {",
+									"    pm.expect(jsonData.created_on).to.eql(pm.globals.get(\"created_on\"));",
+									"});",
+									"",
+									"pm.test(\"is_admin value\", function () {",
+									"    pm.expect(jsonData.is_admin).to.eql(0);",
+									"});",
+									"",
+									"pm.test(\"region_id value\", function () {",
+									"    pm.expect(jsonData.region_id).to.eql(1);",
+									"});",
+									"",
+									"pm.test(\"department_id value\", function () {",
+									"    pm.expect(jsonData.department_id).to.eql(2);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/api/users/{{user_id}}",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"verify email\", function () {",
+									"    pm.expect(jsonData.email).to.eql('immke@acme.com');",
+									"});",
+									"",
+									"pm.test(\"verify name\", function () {",
+									"    pm.expect(jsonData.name).to.eql('Cody Immke');",
+									"});",
+									"",
+									"pm.test(\"Responds with an id\", function () {",
+									"    pm.response.to.have.jsonBody(\"id\");",
+									"});",
+									"",
+									"pm.test(\"Responds with a created_on\", function () {",
+									"    pm.response.to.have.jsonBody(\"created_on\");",
+									"});",
+									"",
+									"pm.globals.set(\"user_id\", jsonData.id);",
+									"pm.globals.set(\"created_on\", jsonData.created_on);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Cody Immke\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/users/{{user_id}}",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/api/users/{{user_id}}",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify User Deleted",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Empty Object\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.empty;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/api/users/{{user_id}}",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
