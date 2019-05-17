@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
  <head>
-  <meta charset='UTF-8'>
-  <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' href='public/css/userMain.css'> 
-  <!-- Latest compiled and minified CSS -->
-  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+     <title>Preview Award</title>
+
+  <!-- Latest compiled and minified CSS-->
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'> 
+
  </head>
  <body>
     <div class = 'container'>
@@ -15,9 +15,11 @@
                 <thead>
                     <th>Record ID</th> 
                     <th>Award Type</th> 
-                    <th>Date</th> 
+                    <th>Award Date</th> 
                     <th>Recipient</th>
-                    <th>Awarder</th> 
+                    <th>Department</th>
+                    <th>Region</th>
+                    <th>Presenter</th> 
                 </thead>
             <tbody> 
             <tr> 
@@ -25,10 +27,12 @@
                 <td>{{awardrecord.awardtype}}</td>            
                 <td>{{awardrecord.date}}</td> 
                 <td>{{awardrecord.recipient}} </td>
+                <td>{{awardrecord.department_name}} </td>
+                <td>{{awardrecord.region_name}} </td>
                 <td>{{awardrecord.awarder}}</td>
                 
                 <td>
-                    <button onclick='deleteAwardRecord({{awardrecord.awardID}})'>Delete (Non-functional button)</button></td>      
+                    <button onclick='deleteAwardRecord({{awardrecord.awardID}})'>Delete </button></td>      
             </tr> 
             </tbody> 
             </table>
@@ -36,7 +40,7 @@
         <a href='../latexfiles/output/{{awardrecord.awardfilename}}.pdf' download='Award{{awardrecord.awardID}}.pdf'> <button class='download'>Download as PDF</button></a>                
     <br>
     <br>
-    <input type='button' name='email' value='Email to Recipient (Non-functional button)' onclick=''>
+    <input type='button' name='email' value='Email to Recipient' onclick=''>
 
 </body>
 <footer>
