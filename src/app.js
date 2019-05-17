@@ -264,7 +264,7 @@ app.get('/change-password', function(req, res, next){
 	} else if(req.cookies.erp_is_admin === '0') {
 		sessionValidation(req.cookies).then(user_id => {
 			res.locals.metaTags = {
-				title: "| Change Password"
+				title: "Change Password"
 			};
 			res.render('userPassword', {layout: 'user'});
 		}).catch(error => {
