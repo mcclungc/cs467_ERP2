@@ -23,10 +23,14 @@ app.use(express.static('public'));
 app.use('/api', require('./api/login/router'));
 app.use('/api', require('./api/users/router'));
 app.use('/api', require('./api/org/router'));
+
 app.use('/api', require('./api/awards/router'));
+
 app.use("/award", require("./award.js"));
 app.set('port', 5000);//enter in port number when you run
 app.set('mysql', mysql);
+
+var users = require('/api/users');
 
 function sessionValidation(cookie) {	
 	return new Promise((resolve, reject) => {
@@ -52,12 +56,13 @@ app.get('/', function(req, res, next){
 	res.render('index', {layout: 'login'}); //changed layout
 });
 
-app.post('/', function(req, res, next){
+/*app.post('/', function(req, res, next){
 	console.log(req.body);
 	var context = {};
 	context.results = "Updated!";
 	res.send(context)
 });
+*/
 
 app.get('/reset-password', function(req, res, next){
 	res.locals.metaTags = {
@@ -66,12 +71,13 @@ app.get('/reset-password', function(req, res, next){
 	res.render('reset', {layout: 'login'});
 });
 
-app.post('/reset-password', function(req, res, next){
+/*app.post('/reset-password', function(req, res, next){
 	console.log(req.body);
 	var context = {};
 	context.results = "Received!";
 	res.send(context)
 });  
+*/
 
 //Admin pages
 app.get('/admin', function(req, res, next){
@@ -130,7 +136,7 @@ app.get('/admin-usermanagement', function(req, res, next){
 			res.locals.metaTags = {
 				title: "| User Management"
 			};
-			res.render('adminUM', {layout: 'admin'});
+			res.render('adminUM', users.get(req, res), {layout: 'admin'});
 		}).catch(error => {
 			res.redirect('/');
 		})
@@ -156,12 +162,13 @@ app.get('/add-user', function(req, res, next){
 	}
 });
 
-app.post('/add-user', function(req, res, next){
+/*app.post('/add-user', function(req, res, next){
 	console.log(req.body);
 	var context = {};
 	context.results = "Received!";
 	res.send(context)
 });
+*/
 
 app.get('/admin-change-password', function(req, res, next){
 	if(!req.cookies.erp_is_admin) {
@@ -180,13 +187,13 @@ app.get('/admin-change-password', function(req, res, next){
 	}
 });
 
-app.post('/admin-change-password', function(req, res, next){
+/*app.post('/admin-change-password', function(req, res, next){
 	console.log(req.body);
 	var context = {};
 	context.results = "Received!";
 	res.send(context)
 });
-
+*/
 
 //User pages
 app.get('/home', function(req, res, next){
@@ -263,7 +270,7 @@ app.get('/change-password', function(req, res, next){
 	} else if(req.cookies.erp_is_admin === '0') {
 		sessionValidation(req.cookies).then(user_id => {
 			res.locals.metaTags = {
-				title: "| Change Password"
+				title: "Change Password"
 			};
 			res.render('userPassword', {layout: 'user'});
 		}).catch(error => {
@@ -274,13 +281,13 @@ app.get('/change-password', function(req, res, next){
 	}
 });
 
-app.post('/change-password', function(req, res, next){
+/*app.post('/change-password', function(req, res, next){
 	console.log(req.body);
 	var context = {};
 	context.results = "Received!";
 	res.send(context)
 });
-
+*/
 
 //Error pages
 app.use(function(req, res, next){

@@ -32,7 +32,7 @@ var updateBtn = document.getElementById("update");
 updateBtn.addEventListener("click", function(event) {
 	event.preventDefault();
 	var req = new XMLHttpRequest();
-	req.open("POST", "/", true);
+	req.open("PATCH", "/api/users/:id", true);
 	req.setRequestHeader('Content-Type', 'application/json');
 	req.addEventListener('load', function() {
 		if (req.status >= 200 && req.status < 400) {
@@ -41,6 +41,7 @@ updateBtn.addEventListener("click", function(event) {
 			updateBtn.parentNode.style.display = "none";
 			var j;
 			var text;
+			//update account info fields
 			for(j = 0; j < current.length; j++){
 				text = current[j].childNodes[0].value;
 				current[j].innerText = text;
