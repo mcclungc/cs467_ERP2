@@ -82,6 +82,7 @@ module.exports = function(){
         });
     }
     //get all employees who could be recipients
+    
     function getRecipients(res, mysql, context, complete){
         mysql.pool.query('SELECT id, name FROM users', function(error, results, fields){
             if(error){
@@ -92,6 +93,7 @@ module.exports = function(){
             complete();
         });
     }
+
     //get all awarders
     function getAwarders(res, mysql, context, complete){
         mysql.pool.query('SELECT id, name FROM users', function(error, results, fields){
@@ -129,7 +131,7 @@ module.exports = function(){
     }
     //list all award records - TO DO: filter on current user by session
     function getAwardRecords(res, mysql, context, complete){
-        mysql.pool.query('SELECT awards.certificate_id as awardtypeID, awards.id as awardID, awards.sent_on as date, awards.recipient_name as recipient, awards.recipient_email, awards.recipient_department_id as department, awards.recipient_region_id as region, users.name as awarder, departments. department_name, certificates.certificate_type as awardtype FROM users INNER JOIN awards on users.id = awards.presenter_id INNER JOIN departments on awards.recipient_department_id = departments.id INNER JOIN certificates on awards.certificate_id = certificates.id ORDER BY awards.id ASC', 
+        mysql.pool.query('SELECT awards.certificate_id as awardtypeID, awards.id as awardID, awards.sent_on as date, awards.recipient_name as recipient, awards.recipient_email, awards.recipient_department_id as department, awards.recipient_region_id as region, users.name as awarder, departments.department_name as department_name, certificates.certificate_type as awardtype, regions.region_name as region_name FROM users INNER JOIN awards on users.id = awards.presenter_id INNER JOIN departments on awards.recipient_department_id = departments.id INNER JOIN certificates on awards.certificate_id = certificates.id INNER JOIN regions on awards.recipient_region_id = regions.id ORDER BY awards.id ASC', 
         function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
@@ -146,7 +148,7 @@ module.exports = function(){
 
     //get individual award record
     function getAwardRecord(res, mysql, context, id, complete){
-        var sql = 'SELECT awards.certificate_id as awardtypeID, awards.id as awardID, awards.sent_on as date, awards.recipient_name as recipient, awards.recipient_email, awards.recipient_department_id as department, awards.recipient_region_id as region, users.name as awarder, departments. department_name, certificates.certificate_type as awardtype FROM users INNER JOIN awards on users.id = awards.presenter_id INNER JOIN departments on awards.recipient_department_id = departments.id INNER JOIN certificates on awards.certificate_id = certificates.id WHERE awards.id  = ? ORDER BY awards.id ASC';
+        var sql = 'SELECT awards.certificate_id as awardtypeID, awards.id as awardID, awards.sent_on as date, awards.recipient_name as recipient, awards.recipient_email, awards.recipient_department_id as department, awards.recipient_region_id as region, users.name as awarder, departments.department_name as department_name, certificates.certificate_type as awardtype, regions.region_name as region_name FROM users INNER JOIN awards on users.id = awards.presenter_id INNER JOIN departments on awards.recipient_department_id = departments.id INNER JOIN certificates on awards.certificate_id = certificates.id INNER JOIN regions on awards.recipient_region_id = regions.id WHERE awards.id  = ? ';
         var inserts = [id];
         mysql.pool.query(sql, inserts, function(error, results, fields){
             if(error){
