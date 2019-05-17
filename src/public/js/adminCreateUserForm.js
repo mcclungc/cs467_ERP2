@@ -10,13 +10,13 @@ submitButton.addEventListener("click", function(event) {
 	var region = document.getElementById("region");
 	var uType = document.getElementById("userType");
 	var formInput = {};
-	formInput.userName = user.value;
+	formInput.email = user.value;
 	formInput.password = password.value;
 	formInput.name = name.value;
-	formInput.department = department.value;
-	formInput.region = region.value;
-	formInput.userType = uType.value;
-	req.open("POST", "/", true);
+	formInput.department_id = department.value;
+	formInput.region_id = region.value;
+	formInput.is_admin = uType.value;
+	req.open("POST", "/api/users", true);
 	req.setRequestHeader('Content-Type','application/json');
 	req.addEventListener('load', function() {
 		if (req.status >= 200 && req.status < 400) {

@@ -50,12 +50,13 @@ app.get('/', function(req, res, next){
 	res.render('index', {layout: 'login'}); //changed layout
 });
 
-app.post('/', function(req, res, next){
+/*app.post('/', function(req, res, next){
 	console.log(req.body);
 	var context = {};
 	context.results = "Updated!";
 	res.send(context)
 });
+*/
 
 app.get('/reset-password', function(req, res, next){
 	res.locals.metaTags = {
@@ -64,12 +65,13 @@ app.get('/reset-password', function(req, res, next){
 	res.render('reset', {layout: 'login'});
 });
 
-app.post('/reset-password', function(req, res, next){
+/*app.post('/reset-password', function(req, res, next){
 	console.log(req.body);
 	var context = {};
 	context.results = "Received!";
 	res.send(context)
 });  
+*/
 
 //Admin pages
 app.get('/admin', function(req, res, next){
@@ -154,12 +156,13 @@ app.get('/add-user', function(req, res, next){
 	}
 });
 
-app.post('/add-user', function(req, res, next){
+/*app.post('/add-user', function(req, res, next){
 	console.log(req.body);
 	var context = {};
 	context.results = "Received!";
 	res.send(context)
 });
+*/
 
 app.get('/admin-change-password', function(req, res, next){
 	if(!req.cookies.erp_is_admin) {
@@ -178,13 +181,13 @@ app.get('/admin-change-password', function(req, res, next){
 	}
 });
 
-app.post('/admin-change-password', function(req, res, next){
+/*app.post('/admin-change-password', function(req, res, next){
 	console.log(req.body);
 	var context = {};
 	context.results = "Received!";
 	res.send(context)
 });
-
+*/
 
 //User pages
 app.get('/home', function(req, res, next){
@@ -272,13 +275,13 @@ app.get('/change-password', function(req, res, next){
 	}
 });
 
-app.post('/change-password', function(req, res, next){
+/*app.post('/change-password', function(req, res, next){
 	console.log(req.body);
 	var context = {};
 	context.results = "Received!";
 	res.send(context)
 });
-
+*/
 
 //Error pages
 app.use(function(req, res, next){
