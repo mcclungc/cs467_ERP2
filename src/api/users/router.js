@@ -2,6 +2,8 @@ const router = require('express').Router();
 const Joi = require('@hapi/joi');
 const db = require('../../db');
 const crypto = require('crypto');
+const multer = require('multer');
+const upload = multer();
 
 function sessionValidation(cookie) {	
 	return new Promise((resolve, reject) => {
@@ -79,6 +81,7 @@ function createUser(req, res) {
                         return;
                     } else {
                         userCheck(req.body.email).then(() => {
+                            
                             salt = createSalt();
                         
                             crypto.pbkdf2(req.body.password, salt, 100000, 64, 'sha512', (err, derivedKey) => {
@@ -87,7 +90,7 @@ function createUser(req, res) {
                                 today.setMilliseconds(0);
                 
                                 db.pool.query("INSERT INTO users(email, password, salt, name, created_on, is_admin, signature, region_id, department_id) VALUES(?,?,?,?,?,?,?,?,?)",
-                                [req.body.email, derivedKey.toString('hex'), salt, req.body.name, today, req.body.is_admin, req.body.signature, req.body.region_id, req.body.department_id],
+                                [req.body.email, derivedKey.toString('hex'), salt, req.body.name, today, req.body.is_admin, req.file.buffer, req.body.region_id, req.body.department_id],
                                 (error, results, fields) => {
                                     if(error) throw error;
                 
@@ -289,7 +292,7 @@ function deleteUser(req, res) {
     } 
 }
 
-router.post('/users', createUser);
+router.post('/users', upload.single('signature'), createUser);
 router.get('/users', getUsers);
 router.get('/users/:id', getUser);
 router.patch('/users/:id', updateUser);
