@@ -22,6 +22,9 @@ submitButton.addEventListener("click", function(event) {
 		if (req.status >= 200 && req.status < 400) {
 			var response = JSON.parse(req.responseText);
 			console.log(response);
+			if(response.id){
+				form.insertAdjacentHTML('afterend', '<p class="userCreated">User Successfully Created!</p>');
+			}
 		} else {
 			console.log("Error in network request: " + req.statusText);
 		}
