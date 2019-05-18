@@ -28,8 +28,6 @@ app.use("/award", require("./award.js"));
 app.set('port', 5000);//enter in port number when you run
 app.set('mysql', mysql);
 
-var users = require('/api/users');
-
 function sessionValidation(cookie) {	
 	return new Promise((resolve, reject) => {
 		mysql.pool.query("SELECT * FROM sessions WHERE id = ?", [cookie.erp_session], (error, results, fields) => {
