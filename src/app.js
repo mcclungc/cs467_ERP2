@@ -132,7 +132,7 @@ app.get('/admin-usermanagement', function(req, res, next){
 			res.locals.metaTags = {
 				title: "| User Management"
 			};
-			res.render('adminUM', users.get(req, res), {layout: 'admin'});
+			res.render('adminUM', {layout: 'admin'});
 		}).catch(error => {
 			res.redirect('/');
 		})
