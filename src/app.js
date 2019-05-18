@@ -135,7 +135,7 @@ app.get('/admin-usermanagement', function(req, res, next){
 				title: "| User Management"
 			}
 			var context = {};
-			mysql.pool.query('SELECT users.id as id, users.name as name, regions.region_name as region_name, department.department_name as department_name FROM `users` INNER JOIN `regions` on users.region_id = regions.id INNER JOIN `departments` on users.department_id = departments.id ORDER BY users.id', function(err, rows, fields) {
+			mysql.pool.query('SELECT u.id as id, u.name as name, r.region_name as region_name, d.department_name as department_name, u.is_admin as userType, u.created_on as created_on FROM `users` u INNER JOIN `regions` r on u.region_id = r.id INNER JOIN `departments` d on u.department_id = d.id ORDER BY u.id', function(err, rows, fields) {
 				if (err) {
 					next(err);
 					return;
@@ -146,6 +146,9 @@ app.get('/admin-usermanagement', function(req, res, next){
 						'id': rows[row].id,
 						'name': rows[row].name,
 						'email': rows[row].email,
+						'usertype': rows[row].userType,
+						'department_name': rows[row].department_name,
+						'region_name': rows[row].region_name,
 						'created_on' : rows[row].created_on};
 					userArray.push(newItem); //Use push to add all the parameters we kept track of
 				}
