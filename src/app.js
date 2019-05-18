@@ -255,7 +255,24 @@ app.get('/account', function(req, res, next){
 			res.locals.metaTags = {
 				title: "Account Management"
 			};
-			res.render('userAccount', {layout: 'user'});
+			var context = {};
+			mysql.pool.query('SELECT * FROM `users` WHERE id = ?', [results[0].user_id], function(err, rows, fields) {
+				if (err) {
+					next(err);
+					return;
+				}
+				var userInfo = [];
+				for (var row in rows) {
+					var newItem = {
+						'id': rows[row].id,
+						'name': rows[row].name,
+						'email': rows[row].email,
+						'created_on' : rows[row].created_on};
+					userInfo.push(newItem); //Use push to add all the parameters we kept track of
+				}
+				context.user = userInfo;
+				res.render('userAccount', context, {layout: 'admin'});
+			});
 		}).catch(error => {
 			res.redirect('/');
 		})
