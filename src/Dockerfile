@@ -1,11 +1,6 @@
-FROM node:6
+FROM node:10
 
 WORKDIR /usr/src/app
-
-COPY ./package.json .
-RUN npm install
-
-COPY . /usr/src/app
 
 RUN apt-get update && apt-get install -y \
     texlive \
@@ -22,5 +17,10 @@ RUN apt-get update && apt-get install -y \
     texlive-luatex \
     texlive-metapost \
     texlive-pictures
+
+COPY ./package.json .
+RUN npm install
+
+COPY . /usr/src/app
     
 CMD ["npm", "start"]

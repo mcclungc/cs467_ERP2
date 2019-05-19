@@ -91,6 +91,15 @@ function createUser(req, res) {
                                 let sig = null;
                 
                                 if(req.file) {
+                                    if(req.file.size > 15000000) {
+                                        res.status(400).json({ 'message': "Signature file too large" });
+                                        return;
+                                    }
+
+                                    if(req.file.mimetype !== 'image/jpeg' && req.file.mimetype !== 'image/png') {
+                                        res.status(400).json({ 'message': "Incorrect filetype" });
+                                        return;
+                                    }
                                     sig = req.file.buffer;
                                 } 
 
