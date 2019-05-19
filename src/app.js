@@ -13,7 +13,6 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var request = require('request');
 var mysql = require('./db.js');//go to db.js to set up database
-var users = require('./api/users/router');
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
@@ -22,7 +21,9 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static('public'));
 app.use('/api', require('./api/login/router'));
-app.use('/api', users);
+app.use('/api', require('./api/users/router'));
+app.use('/api', require('./api/org/router'));
+app.use('/api', require('./api/awards/router'));
 app.use("/award", require("./award.js"));
 app.set('port', 5000);//enter in port number when you run
 app.set('mysql', mysql);
@@ -51,13 +52,6 @@ app.get('/', function(req, res, next){
 	res.render('index', {layout: 'login'}); //changed layout
 });
 
-app.post('/', function(req, res, next){
-	console.log(req.body);
-	var context = {};
-	context.results = "Updated!";
-	res.send(context)
-});
-
 app.get('/reset-password', function(req, res, next){
 	res.locals.metaTags = {
 		title: "Password Reset"
@@ -65,12 +59,6 @@ app.get('/reset-password', function(req, res, next){
 	res.render('reset', {layout: 'login'});
 });
 
-app.post('/reset-password', function(req, res, next){
-	console.log(req.body);
-	var context = {};
-	context.results = "Received!";
-	res.send(context)
-});  
 
 //Admin pages
 app.get('/admin', function(req, res, next){
@@ -95,7 +83,24 @@ app.get('/admin-account', function(req, res, next){
 			res.locals.metaTags = {
 				title: "| Account"
 			};
-			res.render('adminAccount', {layout: 'admin'});
+			var context = {};
+			mysql.pool.query('SELECT * FROM `users` WHERE id = ?', [results[0].user_id], function(err, rows, fields) {
+				if (err) {
+					next(err);
+					return;
+				}
+				var userInfo = [];
+				for (var row in rows) {
+					var newItem = {
+						'id': rows[row].id,
+						'name': rows[row].name,
+						'email': rows[row].email,
+						'created_on' : rows[row].created_on};
+					userInfo.push(newItem); //Use push to add all the parameters we kept track of 
+				}
+				context.user = userInfo;
+				res.render('adminAccount', context, {layout: 'admin'});
+			});
 		}).catch(error => {
 			res.redirect('/');
 		})
@@ -128,8 +133,28 @@ app.get('/admin-usermanagement', function(req, res, next){
 		sessionValidation(req.cookies).then(user_id => {
 			res.locals.metaTags = {
 				title: "| User Management"
-			};
-			res.render('adminUM', {layout: 'admin'});
+			}
+			var context = {};
+			mysql.pool.query('SELECT u.id as id, u.name as name, r.region_name as region_name, d.department_name as department_name, u.is_admin as userType, u.created_on as created_on FROM `users` u INNER JOIN `regions` r on u.region_id = r.id INNER JOIN `departments` d on u.department_id = d.id ORDER BY u.id', function(err, rows, fields) {
+				if (err) {
+					next(err);
+					return;
+				}
+				var userArray = [];
+				for (var row in rows) {
+					var newItem = {
+						'id': rows[row].id,
+						'name': rows[row].name,
+						'email': rows[row].email,
+						'usertype': rows[row].userType,
+						'department_name': rows[row].department_name,
+						'region_name': rows[row].region_name,
+						'created_on' : rows[row].created_on};
+					userArray.push(newItem); //Use push to add all the parameters we kept track of
+				}
+				context.users = userArray;
+				res.render('adminUM', context, {layout: 'admin'});
+			});
 		}).catch(error => {
 			res.redirect('/');
 		})
@@ -155,13 +180,6 @@ app.get('/add-user', function(req, res, next){
 	}
 });
 
-app.post('/add-user', function(req, res, next){
-	console.log(req.body);
-	var context = {};
-	context.results = "Received!";
-	res.send(context)
-});
-
 app.get('/admin-change-password', function(req, res, next){
 	if(!req.cookies.erp_is_admin) {
 		res.redirect('/');
@@ -177,13 +195,6 @@ app.get('/admin-change-password', function(req, res, next){
 	} else {
 		res.redirect('/');
 	}
-});
-
-app.post('/admin-change-password', function(req, res, next){
-	console.log(req.body);
-	var context = {};
-	context.results = "Received!";
-	res.send(context)
 });
 
 
@@ -247,7 +258,26 @@ app.get('/account', function(req, res, next){
 			res.locals.metaTags = {
 				title: "Account Management"
 			};
-			res.render('userAccount', {layout: 'user'});
+			var context = {};
+			mysql.pool.query('SELECT u.id as id, u.name as name, r.region_name as region_name, d.department_name as department_name, u.created_on as created_on FROM `users` u INNER JOIN `regions` r on u.region_id = r.id INNER JOIN `departments` d on u.department_id = d.id WHERE u.id = ?', [results[0].user_id], function(err, rows, fields) {
+				if (err) {
+					next(err);
+					return;
+				}
+				var userInfo = [];
+				for (var row in rows) {
+					var newItem = {
+						'id': rows[row].id,
+						'name': rows[row].name,
+						'email': rows[row].email,
+						'department_name': rows[row].department_name,
+						'region_name': rows[row].region_name,
+						'created_on' : rows[row].created_on};
+					userInfo.push(newItem); //Use push to add all the parameters we kept track of
+				}
+				context.user = userInfo;
+				res.render('userAccount', context, {layout: 'admin'});
+			});
 		}).catch(error => {
 			res.redirect('/');
 		})
@@ -262,7 +292,7 @@ app.get('/change-password', function(req, res, next){
 	} else if(req.cookies.erp_is_admin === '0') {
 		sessionValidation(req.cookies).then(user_id => {
 			res.locals.metaTags = {
-				title: "| Change Password"
+				title: "Change Password"
 			};
 			res.render('userPassword', {layout: 'user'});
 		}).catch(error => {
@@ -271,13 +301,6 @@ app.get('/change-password', function(req, res, next){
 	} else {
 		res.redirect('/');
 	}
-});
-
-app.post('/change-password', function(req, res, next){
-	console.log(req.body);
-	var context = {};
-	context.results = "Received!";
-	res.send(context)
 });
 
 

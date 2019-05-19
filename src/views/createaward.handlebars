@@ -55,9 +55,10 @@
             <thead>
                 <th>Record ID</th> 
                 <th>Award Type</th>
-                <th>Date</th> 
+                <th>Award Date</th> 
                 <th>Recipient</th>
                 <th>Department</th>
+                <th>Region</th>
                 <th>Awarded By</th> 
             </thead>
          <tbody> 
@@ -68,6 +69,7 @@
             <td>{{this.date}}</td> 
             <td>{{this.recipient}} </td>
             <td>{{this.department_name}} </td>
+            <td>{{this.region_name}}</td>
             <td>{{this.awarder}}</td>
                  
             <td><a href='/award/{{this.awardID}}'><input type='button' value='Preview'></a></td>
