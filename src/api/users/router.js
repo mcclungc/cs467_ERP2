@@ -88,9 +88,14 @@ function createUser(req, res) {
                                 if (err) throw err;
                                 today = new Date(Date.now());
                                 today.setMilliseconds(0);
+                                let sig = null;
                 
+                                if(req.file) {
+                                    sig = req.file.buffer;
+                                } 
+
                                 db.pool.query("INSERT INTO users(email, password, salt, name, created_on, is_admin, signature, region_id, department_id) VALUES(?,?,?,?,?,?,?,?,?)",
-                                [req.body.email, derivedKey.toString('hex'), salt, req.body.name, today, req.body.is_admin, req.file.buffer, req.body.region_id, req.body.department_id],
+                                [req.body.email, derivedKey.toString('hex'), salt, req.body.name, today, req.body.is_admin, sig, req.body.region_id, req.body.department_id],
                                 (error, results, fields) => {
                                     if(error) throw error;
                 
@@ -208,6 +213,7 @@ function getUser(req, res) {
                         "id": results[0].id,
                         "email": results[0].email,
                         "name": results[0].name,
+                        "signature": results[0].signature,
                         "created_on": results[0].created_on,
                         "is_admin": results[0].is_admin,
                         "region_id": results[0].region_id,

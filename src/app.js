@@ -13,6 +13,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var request = require('request');
 var mysql = require('./db.js');//go to db.js to set up database
+var users = require('./api/users/router');
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
@@ -21,7 +22,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static('public'));
 app.use('/api', require('./api/login/router'));
-app.use('/api', require('./api/users/router'));
+app.use('/api', users);
 app.use("/award", require("./award.js"));
 app.set('port', 5000);//enter in port number when you run
 app.set('mysql', mysql);
