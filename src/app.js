@@ -153,9 +153,8 @@ app.get('/admin-usermanagement', function(req, res, next){
 					userArray.push(newItem); //Use push to add all the parameters we kept track of
 				}
 				context.users = userArray;
-				console.log(res);
-				res.locals.pageData = context;
 				res.render('adminUM', {layout: 'admin'});
+				res.send(context);
 			});
 		}).catch(error => {
 			res.redirect('/');
