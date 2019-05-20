@@ -181,7 +181,7 @@ module.exports = function(){
         function complete(){
             callbackCount++;
             if(callbackCount >= 6){
-                res.render('createaward', context);
+                res.render('userAward', context);
             }
         }
     });
