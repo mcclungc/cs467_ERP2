@@ -224,7 +224,7 @@ app.get('/award', function(req, res, next){
 			res.locals.metaTags = {
 				title: "ERP Awards"
 			};
-			res.render('createaward', {layout: 'user'});
+			res.render('userAward', {layout: 'user'});
 		}).catch(error => {
 			res.redirect('/');
 		})
