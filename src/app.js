@@ -154,7 +154,7 @@ app.get('/admin-usermanagement', function(req, res, next){
 				}
 				context.users = userArray;
 				res.render('adminUM', {layout: 'admin'}, function(err, html) {
-					res.send(context);
+					res.send(JSON.stringify(context));
 				});
 				
 			});
