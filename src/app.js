@@ -154,6 +154,7 @@ app.get('/admin-usermanagement', function(req, res, next){
 				}
 				context.users = userArray;
 				console.log(res);
+				res.locals.pageData = context;
 				res.render('adminUM', {layout: 'admin'});
 			});
 		}).catch(error => {
