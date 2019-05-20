@@ -134,6 +134,9 @@ app.get('/admin-usermanagement', function(req, res, next){
 			res.locals.metaTags = {
 				title: "| User Management"
 			}
+			console.log(res);
+			res.layouts = {'admin'};
+			console.lof(res);
 			var context = {};
 			mysql.pool.query('SELECT u.id as id, u.name as name, r.region_name as region_name, d.department_name as department_name, u.is_admin as userType, u.created_on as created_on FROM `users` u INNER JOIN `regions` r on u.region_id = r.id INNER JOIN `departments` d on u.department_id = d.id ORDER BY u.id', function(err, rows, fields) {
 				if (err) {
@@ -153,8 +156,8 @@ app.get('/admin-usermanagement', function(req, res, next){
 					userArray.push(newItem); //Use push to add all the parameters we kept track of
 				}
 				context.users = userArray;
-				res.render('adminUM', {layout: 'admin'}, function(err, html) {
-					res.send(JSON.stringify(context));
+				res.render('adminUM', context, function(err, html) {
+					console.log(res);
 				});
 				
 			});
