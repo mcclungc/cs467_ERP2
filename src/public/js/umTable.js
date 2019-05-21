@@ -188,7 +188,7 @@ function remove() {
 				idArray.push(idElement[0].id);
 			}
 		}
-		rContent.innerHTML = '<p>Are you sure you want to remove:' + names + '?</p><p><button class="lightBox-button" onclick="deleteUser(' + idArray +')">Yes</button><button class="lightBox-button" onclick="closeLightBox()">No</button></p>';
+		rContent.innerHTML = '<p>Are you sure you want to remove:' + names + '?</p><p><button class="lightBox-button" onclick="deleteUsers(' + idArray +')">Yes</button><button class="lightBox-button" onclick="closeLightBox()">No</button></p>';
 		rBox.classList.remove("hidden");
 	}
 }
