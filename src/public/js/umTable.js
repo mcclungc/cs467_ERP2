@@ -188,7 +188,7 @@ function remove() {
 				idArray.push(idElement[0].id);
 			}
 		}
-		rContent.innerHTML = '<p>Are you sure you want to remove:' + names + '?</p><p><button class="lightBox-button" onclick="deleteUser(' + idArray +')">Update</button><button class="lightBox-button" onclick="closeLightBox()">Cancel</button></p>';
+		rContent.innerHTML = '<p>Are you sure you want to remove:' + names + '?</p><p><button class="lightBox-button" onclick="deleteUser(' + idArray +')">Yes</button><button class="lightBox-button" onclick="closeLightBox()">No</button></p>';
 		rBox.classList.remove("hidden");
 	}
 }
@@ -207,7 +207,7 @@ function edit() {
 	var eContent = document.getElementById("lightBox-Inner");
 	var i;
 	var name = userName[0].innerText;
-	eContent.innerHTML = '<p>Are you sure you want to edit: ' + name + '?</p><p><button class="lightBox-button" onclick="editUser(' + id + ')">Yes</button><button class="lightBox-button" onclick="closeLightBox()">No</button></p>';
+	eContent.innerHTML = '<p>Are you sure you want to edit: ' + name + '?</p><p><button class="lightBox-button" onclick="editUser(' + id + ')">Update</button><button class="lightBox-button" onclick="closeLightBox()">Cancel</button></p>';
 	eBox.classList.remove("hidden");
 }
 
