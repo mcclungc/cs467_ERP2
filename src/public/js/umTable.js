@@ -207,18 +207,30 @@ function edit() {
 	var eContent = document.getElementById("lightBox-Inner");
 	var i;
 	var name = userName[0].innerText;
-	eContent.innerHTML = '<p>Are you sure you want to edit: ' + name + '?</p><p><button class="lightBox-button" onclick="editUser(' + id + ')">Update</button><button class="lightBox-button" onclick="closeLightBox()">Cancel</button></p>';
+	eContent.innerHTML = '<form id="accountForm" method="post"><fieldset><p><input value="' + name + '"></p><p><input value="' + name + '"></p><p><button class="lightBox-button" onclick="editUser(' + id + ')">Update</button><button class="lightBox-button" onclick="closeLightBox()">Cancel</button></p></fieldset></form>';
 	eBox.classList.remove("hidden");
 }
 
 function editUser(id) {
-	console.log(id);
+	var req = new XMLHttpRequest();
+	req.open("PATCH", "/api/users/" + id, true);
+	req.setRequestHeader('Content-Type', 'application/json');
+	req.addEventListener('load', function() {
+		if (req.status >= 200 && req.status < 400) {
+			var response = JSON.parse(req.responseText);
+			console.log(response);
+		} else {
+			console.log("Error in network request: " + req.statusText);
+		}
+	});
+	req.send(JSON.stringify(id));
+	closeLightBox();
 }
 
 function deleteUsers() {
 	var i;
 	for(i = 0; i < arguments.length; i++){
-		deleteUser(argument[i]);
+		deleteUser(arguments[i]);
 	}
 	closeLightBox();
 }
