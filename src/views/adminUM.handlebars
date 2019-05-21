@@ -32,13 +32,13 @@
 						<td class="checkBox">
 							<div class="checkMark"><i class="fas fa-check checkoff"></i></div>
 						</td>
-						<td class="name">{{users.name}}</td>
-						<td>{{users.usertype}}</td>
-						<td>{{users.email}}</td>
-						<td>{{users.department_name}}</td>
-						<td>{{users.region_name}}</td>
-						<td>{{users.created_on}}</td>
-						<td><p><button class="editButton" id="{{users.id}}">Edit</button></p></td>
+						<td class="name">{{this.name}}</td>
+						<td>{{this.usertype}}</td>
+						<td>{{this.email}}</td>
+						<td>{{this.department_name}}</td>
+						<td>{{this.region_name}}</td>
+						<td>{{this.created_on}}</td>
+						<td><p><button class="editButton" id="{{this.id}}">Edit</button></p></td>
 					</tr>
 					{{/each}}
 				{{/if}}
