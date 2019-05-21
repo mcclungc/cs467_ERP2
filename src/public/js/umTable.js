@@ -215,9 +215,29 @@ function editUser(id) {
 	console.log(id);
 }
 
+function deleteUsers() {
+	var i;
+	for(i = 0; i < arguments.length; i++){
+		deleteUser(argument[i]);
+	}
+	closeLightBox();
+}
+
+
 //Function to delete user from the table and database
-function deleteUser(idArray) {
-	console.log(idArray);
+function deleteUser(id) {
+	var req = new XMLHttpRequest();
+	var request = '/api/users/' + id;
+	req.open("DELETE", request, true);
+	req.setRequestHeader('Content-Type', 'application/json');
+	req.addEventListener('load', function() {
+		if (req.status >= 200 && req.status < 400) {
+			var response = JSON.parse(req.responseText);
+			console.log(response);
+		} else {
+			console.log("Error in network request: " + req.statusText);
+		}
+	});
 }
 
 //Global Variables
