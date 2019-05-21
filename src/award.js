@@ -169,7 +169,8 @@ module.exports = function(){
     router.get('/', function(req, res){
         var callbackCount = 0;
         var context = {};
-
+	context.layout = 'user';
+	context.title = 'ERP Awards';
         var mysql = req.app.get('mysql');
         //query tables to populate dropdown lists
         getAwardTypes(res, mysql, context, complete);
@@ -209,6 +210,8 @@ module.exports = function(){
     router.get('/:id', function(req, res){
         var callbackCount = 0;
         var context = {};
+	context.layout = 'user';
+	context.title = 'ERP Award Preview';
         var mysql = req.app.get('mysql');
         context.jsscripts = ['public/js/deleteawardrecord.js'];
         getAwardRecord(res, mysql, context, req.params.id, complete);

@@ -74,6 +74,8 @@ app.get('/admin-account', function(req, res, next){
 	} else if(req.cookies.erp_is_admin === '1') {
 		sessionValidation(req.cookies).then(user_id => {
 			var context = {};
+			context.layout = 'admin';
+			context.title = '| Account';
 			mysql.pool.query('SELECT * FROM `users` WHERE id = ?', [results[0].user_id], function(err, rows, fields) {
 				if (err) {
 					next(err);
@@ -89,7 +91,7 @@ app.get('/admin-account', function(req, res, next){
 					userInfo.push(newItem); //Use push to add all the parameters we kept track of 
 				}
 				context.user = userInfo;
-				res.render('adminAccount', {layout: 'admin', title: '| Account'});
+				res.render('adminAccount', context);
 			});
 		}).catch(error => {
 			res.redirect('/');
@@ -227,6 +229,8 @@ app.get('/account', function(req, res, next){
 	} else if(req.cookies.erp_is_admin === '0') {
 		sessionValidation(req.cookies).then(user_id => {
 			var context = {};
+			context.layout = 'user';
+			context.title = 'Account Management';
 			mysql.pool.query('SELECT u.id as id, u.name as name, r.region_name as region_name, d.department_name as department_name, u.created_on as created_on FROM `users` u INNER JOIN `regions` r on u.region_id = r.id INNER JOIN `departments` d on u.department_id = d.id WHERE u.id = ?', [results[0].user_id], function(err, rows, fields) {
 				if (err) {
 					next(err);
@@ -244,7 +248,7 @@ app.get('/account', function(req, res, next){
 					userInfo.push(newItem); //Use push to add all the parameters we kept track of
 				}
 				context.user = userInfo;
-				res.render('userAccount', {layout: 'user', title: 'Account Management'});
+				res.render('userAccount', context);
 			});
 		}).catch(error => {
 			res.redirect('/');
