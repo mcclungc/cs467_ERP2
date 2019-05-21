@@ -89,7 +89,7 @@ app.get('/admin-account', function(req, res, next){
 					userInfo.push(newItem); //Use push to add all the parameters we kept track of 
 				}
 				context.user = userInfo;
-				res.render('adminAccount', context, {layout: 'admin', title: '| Account'});
+				res.render('adminAccount', {layout: 'admin', title: '| Account'});
 			});
 		}).catch(error => {
 			res.redirect('/');
@@ -243,7 +243,7 @@ app.get('/account', function(req, res, next){
 					userInfo.push(newItem); //Use push to add all the parameters we kept track of
 				}
 				context.user = userInfo;
-				res.render('userAccount', context, {layout: 'user', title: 'Account Management'});
+				res.render('userAccount', {layout: 'user', title: 'Account Management'});
 			});
 		}).catch(error => {
 			res.redirect('/');
