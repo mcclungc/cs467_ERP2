@@ -76,20 +76,17 @@ app.get('/admin-account', function(req, res, next){
 			var context = {};
 			context.layout = 'admin';
 			context.title = '| Account';
-			mysql.pool.query('SELECT * FROM `users` WHERE id = ?', user_id, function(err, rows, fields) {
+			mysql.pool.query('SELECT id, name, email, created_on FROM `users` WHERE id = ?', user_id, function(err, rows, fields) {
 				if (err) {
 					next(err);
 					return;
 				}
-				var userInfo = [];
-				for (var row in rows) {
-					var newItem = {
-						'id': rows[row].id,
-						'name': rows[row].name,
-						'email': rows[row].email,
-						'created_on' : rows[row].created_on};
-					userInfo.push(newItem); //Use push to add all the parameters we kept track of 
-				}
+				var userInfo = {
+					'id': rows[0].id,
+					'name': rows[0].name,
+					'email': rows[0].email,
+					'created_on' : rows[0].created_on
+				};
 				context.user = userInfo;
 				res.render('adminAccount', context);
 			});
@@ -236,17 +233,14 @@ app.get('/account', function(req, res, next){
 					next(err);
 					return;
 				}
-				var userInfo = [];
-				for (var row in rows) {
-					var newItem = {
-						'id': rows[row].id,
-						'name': rows[row].name,
-						'email': rows[row].email,
-						'department_name': rows[row].department_name,
-						'region_name': rows[row].region_name,
-						'created_on' : rows[row].created_on};
-					userInfo.push(newItem); //Use push to add all the parameters we kept track of
-				}
+				var userInfo = {
+					'id': rows[0].id,
+					'name': rows[0].name,
+					'email': rows[0].email,
+					'department_name': rows[0].department_name,
+					'region_name': rows[0].region_name,
+					'created_on' : rows[0].created_on
+				};
 				context.user = userInfo;
 				res.render('userAccount', context);
 			});
