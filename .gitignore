@@ -3,3 +3,6 @@ src/db.js
 src/package.json
 src/public/latexfiles/*.csv
 src/public/latexfiles/output/*.pdf
+src/public/latexfiles/output/*.aux
+src/public/latexfiles/output/*.log
+src/email.js
