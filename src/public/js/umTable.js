@@ -178,14 +178,17 @@ function remove() {
 		var checks = table.getElementsByClassName("checkon");
 		var i;
 		var names = "";
+		var idArray = [];
 		for(i = 0; i < checks.length; i++){
 			var entry = checks[i].parentNode.parentNode.parentNode;
 			if(entry.id != "tableHead" && entry.style.display != "none"){
 				var cellName = entry.getElementsByClassName("name");
+				var idElement = entry.getElementsByClassName("editButton");
 				names = names + " " + cellName[0].innerText;
+				idArray.push(idElement[0].id);
 			}
 		}
-		rContent.innerHTML = '<p>Are you sure you want to remove:' + names + '?</p><p><button class="lightBox-button" onclick="deleteUser()">Yes</button><button class="lightBox-button" onclick="closeLightBox()">No</button></p>';
+		rContent.innerHTML = '<p>Are you sure you want to remove:' + names + '?</p><p><button class="lightBox-button" onclick="deleteUsers(' + idArray +')">Yes</button><button class="lightBox-button" onclick="closeLightBox()">No</button></p>';
 		rBox.classList.remove("hidden");
 	}
 }
@@ -197,23 +200,56 @@ function closeLightBox() {
 
 //edit user selected and display prompt
 function edit() {
+	var id = this.id;
 	var user = this.parentNode.parentNode.parentNode;
 	var userName = user.getElementsByClassName("name");
 	var eBox = document.getElementById("lightBox");
 	var eContent = document.getElementById("lightBox-Inner");
 	var i;
 	var name = userName[0].innerText;
-	eContent.innerHTML = '<p>Are you sure you want to edit: ' + name + '?</p><p><button class="lightBox-button" onclick="editUser()">Yes</button><button class="lightBox-button" onclick="closeLightBox()">No</button></p>';
+	eContent.innerHTML = '<form id="accountForm" method="post"><fieldset><p><input value="' + name + '"></p><p><input value="' + name + '"></p><p><button class="lightBox-button" onclick="editUser(' + id + ')">Update</button><button class="lightBox-button" onclick="closeLightBox()">Cancel</button></p></fieldset></form>';
 	eBox.classList.remove("hidden");
 }
 
-function editUser() {
-
+function editUser(id) {
+	var req = new XMLHttpRequest();
+	req.open("PATCH", "/api/users/" + id, true);
+	req.setRequestHeader('Content-Type', 'application/json');
+	req.addEventListener('load', function() {
+		if (req.status >= 200 && req.status < 400) {
+			var response = JSON.parse(req.responseText);
+			console.log(response);
+		} else {
+			console.log("Error in network request: " + req.statusText);
+		}
+	});
+	req.send(JSON.stringify(id));
+	closeLightBox();
 }
 
-//Function to delete user from the table and database
-function deleteUser() {
+function deleteUsers() {
+	var i;
+	for(i = 0; i < arguments.length; i++){
+		deleteUser(arguments[i]);
+	}
+	closeLightBox();
+}
 
+
+//Function to delete user from the table and database
+function deleteUser(id) {
+	var req = new XMLHttpRequest();
+	var request = '/api/users/' + id;
+	req.open("DELETE", request, true);
+	req.setRequestHeader('Content-Type', 'application/json');
+	req.addEventListener('load', function() {
+		if (req.status >= 200 && req.status < 400) {
+			var response = JSON.parse(req.responseText);
+			console.log(response);
+		} else {
+			console.log("Error in network request: " + req.statusText);
+		}
+	});
 }
 
 //Global Variables

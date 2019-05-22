@@ -1401,10 +1401,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{domain}}/admin",
 							"host": [
@@ -1436,10 +1432,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{domain}}/admin-account",
 							"host": [
@@ -1471,10 +1463,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{domain}}/admin-reports",
 							"host": [
@@ -1506,10 +1494,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{domain}}/admin-usermanagement",
 							"host": [
@@ -1582,10 +1566,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{domain}}/home",
 							"host": [
@@ -1617,10 +1597,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{domain}}/award",
 							"host": [
@@ -1652,10 +1628,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{domain}}/history",
 							"host": [
@@ -1687,10 +1659,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{domain}}/account",
 							"host": [
@@ -2480,54 +2448,6 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"Corey Immkeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
-						},
-						"url": {
-							"raw": "{{domain}}/api/users",
-							"host": [
-								"{{domain}}"
-							],
-							"path": [
-								"api",
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create User Name Empty String",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
-								"exec": [
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
-									"});",
-									"",
-									"pm.test(\"name error message\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.message).to.eql('\"name\" is not allowed to be empty');",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\",\n\t\"name\": \"\",\n\t\"is_admin\": 0,\n\t\"region_id\": 1,\n\t\"department_id\": 2\n}"
 						},
 						"url": {
 							"raw": "{{domain}}/api/users",
@@ -3497,8 +3417,8 @@
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
+								"value": "application/json",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -3570,6 +3490,62 @@
 					"response": []
 				},
 				{
+					"name": "Login Created User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c7e7d546-c8dc-4a17-9111-a159953fcdee",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Set-Cookie is present\", function () {",
+									"    pm.response.to.have.header(\"Set-Cookie\");",
+									"});",
+									"",
+									"pm.test(\"Check cookie name\", function () {",
+									"    pm.cookies.has(\"erp_session\")",
+									"});",
+									"",
+									"pm.test(\"is_admin Check\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.is_admin).to.eql(0);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"immke@acme.com\",\n\t\"password\": \"password\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/login",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get All Users",
 					"event": [
 						{
@@ -3621,10 +3597,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{domain}}/api/users",
 							"host": [
@@ -3693,10 +3665,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{domain}}/api/users?is_admin=1",
 							"host": [
@@ -3771,10 +3739,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{domain}}/api/users?is_admin=0",
 							"host": [
@@ -3849,10 +3813,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{domain}}/api/users?region_id=1",
 							"host": [
@@ -3927,10 +3887,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{domain}}/api/users?department_id=2",
 							"host": [
@@ -4009,10 +3965,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{domain}}/api/users?department_id=4&region_id=1",
 							"host": [
@@ -4099,10 +4051,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{domain}}/api/users?department_id=4&region_id=1&is_admin=0",
 							"host": [
@@ -4183,10 +4131,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "{{domain}}/api/users/{{user_id}}",
 							"host": [
@@ -4267,6 +4211,116 @@
 					"response": []
 				},
 				{
+					"name": "Delete User Non Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/api/users/{{user_id}}",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e3679aca-e92e-4bd6-9b38-139ca36b45e2",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Set-Cookie is present\", function () {",
+									"    pm.response.to.have.header(\"Set-Cookie\");",
+									"});",
+									"",
+									"pm.test(\"Check cookie name\", function () {",
+									"    pm.cookies.has(\"erp_session\")",
+									"});",
+									"",
+									"pm.test(\"is_admin Check\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.is_admin).to.eql(1);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "2fff139f-2e22-47bb-baaa-8deb6877681a",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"admin@acme.com\",\n\t\"password\": \"admin\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/login",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Delete User",
 					"event": [
 						{
@@ -4337,6 +4391,140 @@
 					},
 					"request": {
 						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{domain}}/api/users/{{user_id}}",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{user_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Sig",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"",
+									"pm.test(\"verify email\", function () {",
+									"    pm.expect(jsonData.email).to.eql('immkec@acme.com');",
+									"});",
+									"",
+									"pm.test(\"verify name\", function () {",
+									"    pm.expect(jsonData.name).to.eql('Corey Immke');",
+									"});",
+									"",
+									"pm.test(\"Responds with an id\", function () {",
+									"    pm.response.to.have.jsonBody(\"id\");",
+									"});",
+									"",
+									"pm.test(\"Responds with a created_on\", function () {",
+									"    pm.response.to.have.jsonBody(\"created_on\");",
+									"});",
+									"",
+									"pm.globals.set(\"user_id\", jsonData.id);",
+									"pm.globals.set(\"created_on\", jsonData.created_on);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "multipart/form-data",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "immkec@acme.com",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "Corey Immke",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "is_admin",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "signature",
+									"type": "file",
+									"src": "/home/corey/Documents/OSU/467/cs467_ERP2/src/public/latexfiles/background1.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{domain}}/api/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8629d394-26e0-476b-be1a-e0134a27ba29",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
 						"header": [
 							{
 								"key": "Content-Type",

@@ -8,6 +8,22 @@
 			<p class="fields"><input id="name" name="recipient_name" type="text" placeholder="Recipient Name" autocomplete="on" required></p>
 			<p class="fields"><input id="email" name="recipient_email" type="email" placeholder="Recipient Email" autocomplete="on" required></p>
 			<p class="fields">
+				<select name="department" required>
+					<option value="">Department</option>
+					{{#each departments}}
+					<option value="{{id}}">{{department_name}}</option>
+					{{/each}}
+				</select>
+			</p>
+			<p class="fields">
+				<select name="region" required>
+					<option value="">Region</option>
+					{{#each regions}}
+					<option value="{{id}}">{{region_name}}</option>
+					{{/each}}
+				</select>
+			</p>
+			<p class="fields">
 				<select name="awardtype" required>
 					<option value="">Award Type</option>
 					{{#each awardtypes}}

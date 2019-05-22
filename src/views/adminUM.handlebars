@@ -24,46 +24,24 @@
 					<th>Email/Username <i class="sort fas fa-sort"></i></th>
 					<th>Department <i class="sort fas fa-sort"></i></th>
 					<th>Region <i class="sort fas fa-sort"></i></th>
-					<th>User Type <i class="sort fas fa-sort"></i></th>
+					<th>Creation Date <i class="sort fas fa-sort"></i></th>
 				</tr>
-				
-				<tr class="row">
-					<td class="checkBox">
-						<div class="checkMark"><i class="fas fa-check checkoff"></i></div>
-					</td>
-					<td class="name">is</td>
-					<td>ype</td>
-					<td>User</td>
-					<td>User</td>
-					<td>User</td>
-					<td>another</td>
-					<td><p><button class="editButton">Edit</button></p></td>
-				</tr>
-				<tr class = "row">
-                                               <td class="checkBox">
-                                                       <div class="checkMark"><i class="fas fa-check checkoff"></i></div>
-                                               </td>
-                                               <td class="name">this</td>
-                                               <td>Type</td>
-                                               <td>Username</td>
-					<td>Admin</td>
-					<td>Admin</td>
-					<td>Admin</td>
-					<td><p><button class="editButton">Edit</button><p></td>
-                                        </tr>
-				<tr class = "row">
-                                               <td class="checkBox">
-                                                       <div class="checkMark"><i class="fas fa-check checkoff"></i></div>
-                                               </td>
-                                               <td class="name">gis</td>
-                                               <td>dype</td>
-                                               <td>Usert</td>
-					<td>Admin</td>
-					<td>Admin</td>
-					<td>Admin</td>
-					<td><p><button class="editButton">Edit</button><p></td>
-                                       </tr>
-				
+				{{#if users}}
+					{{#each users}}
+					<tr class="row">
+						<td class="checkBox">
+							<div class="checkMark"><i class="fas fa-check checkoff"></i></div>
+						</td>
+						<td class="name">{{this.name}}</td>
+						<td>{{this.usertype}}</td>
+						<td>{{this.email}}</td>
+						<td>{{this.department_name}}</td>
+						<td>{{this.region_name}}</td>
+						<td>{{this.created_on}}</td>
+						<td><p><button class="editButton" id="{{this.id}}">Edit</button></p></td>
+					</tr>
+					{{/each}}
+				{{/if}}
 			</tbody>
 		</table>
 	

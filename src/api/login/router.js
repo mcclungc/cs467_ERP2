@@ -42,6 +42,7 @@ function createSession(user_id, expiration) {
 function login (req, res) {
     if(!req.is('application/json')) {
         res.status(400).json({ 'message': 'Request must be application/json' }).send();
+        return;
     }
     
     const schema = Joi.object().keys ({
@@ -59,6 +60,7 @@ function login (req, res) {
                 
                 if(results.length === 0) {
                     res.status(401).json({ 'message': 'Incorrect email and/or password' }).send();
+                    return;
                 } else {
                     db_pass = results[0].password;
                     salt = results[0].salt;
@@ -68,6 +70,7 @@ function login (req, res) {
                         
                         if(derivedKey.toString('hex') !== db_pass) {
                             res.status(401).json({ 'message': 'Incorrect email and/or password' }).send();
+                            return;
                         } else {
                             expiration = new Date(Date.now() + 1800000);
                             createSession(results[0].id, expiration).then(sessionID => {

@@ -1,3 +1,4 @@
 [mysqld]
 secure_file_priv="/tmp"
 event_scheduler=ON
+max_allowed_packet=15000000

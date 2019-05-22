@@ -45,3 +45,9 @@
 .createForm .oddField {
 	text-align: center;
 }
+
+.userCreated {
+	text-align: center;
+	padding: 20px;
+	background-color: #93f7f2;
+}
