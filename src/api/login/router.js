@@ -46,7 +46,7 @@ function login (req, res) {
     }
     
     const schema = Joi.object().keys ({
-        email: Joi.string().max(256).email({minDomainSegments: 2, tlds: {allow: ['com']}}).required(),
+        email: Joi.string().max(256).email({minDomainSegments: 2, tlds: {allow: ['com', 'edu']}}).required(),
         password: Joi.string().required()
     })
 

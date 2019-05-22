@@ -66,7 +66,7 @@ function createUser(req, res) {
                 res.status(401).json({ 'message': 'Invalid User' }).send();
             } else {
                 const schema = Joi.object().keys ({
-                    email: Joi.string().max(256).email({minDomainSegments: 2, tlds: {allow: ['com']}}).required(),
+                    email: Joi.string().max(256).email({minDomainSegments: 2, tlds: {allow: ['com', 'edu']}}).required(),
                     password: Joi.string().required(),
                     name: Joi.string().max(255).trim().required(),
                     signature: Joi.any().optional(),
