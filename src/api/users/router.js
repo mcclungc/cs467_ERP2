@@ -212,11 +212,13 @@ function getUsers(req, res) {
 function getUser(req, res) {
     if(!req.cookies.erp_session) {
         res.status(401).json({ 'message': 'Invalid User' }).send();
+        return;
     } else {
         sessionValidation(req.cookies.erp_session).then(admin => {
             db.pool.query("SELECT * FROM users WHERE id = ?", [req.params.id], (err, results, fields) => {
                 if(results.length == 0) {
                     res.status(200).json({}).send();
+                    return;
                 } else {
                     const data = {
                         "id": results[0].id,
@@ -229,10 +231,12 @@ function getUser(req, res) {
                         "department_id": results[0].department_id
                     }
                     res.status(200).json(data).send();
+                    return;
                 }
             });
         }).catch(error => {
             res.status(401).json({ 'message': error }).send();
+            return;
         })
     }
 }
