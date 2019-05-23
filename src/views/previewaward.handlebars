@@ -1,4 +1,13 @@
 <link rel="stylesheet" href="css/table.css" type="text/css">
+<style>
+var hostName = document.location.host;
+var style = document.getElementsByTagName("link");
+var i;
+
+for(i = 0; i < style.length; i++){
+        style[i].href = hostname + style[i].href;
+}
+</style>
 <h1 class="title">Award Record</h1>
 <div class="tableContainer">
 	<table id="userTable">
