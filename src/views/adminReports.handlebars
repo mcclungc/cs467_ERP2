@@ -1,1 +1,54 @@
-<p>Admin reporting</p>
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/adminReports.css">
+  </head>
+
+  <body>
+        <div id="premade">
+                <br><strong>Search query creation instructions:</strong>
+                <br> <br>
+                <strong>Award Issuer:</strong> The user whos award issuing
+                history you'd like to review. If you "Select All" then the
+                results displayed will take into account all the awards issued
+                regardless of who the issuer was. <br><br>
+                <strong>Breakdown By:</strong> If you choose to breakdown by
+                Region you will see a chart depicting the amounts of awards
+                issued to each region. If you choose to breakdown by Department
+                you will see a chart depicting the amounts of awards issued to
+                each department. <br><br>
+                <strong>From and To:</strong> You can further restrict the terms                of your search by setting a date range. For example, if you
+                were only interested in seeing the awards issued between April 1                st 2019 and April 30th 2019 you would set the "From" date to 04/                01/2019 and the "To" date to 05/01/2019. The "To" date is not
+                inclusive so it should be set one day ahead of the date you
+                actually want. If you just want to view all records after a
+                particular date only fill in a "From" date. Likewise, if you
+                only want to see records before a certain date, only fill in the                "To" date. Finally, if you don't want to filter records by time
+                simply do not enter in any dates in either "To" or "From"
+                 <br><br><br>
+
+                Award Issuer:
+                <select id="issuedby">
+                        <option value="selectall">Select All</option>
+                </select>
+
+                Breakdownby:
+                <select id="breakdownby">
+                        <option value="department">Department</option>
+                        <option value="region">Region</option>
+                </select>
+
+                From:
+                <input type="date" id="startdate">
+
+                To:
+                <input type="date" id="enddate">
+
+                <button id="submitQuery" type="button">Submit Query</button>
+                        </div>
+
+    <!--Div that will hold the pie chart-->
+    <div id="chart_div"></div>
+    <script type="text/javascript" src="js/adminReports.js"></script>
+  </body>
+</html>
+
