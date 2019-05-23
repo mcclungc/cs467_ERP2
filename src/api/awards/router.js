@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../../db');
 const Joi = require('@hapi/joi');
+var dateFormat = require('dateformat');
 
 //get award types 
 function getAwardTypes(req,res){
@@ -96,8 +97,8 @@ function getRegions(req,res){
 }
 //list all award records - TO DO: filter on current user by session
 function getAwards(req,res){  
-    const sql = 'SELECT awards.certificate_id as awardtypeID, awards.id as awardID, awards.sent_on as date, awards.recipient_name as recipient, awards.recipient_email as recipient_email, awards.recipient_department_id as department, awards.recipient_region_id as region, users.name as awarder, departments.department_name as department_name, certificates.certificate_type as awardtype FROM users INNER JOIN awards on users.id = awards.presenter_id INNER JOIN departments on awards.recipient_department_id = departments.id INNER JOIN certificates on awards.certificate_id = certificates.id ORDER BY awards.id ASC';
-    //const sql = 'SELECT * from awards';
+    const sql = 'SELECT awards.certificate_id as awardtypeID, awards.id as awardID, awards.sent_on as date, awards.recipient_name as recipient, awards.recipient_email as recipient_email, awards.recipient_department_id as department, awards.recipient_region_id as region, users.name as presenter, departments.department_name as department_name, certificates.certificate_type as awardtype, regions.region_name as recipient_region FROM users INNER JOIN awards on users.id = awards.presenter_id INNER JOIN departments on awards.recipient_department_id = departments.id INNER JOIN certificates on awards.certificate_id = certificates.id INNER JOIN regions on awards.recipient_region_id = regions.id ORDER BY awards.id ASC';
+
     db.pool.query(sql, (error, results, fields) => {
         if(error){
             res.write(JSON.stringify(error));
@@ -114,7 +115,9 @@ function getAwards(req,res){
                     "recipient":element.recipient,
                     "recipient_email": element.recipient_email,
                     "recipient_department": element.department_name,
-                    "award_date": element.date
+                    "recipient_region": element.recipient_region,
+                    "presenter": element.presenter,
+                    "award_date": dateFormat(element.date, 'shortDate')
                 });
             });
             res.status(200).send(data);
@@ -124,7 +127,7 @@ function getAwards(req,res){
 
 //get individual award record
 function getAward(req,res,mysql){
-    const sql = 'SELECT awards.certificate_id as awardtypeID, awards.id as awardID, awards.sent_on as date, awards.recipient_name as recipient, awards.recipient_email as recipient_email, awards.recipient_department_id as department_id, awards.recipient_region_id as region, users.name as awarder, departments.department_name as department, certificates.certificate_type as awardtype, region_name as region FROM users INNER JOIN awards on users.id = awards.presenter_id INNER JOIN departments on awards.recipient_department_id = departments.id INNER JOIN regions on awards.recipient_region_id = regions.id  INNER JOIN certificates on awards.certificate_id = certificates.id WHERE awards.id  = ? ORDER BY awards.id ASC';
+    const sql = 'SELECT awards.certificate_id as awardtypeID, awards.id as awardID, awards.sent_on as date, awards.recipient_name as recipient, awards.recipient_email as recipient_email, awards.recipient_department_id as department, awards.recipient_region_id as region, users.name as presenter, departments.department_name as department_name, certificates.certificate_type as awardtype, regions.region_name as recipient_region FROM users INNER JOIN awards on users.id = awards.presenter_id INNER JOIN departments on awards.recipient_department_id = departments.id INNER JOIN certificates on awards.certificate_id = certificates.id INNER JOIN regions on awards.recipient_region_id = regions.id WHERE awards.id  = ? ORDER BY awards.id ASC';
     let inserts = [req.params.id];
     db.pool.query(sql,inserts, (error, results, fields) => {
         if(error){
@@ -133,6 +136,7 @@ function getAward(req,res,mysql){
         } else if(results.length == 0 ){
             res.status(200).json({}).send();
         } else {
+            //console.log(results);
             let data = [];
             results.forEach(element => {
                 data.push({
@@ -142,7 +146,9 @@ function getAward(req,res,mysql){
                     "recipient":element.recipient,
                     "recipient_email": element.recipient_email,
                     "recipient_department": element.department_name,
-                    "award_date": element.date
+                    "recipient_region": element.recipient_region,
+                    "presenter": element.presenter,
+                    "award_date": dateFormat(element.date, 'shortDate')
                 });
             });
             res.status(200).send(data);
