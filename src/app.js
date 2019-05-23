@@ -205,7 +205,7 @@ app.get('/award', function(req, res, next){
 		res.redirect('/');
 	}
 });
-
+/*
 app.get('/history', function(req, res, next){
 	if(!req.cookies.erp_is_admin) {
 		res.redirect('/');
@@ -213,6 +213,29 @@ app.get('/history', function(req, res, next){
 		sessionValidation(req.cookies).then(user_id => {
 			res.render('userHistory', {layout: 'user', title: 'User History'});
 		}).catch(error => {
+			res.redirect('/');
+		})
+	} else {
+		res.redirect('/');
+	}
+});*/
+app.get('/history', function(req, res, next){
+	if(!req.cookies.erp_is_admin) {
+		res.redirect('/');
+	} else if(req.cookies.erp_is_admin === '0') {
+		sessionValidation(req.cookies).then(user_id => {
+			let context = {};
+			let Request = require('request');
+			Request.get("http://localhost:5000/api/awards", (error, response,body)=> {
+				if(error) {
+					res.write(JSON.stringify(error));
+					res.end();
+				}    
+			context.awardrecords = JSON.parse(body);
+			//console.log(context.awardrecords);
+            res.render('userHistory', context);
+				});
+			}).catch(error => {
 			res.redirect('/');
 		})
 	} else {
