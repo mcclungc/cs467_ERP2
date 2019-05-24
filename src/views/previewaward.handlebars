@@ -1,49 +1,46 @@
-<!DOCTYPE html>
-<html>
- <head>
-     <title>Preview Award</title>
-
-  <!-- Latest compiled and minified CSS-->
-  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'> 
-
- </head>
- <body>
-    <div class = 'container'>
-        <h3>Award Record</h3>
-        <div class = 'container table'>
-            <table>
-                <thead>
-                    <th>Record ID</th> 
-                    <th>Award Type</th> 
-                    <th>Award Date</th> 
-                    <th>Recipient</th>
-                    <th>Department</th>
-                    <th>Region</th>
-                    <th>Presenter</th> 
-                </thead>
-            <tbody> 
-            <tr> 
-                <td>{{awardrecord.awardID}}</td> 
-                <td>{{awardrecord.awardtype}}</td>            
-                <td>{{awardrecord.date}}</td> 
-                <td>{{awardrecord.recipient}} </td>
-                <td>{{awardrecord.department_name}} </td>
-                <td>{{awardrecord.region_name}} </td>
-                <td>{{awardrecord.awarder}}</td>
-                
-                <td>
-                    <button onclick='deleteAwardRecord({{awardrecord.awardID}})'>Delete </button></td>      
-            </tr> 
-            </tbody> 
-            </table>
-    </div>
-        <a href='../latexfiles/output/{{awardrecord.awardfilename}}.pdf' download='Award{{awardrecord.awardID}}.pdf'> <button class='download'>Download as PDF</button></a>                
+<style>
+var hostName = document.location.origin + "/award";
+var style = document.getElementsByTagName("link");
+var i;
+for(i = 0; i < style.length; i++){
+	if(style[i].href != "https://use.fontawesome.com/releases/v5.8.1/css/all.css"){
+		var string = style[i].href;
+		style[i].href = string.substr(hostName.length);
+	}
+}
+</style>
+<link rel="stylesheet" href="css/table.css" type="text/css">
+<h1 class="title">Award Record</h1>
+<div class="tableContainer">
+	<table id="userTable">
+			<tbody id="tableBody">
+				<tr id="tableHead">
+					<th>Record ID</th> 
+					<th>Award Type</th> 
+					<th>Award Date</th> 
+					<th>Recipient</th>
+					<th>Department</th>
+					<th>Region</th>
+					<th>Presenter</th> 
+				</tr>
+				<tr class="row"> 
+					<td>{{awardrecord.awardID}}</td> 
+					<td>{{awardrecord.awardtype}}</td>
+					<td>{{awardrecord.date}}</td> 
+					<td>{{awardrecord.recipient}} </td>
+					<td>{{awardrecord.department_name}} </td>
+					<td>{{awardrecord.region_name}} </td>
+					<td>{{awardrecord.awarder}}</td>
+					<td>
+						<button class="actionButton" onclick='deleteAwardRecord({{awardrecord.awardID}})'>Delete </button>
+					</td>      
+				</tr> 
+			</tbody> 
+	</table>
+</div>
+<p style="text-align:center;">
+        <a href='../latexfiles/output/{{awardrecord.awardfilename}}.pdf' download='Award{{awardrecord.awardID}}.pdf'> <button class='download actionButton'>Download as PDF</button></a>                
     <br>
     <br>
-    <input type='button' name='email' value='Email to Recipient' onclick=''>
-
-</body>
-<footer>
-</footer>
-
-</html>
+    <input type='button' class="actionButton" name='email' value='Email to Recipient' onclick=''>
+</p>

@@ -45,28 +45,3 @@
 	</form>
 </div>
 
-<div class="tableContainer">
-	<h3>Existing Award Records:</h3>
-	<table>
-		<thead id="tableHead">
-			<th>Record ID</th> 
-			<th>Award Type</th>
-			<th>Date</th> 
-			<th>Recipient</th>
-			<th>Awarder</th> 
-		</thead>
-		<tbody id="tableBody"> 
-			{{#each awardrecords}} 
-			<tr class="row"> 
-				<td>{{this.recordID}}</td> 
-				<td>{{this.awardtype}}</td> 
-				<td>{{this.date}}</td> 
-				<td>{{this.recipient}} </td>
-				<td>{{this.awarder}}</td>
-				<td><a href="/award/{{this.recordID}}"><input type="button" value="Preview"></a></td>
-			</tr> 
-			{{/each}} 
-		</tbody> 
-	</table>    
-</div>
-

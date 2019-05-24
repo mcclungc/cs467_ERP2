@@ -25,6 +25,7 @@ app.use('/api', require('./api/users/router'));
 app.use('/api', require('./api/org/router'));
 app.use('/api', require('./api/awards/router'));
 app.use('/api', require('./api/password/router'));
+app.use('/api', require('./api/gcharts/router'));
 app.use("/award", require("./award.js"));
 app.set('port', 5000);//enter in port number when you run
 app.set('mysql', mysql);

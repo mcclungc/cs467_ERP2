@@ -9,7 +9,7 @@
 		<div class="actions side">
 			<p style="text-align:right;">
 				<a id="removeButton" class="actionButton inactive" href="#">Remove</a>
-				<a class="actionButton" href="/create-awards">Create Award</a></p>
+				<a class="actionButton" href="/award">Create Award</a></p>
 		</div>
 	</div>
 	
@@ -27,19 +27,19 @@
 					<th>Sent Date <i class="sort fas fa-sort"></i></th>
 					<th>Preview</th>
 				</tr>
-				{{#if awards}}
-					{{#each awards}}
+				{{#if awardrecords}}
+					{{#each awardrecords}}
 					<tr class="row">
 						<td class="checkBox">
 							<div class="checkMark"><i class="fas fa-check checkoff"></i></div>
 						</td>
-						<td class="name">{{awards.recipient}}</td>
-						<td class="awardType">{{awards.awardtype}}</td>
-						<td>{{awards.department}}</td>
-						<td>{{awards.region}}</td>
-						<td>{{awards.recipient_email}}</td>
-						<td>{{awards.date}}</td>
-						<td><a href="/award/{{awards.recordID}}"><input type="button" value="Preview"></a></td>
+						<td class="name">{{this.recipient}}</td>
+						<td class="awardType">{{this.awardtype}}</td>
+						<td>{{this.recipient_department}}</td>
+						<td>{{this.recipient_region}}</td>
+						<td>{{this.recipient_email}}</td>
+						<td>{{this.award_date}}</td>
+						<td><a href="/award/{{this.awardID}}"><input type="button" value="Preview"></a></td>
 					</tr>
 					{{/each}}
 				{{/if}}
