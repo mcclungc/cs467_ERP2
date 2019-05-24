@@ -145,8 +145,8 @@ function changePassword(req, res) {
     } else {
         sessionValidation(req.cookies.erp_session).then(user_id => {
             const schema = Joi.object().keys ({
-                password: Joi.string().required(),
-                newPassword: Joi.string().required()
+                newPassword: Joi.string().required(),
+                confirmPassword: Joi.string().required()
             });
 
             Joi.validate(req.body, schema, (err, value) => {
@@ -154,42 +154,26 @@ function changePassword(req, res) {
                     res.status(400).json({ 'message': err.details[0].message }).send();
                     return;
                 } else {
-                    db.pool.query("SELECT * FROM users WHERE id = ?", [user_id], (error, results, fields) => {
-                        if(error) throw error;
-                
-                        if(results.length === 0) {
-                            res.status(400).json({ 'message': 'No user found' }).send();
-                            return;
+                    if(req.body.newPassword !== req.body.confirmPassword) {
+                        res.status(400).json({ 'message': 'Passwords must match' }).send();
+                        return;
+                    }
+                    
+                    const salt = createSalt();
+            
+                    crypto.pbkdf2(req.body.newPassword, salt, 100000, 64, 'sha512', (err, derivedKey) => {
+                        if(err) throw err;
+
+                        const data = {
+                            "password": derivedKey.toString('hex'),
+                            "salt": salt
                         }
-                
-                        db_pass = results[0].password;
-                        salt = results[0].salt;
-                
-                        crypto.pbkdf2(req.body.password, salt, 100000, 64, 'sha512', (err, derivedKey) => {
-                            if (err) throw err;
-                            
-                            if(derivedKey.toString('hex') !== db_pass) {
-                                res.status(401).json({ 'message': 'Old password invalid' }).send();
-                                return;
-                            } else {
-                                const salt = createSalt();
-                        
-                                crypto.pbkdf2(req.body.newPassword, salt, 100000, 64, 'sha512', (err, derivedKey) => {
-                                    if(err) throw err;
 
-                                    const data = {
-                                        "password": derivedKey.toString('hex'),
-                                        "salt": salt
-                                    }
-
-                                    db.pool.query("UPDATE users SET ? WHERE id = ?", [data, user_id], (error, results, fields) => {
-                                        if(error) throw error;
-                
-                                        res.status(200).json({ 'message': 'Password Updated' }).send();
-                                        return;
-                                    });
-                                });
-                            }
+                        db.pool.query("UPDATE users SET ? WHERE id = ?", [data, user_id], (error, results, fields) => {
+                            if(error) throw error;
+    
+                            res.status(200).json({ 'message': 'Password Updated' }).send();
+                            return;
                         });
                     });
                 }
