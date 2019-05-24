@@ -239,17 +239,28 @@ function deleteUsers() {
 //Function to delete user from the table and database
 function deleteUser(id) {
 	var req = new XMLHttpRequest();
-	var request = '/api/users/' + id;
+	var request = `/api/users/${id}`;
 	req.open("DELETE", request, true);
 	req.setRequestHeader('Content-Type', 'application/json');
 	req.addEventListener('load', function() {
 		if (req.status >= 200 && req.status < 400) {
-			var response = JSON.parse(req.responseText);
-			console.log(response);
+			var table = document.getElementById("userTable");
+			var checks = table.getElementsByClassName("checkon");
+			var i;
+			var checksCount = checks.length
+			for(i = 0; i < checksCount; i++){
+				var entry = checks[i].parentNode.parentNode.parentNode;
+				if(entry.id != "tableHead" && entry.style.display != "none"){
+					table.deleteRow(entry.rowIndex);
+					checksCount--;
+					i--;
+				}
+			}
 		} else {
 			console.log("Error in network request: " + req.statusText);
 		}
 	});
+	req.send(null);
 }
 
 //Global Variables
