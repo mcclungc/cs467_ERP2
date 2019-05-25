@@ -203,15 +203,28 @@ function edit() {
 	var id = this.id;
 	var user = this.parentNode.parentNode.parentNode;
 	var userName = user.getElementsByClassName("name");
+	var uEmail = user.getElementesByClassName("email");
+	var uType = user.getElementsByClassName("userType");
+	var uDepartment = user.getElementsByClassName("department");
+	var uRegion = user.getElementsByClassName("region");
 	var eBox = document.getElementById("lightBox");
 	var eContent = document.getElementById("lightBox-Inner");
-	var i;
 	var name = userName[0].innerText;
-	eContent.innerHTML = '<form id="accountForm" method="post"><fieldset><p><input value="' + name + '"></p><p><input value="' + name + '"></p><p><button class="lightBox-button" onclick="editUser(' + id + ')">Update</button><button class="lightBox-button" onclick="closeLightBox()">Cancel</button></p></fieldset></form>';
+	var type = uType[0].innerText;
+	var email = uEmail[0].innerText;
+	var dep = uDepartment[0].innerText;
+	var reg = uRefion[0].innerText;
+	//Edit Form and display it
+	var updateForm = document.getElementById("updateForm");
+	updateForm.style.display = "block";
+	
+	eContent.innerHTML = updateForm;
 	eBox.classList.remove("hidden");
 }
 
-function editUser(id) {
+var updatingBtn = document.getElementById("updateBTN");
+updatingBtn.addEventListener("click", function(event) {
+	event.preventDefault();
 	var req = new XMLHttpRequest();
 	req.open("PATCH", "/api/users/" + id, true);
 	req.setRequestHeader('Content-Type', 'application/json');
