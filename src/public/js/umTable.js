@@ -214,17 +214,27 @@ function edit() {
 	var email = uEmail[0].innerText;
 	var dep = uDepartment[0].innerText;
 	var reg = uRefion[0].innerText;
+
 	//Edit Form and display it
 	var updateForm = document.getElementById("updateForm");
-	updateForm.style.display = "block";
-	
 	eContent.innerHTML = updateForm;
+	
+	var innerForm = eContent.getElementById("updateForm");
+	innerForm.style.display = "block";
+	var nameValue = innerForm.getElementById("name");
+	nameValue.value = name;
+	var emailValue = innerForm.getElementById("email");
+	emailValue.value = email;
+	var uBtn = innerForm.getElementById("updateBTN");
+	uBtn.name = id;
 	eBox.classList.remove("hidden");
 }
 
-var updatingBtn = document.getElementById("updateBTN");
+var popUp = document.getElementById("lightBox");
+var updatingBtn = popUp.getElementById("updateBTN");
 updatingBtn.addEventListener("click", function(event) {
 	event.preventDefault();
+	var id = updatingBtn.name;
 	var req = new XMLHttpRequest();
 	req.open("PATCH", "/api/users/" + id, true);
 	req.setRequestHeader('Content-Type', 'application/json');
@@ -237,6 +247,8 @@ updatingBtn.addEventListener("click", function(event) {
 		}
 	});
 	req.send(JSON.stringify(id));
+	var updateForm = popUp.getElementById("updateForm");
+	updateForm.style.display = "none";
 	closeLightBox();
 }
 
