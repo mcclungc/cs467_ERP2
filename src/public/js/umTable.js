@@ -5,10 +5,10 @@
 //Search function to display all results from database
 //Source: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_filter_table
 function search(){
-	var searchInput, filter, table, tr, td, itr;
+	var searchInput, filter, tr, td, itr;
 	searchInput = document.getElementById("myInput");
 	filter = searchInput.value.toUpperCase(); //make the search case insensitive
-	table = document.getElementById("userTable");
+	//table = document.getElementById("userTable");
 	tr = table.getElementsByTagName("tr");
 	for( itr = 0; itr < tr.length; itr++){
 		td = tr[itr].getElementsByTagName("td")[1];
@@ -38,10 +38,10 @@ function sortToggle(){
 function sortAscending(col) {
 	ascending = true;
 	var sorted = false;
-	var table, body, rows, td, itr;
-	table = document.getElementById("userTable");
-	body = document.getElementById("tableBody");
-	rows = table.getElementsByClassName("row");
+	//var table, body, rows, td, itr;
+	//table = document.getElementById("userTable");
+	//body = document.getElementById("tableBody");
+	//rows = table.getElementsByClassName("row");
 	while(!sorted){
 		for(itr = 0; itr < rows.length - 1; itr++){
 			if(rows[itr].cells[col].innerText.toUpperCase() > rows[itr + 1].cells[col].innerText.toUpperCase()){
@@ -72,10 +72,10 @@ function checkAscending(array, col){
 function sortDescending(col) {
 	ascending = false;
 	var sorted = false;
-	var table, body, rows, td, itr;
-	table = document.getElementById("userTable");
-	body = document.getElementById("tableBody");
-	rows = table.getElementsByClassName("row");
+	//var table, body, rows, td, itr;
+	//table = document.getElementById("userTable");
+	//body = document.getElementById("tableBody");
+	//rows = table.getElementsByClassName("row");
 	while(!sorted){
 		for(itr = 0; itr < rows.length - 1; itr++){
 			if(rows[itr].cells[col].innerText.toUpperCase() < rows[itr + 1].cells[col].innerText.toUpperCase()){
@@ -106,7 +106,7 @@ function checkDescending(array, col){
 function checkToggle() {
 	if(this.parentNode.parentNode.id == "tableHead"){
 		if(this.childNodes[0].classList.contains("checkoff")){
-			var table = document.getElementById("userTable");
+			//var table = document.getElementById("userTable");
 			var checks = table.getElementsByClassName("fa-check");
 			var i;
 			for(i = 0; i < checks.length; i++){
@@ -115,8 +115,8 @@ function checkToggle() {
 			}
 		}
 		else if(this.childNodes[0].classList.contains("checkon")){
-			var tab = document.getElementById("userTable");
-			var check = tab.getElementsByClassName("fa-check");
+			//var tab = document.getElementById("userTable");
+			var check = table.getElementsByClassName("fa-check");
 			var j;
 			for(j = 0; j < check.length; j++){
 				check[j].classList.remove("checkon");
@@ -148,8 +148,8 @@ function checkToggle() {
 function anyActive(){
 	var x, y;
 	var buttons = document.getElementsByClassName("actionButton");
-	var area = document.getElementById("userTable");
-	var activeChecks = area.getElementsByClassName("checkon");
+	//var area = tableocument.getElementById("userTable");
+	var activeChecks = table.getElementsByClassName("checkon");
 	if(activeChecks.length > 0){
 		for(x = 0; x < buttons.length; x++){
 			buttons[x].classList.remove("inactive");
@@ -171,7 +171,7 @@ function anyActive(){
 //JS for the lightbox, remove, and edit buttons
 function remove() {
 	var rButton = document.getElementById("removeButton");
-	var table = document.getElementById("userTable");
+	//var table = document.getElementById("userTable");
 	if(!rButton.classList.contains("inactive")){
 		var rBox = document.getElementById("lightBox");
 		var rContent = document.getElementById("lightBox-Inner");
@@ -203,7 +203,7 @@ function edit() {
 	var id = this.id;
 	var user = this.parentNode.parentNode.parentNode;
 	var userName = user.getElementsByClassName("name");
-	var uEmail = user.getElementesByClassName("email");
+	var uEmail = user.getElementsByClassName("email");
 	var uType = user.getElementsByClassName("userType");
 	var uDepartment = user.getElementsByClassName("department");
 	var uRegion = user.getElementsByClassName("region");
@@ -213,7 +213,7 @@ function edit() {
 	var type = uType[0].innerText;
 	var email = uEmail[0].innerText;
 	var dep = uDepartment[0].innerText;
-	var reg = uRefion[0].innerText;
+	var reg = uRegion[0].innerText;
 
 	//Edit Form and display it
 	var updateForm = document.getElementById("updateForm");
@@ -228,28 +228,42 @@ function edit() {
 	var uBtn = innerForm.getElementById("updateBTN");
 	uBtn.name = id;
 	eBox.classList.remove("hidden");
-}
 
-var popUp = document.getElementById("lightBox");
-var updatingBtn = popUp.getElementById("updateBTN");
-updatingBtn.addEventListener("click", function(event) {
-	event.preventDefault();
-	var id = updatingBtn.name;
-	var req = new XMLHttpRequest();
-	req.open("PATCH", "/api/users/" + id, true);
-	req.setRequestHeader('Content-Type', 'application/json');
-	req.addEventListener('load', function() {
-		if (req.status >= 200 && req.status < 400) {
-			var response = JSON.parse(req.responseText);
-			console.log(response);
-		} else {
-			console.log("Error in network request: " + req.statusText);
-		}
-	});
-	req.send(JSON.stringify(id));
-	var updateForm = popUp.getElementById("updateForm");
-	updateForm.style.display = "none";
-	closeLightBox();
+	var popUp = document.getElementById("lightBox");
+	var updatingBtn = popUp.getElementById("updateBTN");
+	updatingBtn.addEventListener("click", function(event) {
+		event.preventDefault();
+		var id = updatingBtn.name;
+		var updateForm = popUp.getElementById("updateForm");
+		var req = new XMLHttpRequest();
+		var request = `/api/users/${id}`;
+	
+		//Updated Information to send to database
+		var updateInfo = {};
+		var newN = updateForm.getElementsById("name");
+		var newE = updateForm.getElementsById("email");
+		var newType = updateForm.getElementsById("userType");
+		var newRNum = updateForm.getElementsById("region");
+		var newDNum = updateForm.getElementsById("department");
+		updateInfo.name = newN;
+		updateInfo.email = newE;
+		updateInfo.id = id;
+		updateInfo.is_admin = newType;
+		updateInfo.region_id = newRNum;
+		updateInfo.department_id = newDNum;
+		req.open("PATCH", request, true);
+		req.setRequestHeader('Content-Type', 'application/json');
+		req.addEventListener('load', function() {
+			if (req.status >= 200 && req.status < 400) {
+				var response = JSON.parse(req.responseText);
+				console.log(response);
+			} else {
+				console.log("Error in network request: " + req.statusText);
+			}
+		});
+		req.send(JSON.stringify(updateInfo));
+		updateForm.style.display = "none";
+		closeLightBox();
 }
 
 function deleteUsers() {
@@ -290,6 +304,9 @@ function deleteUser(id) {
 
 //Global Variables
 var ascending = true;
+var table = document.getElementById("userTable");
+var body = document.getElementById("tableBody");
+var rows = table.getElementsByClassName("row");
 var searchBar = document.getElementById("myInput");
 var removeButton = document.getElementById("removeButton");
 var editButtons = document.getElementsByClassName("editButton");

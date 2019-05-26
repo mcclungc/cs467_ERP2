@@ -34,7 +34,7 @@
 							<div class="checkMark"><i class="fas fa-check checkoff"></i></div>
 						</td>
 						<td class="name">{{this.name}}</td>
-						<td class="userType">{{this.usertype}}</td>
+						<td class="userType" name="{{this.usertype}}"></td>
 						<td class="email">{{this.email}}</td>
 						<td class="department">{{this.department_name}}</td>
 						<td class="region">{{this.region_name}}</td>
@@ -61,7 +61,7 @@
 		<fieldset>
 			<p class="fields"><input id="name" value="" required></p>
 			<p class="fields">
-				<select name="userType" required>
+				<select name="userType" id="userType" required>
 					<option value="">User Type</option>
 					<option value="0">User</option>
 					<option value="1">Admin</option>
