@@ -245,12 +245,12 @@ function edit() {
 		var newType = updateForm.getElementsById("userType");
 		var newRNum = updateForm.getElementsById("region");
 		var newDNum = updateForm.getElementsById("department");
-		updateInfo.name = newN;
-		updateInfo.email = newE;
+		updateInfo.name = newN.value;
+		updateInfo.email = newE.value;
 		updateInfo.id = id;
-		updateInfo.is_admin = newType;
-		updateInfo.region_id = newRNum;
-		updateInfo.department_id = newDNum;
+		updateInfo.is_admin = newType.value;
+		updateInfo.region_id = newRNum.value;
+		updateInfo.department_id = newDNum.value;
 		req.open("PATCH", request, true);
 		req.setRequestHeader('Content-Type', 'application/json');
 		req.addEventListener('load', function() {
@@ -340,4 +340,16 @@ for(k = 0; k < inactiveButtons.length; k++){
 	inactiveButtons[k].addEventListener("click", function(event){
 		event.preventDefault();
 	});
+}
+
+//Update wording of user type
+var t;
+for(t = 0; t < rows.length; t++){
+	var type = rows.getElementsByClassName("userType");
+	if(type[0].name == 0){
+		type[0].innerText = "User";
+	}
+	else {
+		type[0].innerText = "Admin";
+	}
 }
