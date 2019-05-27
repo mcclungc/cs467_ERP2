@@ -1,3 +1,4 @@
+\pdfminorversion=4
 \documentclass[landscape[16pt]{scrartcl}%allows larger default font size
 \usepackage{pdflscape} %landscape
 \usepackage[landscape ]{geometry} %landscape
@@ -43,8 +44,7 @@
 
 % For each record (line) in database 'names'
 % Assign field values by name to macros
-\DTLforeach{award}{\rname=RecipientName,  \rdept=RecipientDept, \awarder=Awarder, \date=Date}{
-
+\DTLforeach{award}{\rname=RecipientName,  \rdept=RecipientDept, \rregion=RecipientRegion,\awarder=Awarder, \date=Date, \sigfile=SigFilename}{
 {
 \vskip2em
 \centering
@@ -56,7 +56,7 @@
 {\LARGE This Certificate is awarded to }\par
 \vskip2em
 {\Large \bfseries\color{blue}\MakeUppercase{ {\rname }}}\par
-{\ \bfseries\color{blue}{ {\rdept } Department}}\par
+{\ \bfseries\color{blue}{ {\rdept } Department, {\rregion} Region}}\par
 \vskip2em\par
 {\Large  in appreciation for}\par
 {\Large  helping us survive until Friday.}\par
@@ -66,10 +66,17 @@
   \vfill
   \hfill
   \begin{minipage}{.4\textwidth}
+
+\includegraphics[width=4cm]{redrose.png} 
+ \par
+
+
+  \end{minipage}
+  \begin{minipage}{.4\textwidth}
    \par
     Awarded by:\par
     \vskip1cm
-\includegraphics[width=4cm]{sig.png} 
+\includegraphics[width=4cm]{\sigfile} 
  \par
   %  \rule{8em}{.5pt}
     \vskip-1em

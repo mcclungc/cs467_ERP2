@@ -34,7 +34,7 @@
 			<p class="fields">
 				<select name="awarder" required>
 					<option value="">Awarded By</option>
-					{{#each awarders}}
+					{{#each presenters}}
 					<option value="{{id}}">{{name}}</option>
 					{{/each}}
 				</select>
@@ -58,12 +58,12 @@
 		<tbody id="tableBody"> 
 			{{#each awardrecords}} 
 			<tr class="row"> 
-				<td>{{this.recordID}}</td> 
+				<td>{{this.awardID}}</td> 
 				<td>{{this.awardtype}}</td> 
-				<td>{{this.date}}</td> 
+				<td>{{this.award_date}}</td> 
 				<td>{{this.recipient}} </td>
-				<td>{{this.awarder}}</td>
-				<td><a href="/award/{{this.recordID}}"><input type="button" value="Preview"></a></td>
+				<td>{{this.presenter}}</td>
+				<td><a href="/award/{{this.awardID}}"><input type="button" value="Preview"></a></td>
 			</tr> 
 			{{/each}} 
 		</tbody> 
