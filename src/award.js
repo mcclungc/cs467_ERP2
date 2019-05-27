@@ -69,9 +69,9 @@ module.exports = function(){
                 res.write(JSON.stringify(error));
                 res.end();
             }  
-            console.log(body);  
+            //console.log(body);  
             context.awardrecord = JSON.parse(body);
-            console.log(context.awardrecord);
+            //console.log(context.awardrecord);
             complete();
         });
     }
@@ -82,7 +82,7 @@ module.exports = function(){
                 res.write(JSON.stringify(error));
                 res.end();
             }  
-            console.log(JSON.parse(body));
+            //console.log(JSON.parse(body));
             context.siginfo = JSON.parse(body);
             complete();
         });
@@ -139,21 +139,22 @@ module.exports = function(){
         context.title = 'ERP Award Preview';
         //push js for delete button
         context.jsscripts = ['public/js/deleteawardrecord.js'];
+        context.jsscripts = ['public/js/deleteawardrecord.js'];
         //push js for email button
         //get award record data for rendering latex award file
         const url = "http://localhost:5000/api/awards/"+ req.params.id;
-        console.log(url);
+        //console.log(url);
         callAPIAwardRecord(url, context, complete);
         function complete(){
             callbackCount++;
             if(callbackCount === 1){   
-                console.log("presenter id is " + context.awardrecord[0].presenter_id); 
+                //console.log("presenter id is " + context.awardrecord[0].presenter_id); 
                 //get presenter sig and sig file name
                 const presentersigurl = "http://localhost:5000/api/awards_presenter_sig/"+ context.awardrecord[0].presenter_id; 
                 callAPIPresenterSig(presentersigurl, context, complete);
             }
             else if (callbackCount === 2){
-                console.log(context.siginfo[0].sigfilename);
+               // console.log(context.siginfo[0].sigfilename);
                 var awarddata = [  
                     {
                         rname: context.awardrecord[0].recipient,
@@ -166,15 +167,13 @@ module.exports = function(){
                     }
                 ]; 
                 //create award data file csv
-                console.log(awarddata);
+                //console.log(awarddata);
                 latexmodule.writeCSV(awarddata); 
                 //render latex file and save in dictionary
                 latexmodule.renderLatexDoc(context.awardrecord[0].awardtypeID, context, complete);
             }
             else if (callbackCount === 3){
-                //added a call to send a latex award by email only for testing, not in final
-                //latexmodule.testEmailAward();
-                res.render('previewaward', context);
+                res.render('origpreviewaward', context);
             }
         }  
     });

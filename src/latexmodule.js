@@ -20,21 +20,14 @@ let transporter = awardmailer.createTransport({
     }
 });
 
+//RIGHT NOW THIS IS EMAILING WHATEVER LATEX FILE FOR THAT AWARD TYPE IS IN THE DIRECTORY
 exports.mailAward = function(RecipientName, RecipientEmail, awardrootfilename){
-//exports.mailAward = function(RecipientName, RecipientEmail, awardTypeID, complete){
-/*
-if (awardTypeID === 1){
-    dirpath = 'public/latexfiles/output/eomaward.pdf';
-}
-else if(awardTypeID === 2){
-    dirpath = 'public/latexfiles/output/eowaward.pdf';
-}*/
-dirpath = 'public/latexfiles/output/'+ awardrootfilename + '.pdf'
+dirpath = 'public/latexfiles/output/'+ awardrootfilename + '.pdf';
 
 fs.readFile(dirpath, function (err, data) {
     if (err) throw err; 
     toField = RecipientName + '<' + RecipientEmail + '>';
-    console.log(toField);                                           
+    //console.log(toField);                                           
     var mailOptions = {
         from: 'erp2 <cs467.erp2@gmail.com>', // sender address                                               
         to: toField, // list of receivers                               
@@ -57,9 +50,7 @@ fs.readFile(dirpath, function (err, data) {
         }
         console.log('Message sent: ' + info.response);
     });
-
     });
-
 };
 
 exports.cleanupOutputDir = function (){
@@ -79,7 +70,7 @@ exports.cleanupOutputDir = function (){
 };
 
 exports.renderLatexDoc = function(awardtype,context, complete){    
-    // cleanupOutputDir(); //delete existing files in latex output directory
+    //exports.cleanupOutputDir(); //delete existing files in latex output directory
     //as discussed at https://stackoverflow.com/questions/41560344/how-to-use-a-pdflatex-child-process-to-get-a-pdf-as-a-stream-in-node-js     
     var process = require('process');
     process.chdir('public/latexfiles');  
@@ -88,6 +79,7 @@ exports.renderLatexDoc = function(awardtype,context, complete){
     {
         templateName = 'eomtemplatewithfields.tex';
         var awardfilename ='eomaward'; 
+        //var awardfilename ='award' + context.awardrecord[0].awardID; //TO SAVE WITH AWARDRECORD ID
         context.awardrecord[0].awardfilename = awardfilename;
         //console.log(context.awardrecord.awardfilename);
         var spawn  = require('child_process').spawn;
@@ -98,6 +90,7 @@ exports.renderLatexDoc = function(awardtype,context, complete){
     {
         templateName = 'eowtemplatewithfields.tex';
         var awardfilename = 'eowaward';
+        //var awardfilename ='award' + context.awardrecord[0].awardID; //TO SAVE WITH AWARDRECORD ID
         context.awardrecord[0].awardfilename = awardfilename;
         var spawn  = require('child_process').spawn;
         var jobname = '-jobname='+awardfilename;

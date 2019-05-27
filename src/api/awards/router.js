@@ -72,7 +72,7 @@ function getPresenterSig(req,res){
             //create buffer from blob binary
             const buf = Buffer.from(results[0].signature);
             console.log("BLOB data read!");
-            console.log(results[0].signature);
+            //console.log(results[0].signature);
              //Write new file out:
             fs.writeFileSync('public/latexfiles/outputsig.png', buf);
             const message = "File created and saved as public/latexfiles/outputsig.png";
@@ -232,8 +232,13 @@ function createAwardRecord(req,res){
 function deleteAwardRecord(req, res) {
     db.pool.query("DELETE FROM awards WHERE id = ?", [req.params.id], (error, results, fields) => {
         if(error) throw error;
-     
-        res.status(204).send();
+        let data = [];
+        data.push({
+        "message": "Award record with ID " + req.params.id + " has been deleted",
+        });
+        //console.log(data);
+        res.status(200).send(data);
+        //res.status(204).send();
     });
             
 }
