@@ -172,10 +172,8 @@ module.exports = function(){
                 latexmodule.renderLatexDoc(context.awardrecord[0].awardtypeID, context, complete);
             }
             else if (callbackCount === 3){
-                //for testing only to mail award
-                //latexmodule.mailAward(context.awardrecord[0].recipient, context.awardrecord[0].recipient_email, "eowaward");
-                //latexmodule.mailAward("Connie McClung", "connie_mcclung@comcast.net", context.awardrecord[0].awardtypeID, complete);   
-                latexmodule.mailAward("Connie McClung", "connie_mcclung@comcast.net", "test"); 
+                //added a call to send a latex award by email only for testing, not in final
+                //latexmodule.testEmailAward();
                 res.render('previewaward', context);
             }
         }  

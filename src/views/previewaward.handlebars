@@ -24,13 +24,14 @@ for(i = 0; i < style.length; i++){
 					<th>Presenter</th> 
 				</tr>
 				<tr class="row"> 
-					<td>{{awardrecord.awardID}}</td> 
-					<td>{{awardrecord.awardtype}}</td>
-					<td>{{awardrecord.date}}</td> 
-					<td>{{awardrecord.recipient}} </td>
-					<td>{{awardrecord.department_name}} </td>
-					<td>{{awardrecord.region_name}} </td>
-					<td>{{awardrecord.awarder}}</td>
+				 {{#each awardrecord}}
+                <td>{{this.awardID}}</td> 
+                <td>{{this.awardtype}}</td>            
+                <td>{{this.award_date}}</td> 
+                <td>{{this.recipient}} </td>
+                <td>{{this.recipient_department}} </td>
+                <td>{{this.recipient_region}} </td>
+                <td>{{this.presenter}}</td>
 					<td>
 						<button class="actionButton" onclick='deleteAwardRecord({{awardrecord.awardID}})'>Delete </button>
 					</td>      
@@ -39,8 +40,9 @@ for(i = 0; i < style.length; i++){
 	</table>
 </div>
 <p style="text-align:center;">
-        <a href='../latexfiles/output/{{awardrecord.awardfilename}}.pdf' download='Award{{awardrecord.awardID}}.pdf'> <button class='download actionButton'>Download as PDF</button></a>                
+        <a href='../latexfiles/output/{{this.awardfilename}}.pdf' download='Award{{this.awardID}}.pdf'> <button class='download'>Download as PDF</button></a>                  
     <br>
     <br>
     <input type='button' class="actionButton" name='email' value='Email to Recipient' onclick=''>
+        {{/each}} 
 </p>

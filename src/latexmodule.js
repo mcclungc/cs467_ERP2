@@ -108,6 +108,9 @@ exports.renderLatexDoc = function(awardtype,context, complete){
     complete();
     };
 
+exports.testEmailAward = function(){
+    exports.mailAward("Connie McClung", "connie_mcclung@comcast.net", "test"); 
+}
 
 exports.writeCSV = function(data){
     //https://www.npmjs.com/package/csv-writer
