@@ -1,0 +1,27 @@
+P { text-align: center }
+
+H1 { text-align: center }
+
+#chart_div {
+    padding: 0;
+    margin: auto;
+    display: block;
+    width: 800px;
+}
+
+#premade {
+    display: block;
+    padding: 10;
+    padding-top: 10;
+    margin: auto;
+    width: 70%;
+}
+
+#uploadSig {
+    float: left;
+}
+
+.submitButtons {
+   float: right;
+}
+

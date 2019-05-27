@@ -133,3 +133,7 @@
 .sort {
 	cursor: pointer;
 }
+
+#updateForm {
+	display: none;
+}
