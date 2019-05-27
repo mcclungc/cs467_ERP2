@@ -61,3 +61,7 @@ body {
 	padding: 20px;
 	background-color: #93f7f2;
 }
+
+#message {
+	color: red;
+}

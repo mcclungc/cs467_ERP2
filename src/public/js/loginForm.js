@@ -5,7 +5,8 @@ $(function() {
         e.preventDefault();
 
 		let email = $('#email').val();
-		let password = $('#password').val();
+        let password = $('#password').val();
+        let field = $('fieldset');
 
         // Set the base data object
         data = {
@@ -32,7 +33,14 @@ $(function() {
             },
             error: (jq, status, err) => {
 				$("#email").val('');
-				$("#password").val('');
+                $("#password").val('');
+                
+                if($('#message').length) {
+					$('#message').remove();
+				}
+
+				let $message = $('<p id="message">Email and/or Password Incorrect</p>');
+				field.append($message);
             }
         })
     });

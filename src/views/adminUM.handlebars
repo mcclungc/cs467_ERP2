@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="css/table.css" type="text/css">
 <link rel="stylesheet" href="css/lightBox.css" type="text/css">
+<link rel="stylesheet" href="css/createForm.css" type="text/css">
 <h1 class="title">User Management</h1>
 <div class="tableContainer">
 	<div class="actionBar">
@@ -33,10 +34,10 @@
 							<div class="checkMark"><i class="fas fa-check checkoff"></i></div>
 						</td>
 						<td class="name">{{this.name}}</td>
-						<td>{{this.usertype}}</td>
-						<td>{{this.email}}</td>
-						<td>{{this.department_name}}</td>
-						<td>{{this.region_name}}</td>
+						<td class="userType" name="{{this.usertype}}"></td>
+						<td class="email">{{this.email}}</td>
+						<td class="department">{{this.department_name}}</td>
+						<td class="region">{{this.region_name}}</td>
 						<td>{{this.created_on}}</td>
 						<td><p><button class="editButton" id="{{this.id}}">Edit</button></p></td>
 					</tr>
@@ -54,5 +55,40 @@
 	<div id="lightBox-Inner">
 		This is a test.
 	</div>
+</div>
+<div id="updateForm" class="createForm">
+	<form id="accountForm" method="post">
+		<fieldset>
+			<p class="fields"><input id="name" value="" required></p>
+			<p class="fields">
+				<select name="userType" id="userType" required>
+					<option value="">User Type</option>
+					<option value="0">User</option>
+					<option value="1">Admin</option>
+				</select>
+			</p>
+			<p class="fields"><input id="email" value="" required></p>
+			<p class="fields">
+				<select name="department" id="department">
+					<option value="">Department</option>
+					{{#each departments}}
+					<option value="{{id}}">{{department_name}}</option>
+					{{/each}}
+				</select>
+			</p>
+			<p class="fields">
+				<select name="region" id="region">
+					<option value="">Region</option>
+					{{#each regions}}
+					<option value="{{id}}">{{region_name}}</option>
+					{{/each}}
+				</select>
+			</p>
+			<p class="fields">
+				<button class="lightBox-button" id="updateBTN">Update</button>
+				<button class="lightBox-button" onclick="closeLightBox()">Cancel</button>
+			</p>
+		</fieldset>
+	</form>
 </div>
 <script type="text/javascript" src="js/umTable.js"></script>

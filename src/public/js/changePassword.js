@@ -1,20 +1,48 @@
-var submitButton = document.getElementById("changePass");
-submitButton.addEventListener("click", function(event) {
-	event.preventDefault();
-	var req = new XMLHttpRequest();
-	var form = document.getElementById("password");
-	var pass = document.getElementById("newPassword");
-	var entry = {};
-	entry.password = pass.value;
-	req.open("POST", "/", true);
-	req.setRequestHeader('Content-Type','application/json');
-	req.addEventListener('load', function() {
-		if (req.status >= 200 && req.status < 400) {
-			var response = JSON.parse(req.responseText);
-			console.log(response);
-		} else {
-			console.log("Error in network request: " + req.statusText);
-		}
-	});
-	req.send(JSON.stringify(entry));
+$(function() {
+    $("#changePass").click((e) => {
+        e.preventDefault();
+
+		let newPassword = $('#newPassword').val();
+		let confirmPassword = $('#confirmPassword').val();
+		let button = $('#changePass');
+
+        // Set the base data object
+        data = {
+            "newPassword": newPassword,
+            "confirmPassword": confirmPassword
+        };
+
+        $.ajax({
+            url: "/api/password",
+            type: "PATCH",
+            data: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json; charset=utf-8"
+            },
+            dataType: "json",
+            success: (res, status, jq) => {
+				$("#newPassword").val('');
+				$("#confirmPassword").val('');
+				
+				if($('#message').length) {
+					$('#message').remove();
+				}
+				
+				let $message = $('<p id="message">Password Change Successful</p>');
+				button.after($message);
+				
+            },
+            error: (jq, status, err) => {
+				$("#newPassword").val('');
+				$("#confirmPassword").val('');
+
+				if($('#message').length) {
+					$('#message').remove();
+				}
+
+				let $message = $('<p id="message">Password Change Failed</p>');
+				button.after($message);
+            }
+        })
+    });
 });

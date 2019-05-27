@@ -5,7 +5,8 @@ var updateBtn = document.getElementById("update");
 updateBtn.addEventListener("click", function(event) {
 	event.preventDefault();
 	var req = new XMLHttpRequest();
-	req.open("PATCH", "/api/users/:id", true);
+	var id = updateBtn.name; 
+	req.open("PATCH", "/api/users/" + id, true);
 	req.setRequestHeader('Content-Type', 'application/json');
 	req.addEventListener('load', function() {
 		if (req.status >= 200 && req.status < 400) {
@@ -24,6 +25,7 @@ updateBtn.addEventListener("click", function(event) {
 		}
 	});
 	req.send(JSON.stringify(entry));
+	updateBtn.parentNode.style.display = "none";
 });
 
 function updateAccount() {
