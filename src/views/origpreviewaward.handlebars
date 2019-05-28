@@ -33,7 +33,7 @@ for(i = 0; i < style.length; i++){
                 <td>{{this.recipient_region}} </td>
                 <td>{{this.presenter}}</td>
 					<td>
-						<button class="actionButton" onclick='deleteAwardRecord({{awardrecord.awardID}})'>Delete </button>
+						<button class="actionButton" id="deleteAwardRec" onclick='deleteAwardRecord({{this.awardID}})'>Delete </button>
 					</td>      
 				</tr> 
 			</tbody> 
@@ -46,3 +46,7 @@ for(i = 0; i < style.length; i++){
     <input type='button' class="actionButton" name='email' value='Email to Recipient' onclick=''>
         {{/each}} 
 </p>
+		</div>
+	</body>
+
+

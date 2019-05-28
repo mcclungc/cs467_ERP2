@@ -1,197 +1,121 @@
 module.exports = function(){
-    var express = require('express');
-    var router = express.Router();
-    var dateFormat = require('dateformat');
-    var fs = require('fs');
-
-    function cleanupOutputDir(){
-        //https://stackoverflow.com/questions/27072866/how-to-remove-all-files-from-directory-without-removing-directory-in-node-js/42182416
-        var path = require('path');
-        var directory = 'public/latexfiles/output';
-        console.log('Current directory: ' + process.cwd());
-        fs.readdir(directory, (err, files) => {
-            if (err) throw err;
-          
-            for (const file of files) {
-              fs.unlink(path.join(directory, file), err => {
-               if (err) throw err;
-              });
-            }
-          });
-    }
-
-    function renderLatexDoc(awardtype,context){    
-       // cleanupOutputDir(); //delete existing files in latex output directory
-        //as discussed at https://stackoverflow.com/questions/41560344/how-to-use-a-pdflatex-child-process-to-get-a-pdf-as-a-stream-in-node-js     
-        var process = require('process');
-        process.chdir('public/latexfiles');  
-        //console.log('Current directory: ' + process.cwd());
-        if (awardtype == 1)
-        {
-            templateName = 'eomtemplatewithfields.tex';
-            var awardfilename ='eomaward'; 
-            context.awardrecord.awardfilename = awardfilename;
-            //console.log(context.awardrecord.awardfilename);
-            var spawn  = require('child_process').spawn;
-            var jobname = '-jobname='+awardfilename;
-            var latex = spawn('pdflatex', ['-output-directory', 'output/',jobname, templateName]);
-        }
-        else if (awardtype ==2)
-        {
-            templateName = 'eowtemplatewithfields.tex';
-            var awardfilename = 'eowaward';
-            context.awardrecord.awardfilename = awardfilename;
-            var spawn  = require('child_process').spawn;
-            var jobname = '-jobname='+awardfilename;
-            var latex = spawn('pdflatex', ['-output-directory', 'output/',jobname, templateName]);
-        }
-        process.chdir('../..');
-        //console.log('Current directory: ' + process.cwd());
-    }
+    const express = require('express');
+    const router = express.Router();
+    const dateFormat = require('dateformat');
+    const fs = require('fs');
+    const Request = require('request');
+    const latexmodule = require('./latexmodule'); //moved latex functions to separate module
 
 
-    function writeCSV(data){
-        //https://www.npmjs.com/package/csv-writer
-        var createCsvWriter = require('csv-writer').createObjectCsvWriter;  
-        //set up field names for csv file
-        var csvWriter = createCsvWriter({  
-            path: 'public/latexfiles/awarddata.csv',
-            header: [
-            {id: 'rname', title: 'RecipientName'},
-            {id: 'rdept', title: 'RecipientDept'},
-            {id: 'awarder', title: 'Awarder'},
-            {id: 'awardedon', title: 'Date'}
-            ]
-        });
-
-        //write data to a csv file
-        csvWriter  
-        .writeRecords(data)
-        .then(()=> console.log('The CSV file ' + csvWriter.path + ' was written successfully.')); 
-    }
-
-    //get award types 
-    function getAwardTypes(res, mysql, context, complete){
-        mysql.pool.query('SELECT id, certificate_type FROM certificates', function(error, results, fields){
-            if(error){
+    //API Call Wrapper Functions - I am trying to consolidate to 1 function
+    function callAPIAwardRecords(url, context,  complete){
+        Request.get(url, (error, response,body)=> {
+            if(error) {
                 res.write(JSON.stringify(error));
                 res.end();
-            }
-            context.awardtypes  = results;
-            complete();
-        });
-    }
-    //get all employees who could be recipients
-    
-    function getRecipients(res, mysql, context, complete){
-        mysql.pool.query('SELECT id, name FROM users', function(error, results, fields){
-            if(error){
-                res.write(JSON.stringify(error));
-                res.end();
-            }
-            context.employees = results;
+            }    
+            context.awardrecords = JSON.parse(body);
             complete();
         });
     }
 
-    //get all awarders
-    function getAwarders(res, mysql, context, complete){
-        mysql.pool.query('SELECT id, name FROM users', function(error, results, fields){
-            if(error){
+    function callAPIAwardTypes(url, context, complete){
+        Request.get(url, (error, response,body)=> {
+            if(error) {
                 res.write(JSON.stringify(error));
                 res.end();
-            }
-            context.awarders = results;
+            }    
+            context.awardtypes = JSON.parse(body);
             complete();
         });
     }
 
-    //get all departments
-    function getDepartments(res, mysql, context, complete){
-        mysql.pool.query('SELECT id, department_name FROM departments', function(error, results, fields){
-            if(error){
+    function callAPIDepartments(url, context, complete){
+        Request.get(url, (error, response,body)=> {
+            if(error) {
                 res.write(JSON.stringify(error));
                 res.end();
-            }
-            context.departments = results;
+            }    
+             context.departments = JSON.parse(body);
+            complete();
+        });
+    }
+
+    function callAPIRegions(url, context, complete){
+        Request.get(url, (error, response,body)=> {
+            if(error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }    
+            context.regions = JSON.parse(body);
+            complete();
+        });
+    }
+
+    function callAPIPresenters(url, context, complete){
+        Request.get(url, (error, response,body)=> {
+            if(error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }    
+            context.presenters = JSON.parse(body);
             complete();
         });
     }
     
-    //get all regions
-    function getRegions(res, mysql, context, complete){
-        mysql.pool.query('SELECT id, region_name FROM regions', function(error, results, fields){
-            if(error){
+    function callAPIAwardRecord(url, context, complete){//not working yet
+        Request.get(url, (error, response,body)=> {
+            if(error) {
                 res.write(JSON.stringify(error));
                 res.end();
-            }
-            context.regions = results;
-            complete();
-        });
-    }
-    //list all award records - TO DO: filter on current user by session
-    function getAwardRecords(res, mysql, context, complete){
-        mysql.pool.query('SELECT awards.certificate_id as awardtypeID, awards.id as awardID, awards.sent_on as date, awards.recipient_name as recipient, awards.recipient_email, awards.recipient_department_id as department, awards.recipient_region_id as region, users.name as awarder, departments.department_name as department_name, certificates.certificate_type as awardtype, regions.region_name as region_name FROM users INNER JOIN awards on users.id = awards.presenter_id INNER JOIN departments on awards.recipient_department_id = departments.id INNER JOIN certificates on awards.certificate_id = certificates.id INNER JOIN regions on awards.recipient_region_id = regions.id ORDER BY awards.id ASC', 
-        function(error, results, fields){
-            if(error){
-                res.write(JSON.stringify(error));
-                res.end();
-            }
-            context.awardrecords = results;
-            for (var i = 0; i < context.awardrecords.length; i++) {
-                var newDate = dateFormat(context.awardrecords[i].date, 'shortDate');
-                context.awardrecords[i].date = newDate;
-            }
-            complete();
-        });
-    }
-
-    //get individual award record
-    function getAwardRecord(res, mysql, context, id, complete){
-        var sql = 'SELECT awards.certificate_id as awardtypeID, awards.id as awardID, awards.sent_on as date, awards.recipient_name as recipient, awards.recipient_email, awards.recipient_department_id as department, awards.recipient_region_id as region, users.name as awarder, departments.department_name as department_name, certificates.certificate_type as awardtype, regions.region_name as region_name FROM users INNER JOIN awards on users.id = awards.presenter_id INNER JOIN departments on awards.recipient_department_id = departments.id INNER JOIN certificates on awards.certificate_id = certificates.id INNER JOIN regions on awards.recipient_region_id = regions.id WHERE awards.id  = ? ';
-        var inserts = [id];
-        mysql.pool.query(sql, inserts, function(error, results, fields){
-            if(error){
-                res.write(JSON.stringify(error));
-                res.end();
-            }
-            //console.log(results[0]);
-            context.awardrecord = results[0];
+            }  
+            //console.log(body);  
+            context.awardrecord = JSON.parse(body);
             //console.log(context.awardrecord);
-            var newDate = dateFormat(context.awardrecord.date, 'shortDate');
-            context.awardrecord.date = newDate;
             complete();
         });
     }
 
+    function callAPIPresenterSig(url, context, complete){//not working yet
+        Request.get(url, (error, response,body)=> {
+            if(error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }  
+            //console.log(JSON.parse(body));
+            context.siginfo = JSON.parse(body);
+            complete();
+        });
+    }
+   
+   
     //routes
     // page for /award
     router.get('/', function(req, res){
         var callbackCount = 0;
-        var context = {};
-	context.layout = 'user';
-	context.title = 'ERP Awards';
-        var mysql = req.app.get('mysql');
-        //query tables to populate dropdown lists
-        getAwardTypes(res, mysql, context, complete);
-        getRecipients(res, mysql, context, complete);
-        getAwarders(res, mysql, context, complete);
-        getDepartments(res, mysql, context, complete);
-        getRegions(res, mysql, context, complete);
-        getAwardRecords(res, mysql, context, complete);
+        var context = {}; 
+        context.layout = 'user';
+        context.title = 'ERP Awards';
+        callAPIAwardTypes("http://localhost:5000/api/awards_types", context, complete);
+        callAPIPresenters("http://localhost:5000/api/awards_presenters",  context,  complete);
+        callAPIDepartments("http://localhost:5000/api/awards_departments",  context,  complete);
+        callAPIRegions("http://localhost:5000/api/awards_regions", context,  complete);
+        callAPIAwardRecords("http://localhost:5000/api/awards", context,  complete);
         function complete(){
             callbackCount++;
-            if(callbackCount >= 6){
+            if(callbackCount >= 5){
                 res.render('userAward', context);
             }
         }
     });
 
-    
-    /* Adds an awardrecord*/
+       
+    //add an award record TO DO: MOVE TO API CALL  
     router.post('/', function(req, res){
         var mysql = req.app.get('mysql');
         var context = {};
+        context.layout = 'user';
+        context.title = 'ERP Awards';
         var sql = 'INSERT INTO awards (certificate_id,  recipient_name, recipient_email, recipient_department_id, recipient_region_id, presenter_id, sent_on) VALUES (?,?,?,?,?,?,?)';
         var inserts = [req.body.awardtype, req.body.recipient_name, req.body.recipient_email, req.body.department, req.body.region,  req.body.awarder, req.body.date];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
@@ -206,36 +130,56 @@ module.exports = function(){
 
     });
 
-    //filter one award 
+     //filter one award calling API
     router.get('/:id', function(req, res){
-        var callbackCount = 0;
-        var context = {};
-	context.layout = 'user';
-	context.title = 'ERP Award Preview';
-        var mysql = req.app.get('mysql');
+        let callbackCount = 0;
+        let context = {};
+        //push options for handlebar view
+	    context.layout = 'user';
+        context.title = 'ERP Award Preview';
+        //push js for delete button
         context.jsscripts = ['public/js/deleteawardrecord.js'];
-        getAwardRecord(res, mysql, context, req.params.id, complete);
+        context.jsscripts = ['public/js/deleteawardrecord.js'];
+        //push js for email button
+        //get award record data for rendering latex award file
+        const url = "http://localhost:5000/api/awards/"+ req.params.id;
+        //console.log(url);
+        callAPIAwardRecord(url, context, complete);
         function complete(){
             callbackCount++;
-            if(callbackCount >= 1){
-                //console.log(context.awardrecord);
-                var newDate = dateFormat(context.awardrecord.date, 'longDate');
-                var data = [  
-                    {
-                        rname: context.awardrecord.recipient,
-                        rdept: context.awardrecord.department_name,
-                        awarder: context.awardrecord.awarder,
-                        awardedon: newDate
-                    }
-                    ];
-                    writeCSV(data);  
-                    renderLatexDoc(context.awardrecord.awardtypeID,context);
-                	res.render('previewaward', context);
+            if(callbackCount === 1){   
+                //console.log("presenter id is " + context.awardrecord[0].presenter_id); 
+                //get presenter sig and sig file name
+                const presentersigurl = "http://localhost:5000/api/awards_presenter_sig/"+ context.awardrecord[0].presenter_id; 
+                callAPIPresenterSig(presentersigurl, context, complete);
             }
-        }
-
+            else if (callbackCount === 2){
+               // console.log(context.siginfo[0].sigfilename);
+                var awarddata = [  
+                    {
+                        rname: context.awardrecord[0].recipient,
+                        rdept: context.awardrecord[0].recipient_department,
+                        rregion: context.awardrecord[0].recipient_region,
+                        awarder: context.awardrecord[0].presenter,
+                        awardedon: context.awardrecord[0].award_date,
+                        sigfile: context.siginfo[0].sigfilename
+                       // sigfile: "outputsig.png"
+                    }
+                ]; 
+                //create award data file csv
+                //console.log(awarddata);
+                latexmodule.writeCSV(awarddata); 
+                //render latex file and save in dictionary
+                latexmodule.renderLatexDoc(context.awardrecord[0].awardtypeID, context, complete);
+            }
+            else if (callbackCount === 3){
+                res.render('origpreviewaward', context);
+            }
+        }  
     });
-    //delete one award record
+
+
+    //delete one award record TO DO: USE API CALL
     router.delete('/:id', function(req, res){
         var mysql = req.app.get('mysql');
         var sql = 'DELETE FROM awardrecords WHERE id = ?';
@@ -250,5 +194,6 @@ module.exports = function(){
             }
         })
     })
+ 
     return router;
 }();
