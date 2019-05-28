@@ -139,7 +139,7 @@ module.exports = function(){
         context.title = 'ERP Award Preview';
         //push js for delete button
         context.jsscripts = ['public/js/deleteawardrecord.js'];
-        context.jsscripts = ['public/js/deleteawardrecord.js'];
+        context.css = ['public/css/table.css', 'public/userMain.css'];
         //push js for email button
         //get award record data for rendering latex award file
         const url = "http://localhost:5000/api/awards/"+ req.params.id;
