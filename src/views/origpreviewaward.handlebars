@@ -1,15 +1,8 @@
-<style>
-var hostName = document.location.origin + "/award";
-var style = document.getElementsByTagName("link");
-var i;
-for(i = 0; i < style.length; i++){
-	if(style[i].href != "https://use.fontawesome.com/releases/v5.8.1/css/all.css"){
-		var string = style[i].href;
-		style[i].href = string.substr(hostName.length);
-	}
-}
-</style>
-<link rel="stylesheet" href="css/table.css" type="text/css">
+{{#if css}}
+{{#each css}}
+<link rel="stylesheet" href="{{this}}" type="text/css">
+{{/each}}
+{{/if}}
 <h1 class="title">Award Record</h1>
 <div class="tableContainer">
 	<table id="userTable">
