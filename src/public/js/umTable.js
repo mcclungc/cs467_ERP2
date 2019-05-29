@@ -264,6 +264,7 @@ function edit() {
 		req.send(JSON.stringify(updateInfo));
 		updateForm.style.display = "none";
 		closeLightBox();
+	});
 }
 
 function deleteUsers() {

@@ -134,7 +134,7 @@ module.exports = function(){
      //filter one award calling API
     router.get('/:id', function(req, res){
         let callbackCount = 0;
-	let hostName = req.headers.host; 
+	    let hostName = req.headers.host; 
         let context = {};
         //push options for handlebar view
 	    context.layout = 'user';
@@ -175,7 +175,7 @@ module.exports = function(){
                 latexmodule.renderLatexDoc(context.awardrecord[0].awardtypeID, context, complete);
             }
             else if (callbackCount === 3){
-                res.render('origpreviewaward', context);
+                res.status(200).send();
             }
         }  
     });
