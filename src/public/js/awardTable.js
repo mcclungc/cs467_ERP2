@@ -244,7 +244,9 @@ function preview() {
 	req.setRequestHeader('Content-Type', 'application/json');
 	req.addEventListener('load', function() {
 		if (req.status >= 200 && req.status < 400) {
-			window.location.assign('../latexfiles/output/eowaward.pdf');
+			window.location.assign('../latexfiles/output/award'+id+'.pdf'); //needs to use award ID to pick correct award and type
+			//window.location.assign('../latexfiles/output/test.pdf'); //needs to use award ID to pick correct award and type
+
 			//<a href='../latexfiles/output/{{this.awardfilename}}.pdf' download='Award{{this.id}}.pdf'> <button class='download'>Download as PDF</button></a>
 		} else {
 			console.log("Error in network request: " + req.statusText);

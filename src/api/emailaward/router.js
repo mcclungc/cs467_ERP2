@@ -20,22 +20,12 @@ function emailAwardRecord(req, res) {
         } else {
             let data = [];
             data.push({
+                "awardID": results[0].awardID,
                 "awardtype": results[0].awardtype,
                 "awardtypeID": results[0].awardtypeID,
                 "recipient":results[0].recipient,
                 "recipient_email": results[0].recipient_email,
             });
-            if (results[0].awardtypeID === 1)
-            {
-                //latexmodule.mailAward(results[0].recipient,results[0].recipient_email, "eomaward");
-               // latexmodule.mailAward("Connie McClung", "connie_mcclung@comcast.net", "award"+ results[0].awardID);
-                latexmodule.mailAward("Connie McClung", "connie_mcclung@comcast.net","eomaward");
-            }
-            else if (results[0].awardtypeID === 2){
-                //latexmodule.mailAward(results[0].recipient,results[0].recipient_email, "eowaward");
-                //latexmodule.mailAward("Connie McClung", "connie_mcclung@comcast.net", "award"+ results[0].awardID);
-                latexmodule.mailAward("Connie McClung", "connie_mcclung@comcast.net", "eowaward");
-            }
             res.status(200).send(data);
         }
     });

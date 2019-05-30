@@ -88,7 +88,24 @@ module.exports = function(){
             complete();
         });
     }
-   
+    function callAPIEmailAward(url, context, complete){
+        Request.get(url, (error, response,body)=> {
+            if(error) {
+                res.write(JSON.stringify(error));
+                res.end();
+            }  
+            else{  
+            context.sentto = JSON.parse(body);
+            //console.log(context.sentto);
+            //latexmodule.mailAward(context.sentto.recipient_name, context.sentto.recipient_email, "award"+ context.sentto.awardID);
+            latexmodule.mailAward("Connie McClung", "connie_mcclung@comcast.net", "award"+ context.sentto[0].awardID);
+            //latexmodule.mailAward("Connie McClung", "connie_mcclung@comcast.net", "test");
+
+            }
+        });
+        
+        complete();
+    }
    
     //routes
     // page for /award
@@ -139,23 +156,23 @@ module.exports = function(){
         //push options for handlebar view
 	    context.layout = 'user';
         context.title = 'ERP Award Preview';
-        //push js for delete button
-        context.jsscripts = [hostName + 'public/js/deleteawardrecord.js'];
         context.css = [hostName + 'public/css/table.css', hostName + 'public/userMain.css'];
-        //push js for email button
         //get award record data for rendering latex award file
         const url = "http://localhost:5000/api/awards/"+ req.params.id;
         //console.log(url);
         callAPIAwardRecord(url, context, complete);
+        //console.log(callbackCount);
         function complete(){
             callbackCount++;
             if(callbackCount === 1){   
+                //console.log(callbackCount);
                 //console.log("presenter id is " + context.awardrecord[0].presenter_id); 
                 //get presenter sig and sig file name
                 const presentersigurl = "http://localhost:5000/api/awards_presenter_sig/"+ context.awardrecord[0].presenter_id; 
                 callAPIPresenterSig(presentersigurl, context, complete);
             }
             else if (callbackCount === 2){
+               // console.log(callbackCount);
                // console.log(context.siginfo[0].sigfilename);
                 var awarddata = [  
                     {
@@ -165,16 +182,26 @@ module.exports = function(){
                         awarder: context.awardrecord[0].presenter,
                         awardedon: context.awardrecord[0].award_date,
                         sigfile: context.siginfo[0].sigfilename
-                       // sigfile: "outputsig.png"
                     }
                 ]; 
                 //create award data file csv
                 //console.log(awarddata);
-                latexmodule.writeCSV(awarddata); 
+                latexmodule.writeCSV(awarddata, complete); 
+
+            }                 
+            else if (callbackCount === 3){
+                //console.log(callbackCount);
                 //render latex file and save in dictionary
                 latexmodule.renderLatexDoc(context.awardrecord[0].awardtypeID, context, complete);
             }
-            else if (callbackCount === 3){
+            else if (callbackCount === 4){
+                //console.log(callbackCount);
+                const emailurl = "http://localhost:5000/api/emailaward/"+ context.awardrecord[0].awardID;
+                //console.log(emailurl);
+                callAPIEmailAward(emailurl, context, complete);
+            }
+            else if (callbackCount === 5){
+                //console.log(callbackCount);
                 res.status(200).send();
             }
         }  

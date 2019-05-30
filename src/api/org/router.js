@@ -35,7 +35,7 @@ function getDepartments(req,res){
             results.forEach(element => {
                 data.push({
                     "id": element.id,
-                    "depart_name": element.department_name
+                    "department_name": element.department_name
                 });
             });
             res.status(200).send(data);
@@ -65,5 +65,6 @@ function getRegions(req,res){
 router.get('/org/certificates', getCertificates);
 router.get('/org/regions', getRegions);
 router.get('/org/departments', getDepartments);
+
 
 module.exports = router;
