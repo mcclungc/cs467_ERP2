@@ -3,27 +3,21 @@
 	<form id="cUser" method="post">
 		<fieldset>
 			<h1 class="title">Create a User</h1>
-			<p class="fields"><input id="userName" name="userName" type="email" placeholder="Username" autocomplete="on" required></p>
+			<p class="fields"><input id="email" name="email" type="email" placeholder="Email" autocomplete="on" required></p>
 			<p class="fields"><input id="password" name="password" type="password" placeholder="Password" required></p>
 			<p class="fields"><input id="name" name="name" type="text" placeholder="Full Name" autocomplete="on" required></p>
 			<p class="fields">
 				<select name="department" id="department">
 					<option value="">Department</option>
-					{{#each departments}}
-					<option value="{{id}}">{{department_name}}</option>
-					{{/each}}
 				</select>
 			</p>
 			<p class="fields">
 				<select name="region" id="region">
 					<option value="">Region</option>
-					{{#each regions}}
-					<option value="{{id}}">{{region_name}}</option>
-					{{/each}}
 				</select>
 			</p>
 			<p class="fields">
-				<select name="userType" required>
+				<select name="userType" id="userType" required>
 					<option value="">User Type</option>
 					<option value="0">User</option>
 					<option value="1">Admin</option>

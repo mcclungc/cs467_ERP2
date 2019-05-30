@@ -60,10 +60,12 @@ function userCheck(email) {
 function createUser(req, res) {
     if(!req.cookies.erp_session) {
         res.status(401).json({ 'message': 'Invalid User' }).send();
+        return;
     } else {
         sessionValidation(req.cookies.erp_session).then(admin => {
             if(admin !== 1) {
                 res.status(401).json({ 'message': 'Invalid User' }).send();
+                return;
             } else {
                 const schema = Joi.object().keys ({
                     email: Joi.string().max(256).email({minDomainSegments: 2, tlds: {allow: ['com', 'edu']}}).required(),
@@ -116,10 +118,12 @@ function createUser(req, res) {
                                     }
                 
                                     res.status(200).send(data);
+                                    return;
                                 });
                             });
                         }).catch(error => {
                             res.status(400).json({ 'message': error }).send();
+                            return;
                         })
                     }
                 });
