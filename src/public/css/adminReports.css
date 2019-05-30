@@ -1,27 +1,53 @@
-P { text-align: center }
-
-H1 { text-align: center }
-
 #chart_div {
-    padding: 0;
-    margin: auto;
-    display: block;
-    width: 800px;
+	padding: 0;
+	margin: auto;
+	display: block;
+	width: 800px;
 }
 
 #premade {
-    display: block;
-    padding: 10;
-    padding-top: 10;
-    margin: auto;
-    width: 70%;
+	display: block;
+	padding: 10;
+	padding-top: 10;
+	margin: auto;
+	width: 70%;
 }
 
-#uploadSig {
-    float: left;
+.reportInput {
+	margin: 5% auto;
+	width: 70%;
+	box-shadow: 0 14px 28px gray;
+	border-radius: 5px;
 }
 
-.submitButtons {
-   float: right;
+.reportInput .fields {
+	display: inline-block;
+	width: 48%;
+	text-align: center;
+	font-weight: bold;
 }
+
+.reportInput .fields input, .reportInput select {
+	background-color: #eee;
+	border: none;
+	padding: 5px;
+	width: 90%;
+}
+
+.reportButton {
+	margin: 5px 20px;
+	padding: 10px;
+	border: none;
+	color: #fff;
+	text-decoration: none;
+	background-color: #03A9F4;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.reportButton:hover {
+	background-color: #415266;
+}
+
+
 
