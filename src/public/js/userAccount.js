@@ -21,32 +21,34 @@ var mousedown = false
 
 //Display signature section
 function showSigSection() {
-	sigChange.style.display = "block";
+    if(sigChange.style.display === "block") {
+        sigChange.style.display = "none";
+    } else {
+        sigChange.style.display = "block";
+    }
 }
 
 //Update button
 var update = document.getElementById("updateInfo");
 update.addEventListener("click", updateAccount);
-var current = document.getElementsByClassName("currentInfo");
 var updateBtn = document.getElementById("update");
+
+
 updateBtn.addEventListener("click", function(event) {
 	event.preventDefault();
 	var req = new XMLHttpRequest();
-	var id = updateBtn.name;
+    var id = updateBtn.name;
+    var name = document.getElementById("name");
+    var entry = {
+        "name": name.firstElementChild.value
+    };
 	req.open("PATCH", "/api/users/" + id, true);
 	req.setRequestHeader('Content-Type', 'application/json');
 	req.addEventListener('load', function() {
 		if (req.status >= 200 && req.status < 400) {
-			var response = JSON.parse(req.responseText);
-			console.log(response);
 			updateBtn.parentNode.style.display = "none";
-			var j;
-			var text;
-			//update account info fields
-			for(j = 0; j < current.length; j++){
-				text = current[j].childNodes[0].value;
-				current[j].innerText = text;
-			}			
+            var text = name.firstElementChild.value;
+            name.innerText = text;
 		} else {
 			console.log("Error in network request: " + req.statusText);
 		}
@@ -56,17 +58,21 @@ updateBtn.addEventListener("click", function(event) {
 });
 
 function updateAccount() {
-	addInputFields();
-	updateBtn.parentNode.style.display = "block";
+    var name = document.getElementById("name");
+    if(updateBtn.parentNode.style.display === "block") {
+        var text = name.firstElementChild.value;
+        name.innerText = text;
+        updateBtn.parentNode.style.display = "none";
+    } else {
+        addInputFields();
+        updateBtn.parentNode.style.display = "block";
+    }
 }
 
 function addInputFields() {
-	var i = 0;
-	var value;
-	for (i = 0; i < current.length; i++) {
-		value = current[i].innerText;
-		current[i].innerHTML = '<input type="text" value="' + value + '"></p>';
-	}
+    var name = document.getElementById("name");
+    var value = name.innerText;
+    name.innerHTML = '<input type="text" value="' + value + '"></p>';
 }
 
 //Js for signature
