@@ -245,6 +245,8 @@ function edit() {
 			if (req.status >= 200 && req.status < 400) {
 				var response = JSON.parse(req.responseText);
 				console.log(response);
+				userName.innerText = newN;
+				uEmail.innerText = newE;
 			} else {
 				console.log("Error in network request: " + req.statusText);
 			}
