@@ -71,7 +71,7 @@ function getPresenterSig(req,res){
             });
             //create buffer from blob binary
             const buf = Buffer.from(results[0].signature);
-            console.log("BLOB data read!");
+            //console.log("BLOB data read!");
             //console.log(results[0].signature);
              //Write new file out:
             fs.writeFileSync('public/latexfiles/outputsig.png', buf);

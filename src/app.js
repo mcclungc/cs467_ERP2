@@ -156,8 +156,37 @@ app.get('/add-user', function(req, res, next){
 	if(!req.cookies.erp_is_admin) {
 		res.redirect('/');
 	} else if(req.cookies.erp_is_admin === '1') {
-		sessionValidation(req.cookies).then(user_id => {
-			res.render('adminCreateUser', {layout: 'admin', title : '| Create User'});
+		sessionValidation(req.cookies).then(user_id => { 
+		//This is code to populate dropdowns for departments and regions, but the form doesn't seem to 
+		//be posting properly to the API, so I am commenting out until that is resolved.
+		//Starts here
+			let callbackCount = 0;
+			let context = {};
+			let Request = require('request');
+			Request.get("http://localhost:5000/api/org/departments", (error, response,body)=> {
+				if(error) {
+					res.write(JSON.stringify(error));
+					res.end();
+				}  else{
+				context.departments = JSON.parse(body);
+				callbackCount++;
+			}
+			});
+			Request.get("http://localhost:5000/api/org/regions", (error, response,body)=> {
+				if(error) {
+					res.write(JSON.stringify(error));
+					res.end();
+				} else {
+				context.regions = JSON.parse(body);
+				callbackCount++;
+			}
+			if (callbackCount === 2) {
+			res.render('adminCreateUser', context);
+			}
+
+		});
+		//ends, uncomment the line below to restore to original code.
+		//res.render('adminCreateUser', {layout: 'admin', title : '| Create User'});
 		}).catch(error => {
 			res.redirect('/');
 		})
@@ -235,9 +264,9 @@ app.get('/history', function(req, res, next){
 					res.write(JSON.stringify(error));
 					res.end();
 				}    
-			context.awardrecords = JSON.parse(body);
-			//console.log(context.awardrecords);
-            res.render('userHistory', context);
+				context.awardrecords = JSON.parse(body);
+				//console.log(context.awardrecords);
+            	res.render('userHistory', context);
 				});
 			}).catch(error => {
 			res.redirect('/');

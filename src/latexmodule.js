@@ -32,16 +32,15 @@ fs.readFile(dirpath, function (err, data) {
         from: 'erp2 <cs467.erp2@gmail.com>', // sender address                                               
         to: toField, // list of receivers                               
         subject: 'Your Employee Recognition Award', // Subject line                                           
-        text: 'Here is your Recognition Award. We appreciate all you do!', // plaintext body
-        html: '<b>Recognition Award - Thanks for all you Do!</b>', // html body
+        text: 'Here is your Employee Recognition Award. We appreciate all you do!', // plaintext body
+        html: '<b> Here is Your Employee Recognition Award - Thanks for all you Do!</b>', // html body
         attachments: [
             {
                 filename: 'award.pdf',   
                 path: dirpath,                                
                 contentType: 'application/pdf'
             }]
-    };
-    
+    }; 
 
     // send mail with defined transport object                                                 
     transporter.sendMail(mailOptions, function(error, info){
@@ -67,6 +66,8 @@ exports.cleanupOutputDir = function (){
             });
         }
         });
+
+
 };
 
 exports.renderLatexDoc = function(awardtype,context, complete){    
@@ -78,34 +79,34 @@ exports.renderLatexDoc = function(awardtype,context, complete){
     if (awardtype == 1)
     {
         templateName = 'eomtemplatewithfields.tex';
-        var awardfilename ='eomaward'; 
-        //var awardfilename ='award' + context.awardrecord[0].awardID; //TO SAVE WITH AWARDRECORD ID
+        //var awardfilename ='eomaward'; 
+        var awardfilename ='award' + context.awardrecord[0].awardID; //TO SAVE WITH AWARDRECORD ID
         context.awardrecord[0].awardfilename = awardfilename;
         //console.log(context.awardrecord.awardfilename);
-        var spawn  = require('child_process').spawn;
+        var spawn  = require('child_process').spawnSync;
         var jobname = '-jobname='+awardfilename;
         var latex = spawn('pdflatex', ['-output-directory', 'output/',jobname, templateName]);
     }
     else if (awardtype ==2)
     {
         templateName = 'eowtemplatewithfields.tex';
-        var awardfilename = 'eowaward';
-        //var awardfilename ='award' + context.awardrecord[0].awardID; //TO SAVE WITH AWARDRECORD ID
+        //var awardfilename = 'eowaward';
+        var awardfilename ='award' + context.awardrecord[0].awardID; //TO SAVE WITH AWARDRECORD ID
         context.awardrecord[0].awardfilename = awardfilename;
-        var spawn  = require('child_process').spawn;
+        var spawn  = require('child_process').spawnSync;
         var jobname = '-jobname='+awardfilename;
         var latex = spawn('pdflatex', ['-output-directory', 'output/',jobname, templateName]);
     }
     process.chdir('../..');
     //console.log('Current directory: ' + process.cwd());
-    complete();
-    };
+    complete();   
+};
 
 exports.testEmailAward = function(){
     exports.mailAward("Connie McClung", "connie_mcclung@comcast.net", "test"); 
-}
+};
 
-exports.writeCSV = function(data){
+exports.writeCSV = function(data, complete){
     //https://www.npmjs.com/package/csv-writer
     var createCsvWriter = require('csv-writer').createObjectCsvWriter;  
     //set up field names for csv file
@@ -119,11 +120,11 @@ exports.writeCSV = function(data){
         {id: 'awardedon', title: 'Date'},
         {id: 'sigfile', title:'SigFilename'}
         ]
-    });
-    
+    });  
         //write data to a csv file
         csvWriter  
         .writeRecords(data)
-        .then(()=> console.log('The CSV file ' + csvWriter.path + ' was written successfully.')); 
+        .then(()=> console.log('The CSV file ' + csvWriter.path + ' was written successfully.'))
+        .then(()=>complete());
 };
 
