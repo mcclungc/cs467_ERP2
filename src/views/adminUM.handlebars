@@ -60,30 +60,7 @@
 	<form id="accountForm" method="post">
 		<fieldset>
 			<p class="fields"><input id="name" value="" required></p>
-			<p class="fields">
-				<select name="userType" id="userType" required>
-					<option value="">User Type</option>
-					<option value="0">User</option>
-					<option value="1">Admin</option>
-				</select>
-			</p>
 			<p class="fields"><input id="email" value="" required></p>
-			<p class="fields">
-				<select name="department" id="department">
-					<option value="">Department</option>
-					{{#each departments}}
-					<option value="{{id}}">{{department_name}}</option>
-					{{/each}}
-				</select>
-			</p>
-			<p class="fields">
-				<select name="region" id="region">
-					<option value="">Region</option>
-					{{#each regions}}
-					<option value="{{id}}">{{region_name}}</option>
-					{{/each}}
-				</select>
-			</p>
 			<p class="fields">
 				<button class="lightBox-button" id="updateBTN">Update</button>
 				<button class="lightBox-button" onclick="closeLightBox()">Cancel</button>

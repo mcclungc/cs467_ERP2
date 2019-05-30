@@ -204,17 +204,11 @@ function edit() {
 	var user = this.parentNode.parentNode.parentNode;
 	var userName = user.getElementsByClassName("name");
 	var uEmail = user.getElementsByClassName("email");
-	var uType = user.getElementsByClassName("userType");
-	var uDepartment = user.getElementsByClassName("department");
-	var uRegion = user.getElementsByClassName("region");
 	var eBox = document.getElementById("lightBox");
 	var eContent = document.getElementById("lightBox-Inner");
 	var name = userName[0].innerText;
-	var type = uType[0].innerText;
 	var email = uEmail[0].innerText;
-	var dep = uDepartment[0].innerText;
-	var reg = uRegion[0].innerText;
-
+	
 	//Edit Form and display it
 	var updateForm = document.getElementById("updateForm");
 	eContent.innerHTML = updateForm;
@@ -242,15 +236,9 @@ function edit() {
 		var updateInfo = {};
 		var newN = updateForm.getElementsById("name");
 		var newE = updateForm.getElementsById("email");
-		var newType = updateForm.getElementsById("userType");
-		var newRNum = updateForm.getElementsById("region");
-		var newDNum = updateForm.getElementsById("department");
 		updateInfo.name = newN.value;
 		updateInfo.email = newE.value;
 		updateInfo.id = id;
-		updateInfo.is_admin = newType.value;
-		updateInfo.region_id = newRNum.value;
-		updateInfo.department_id = newDNum.value;
 		req.open("PATCH", request, true);
 		req.setRequestHeader('Content-Type', 'application/json');
 		req.addEventListener('load', function() {
