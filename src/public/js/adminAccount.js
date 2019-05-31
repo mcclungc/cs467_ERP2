@@ -32,7 +32,7 @@ updateBtn.addEventListener("click", function(event) {
 	});
 	req.send(JSON.stringify(entry));
 	updateBtn.parentNode.style.display = "none";
-	update.style.display = "block";
+	update.style.display = "inline-block";
 });
 
 function updateAccount() {

@@ -335,8 +335,8 @@ for(k = 0; k < inactiveButtons.length; k++){
 
 //Update wording of user type
 var t;
+var type = rows.getElementsByClassName("userType");
 for(t = 0; t < rows.length; t++){
-	var type = rows.getElementsByClassName("userType");
 	if(type[t].name == 0){
 		type[t].innerText = "User";
 	}
