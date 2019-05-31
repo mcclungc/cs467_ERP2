@@ -210,15 +210,8 @@ function edit() {
 	var email = uEmail[0].innerText;
 	
 	//Edit Form and display it
-	var updateForm = document.getElementById("updateForm");
-	eContent.innerHTML = updateForm;
-	
-	var innerForm = eContent.getElementById("updateForm");
-	innerForm.style.display = "block";
-	var nameValue = innerForm.getElementById("name");
-	nameValue.value = name;
-	var emailValue = innerForm.getElementById("email");
-	emailValue.value = email;
+	eContent.innerHTML = '<div id="updateForm" class="createForm"><form id="accountForm" method="post"><fieldset><p class="fields"><input id="nameUpdate" value="' + name + '" required></p><p class="fields"><input id="emailUpdate" value="' + email + '" required></p><p class="fields"><button class="lightBox-button" id="updateBTN">Update</button><button class="lightBox-button" onclick="closeLightBox()">Cancel</button></p></fieldset></form></div>";
+	var innerForm.getElementById("updateForm");
 	var uBtn = innerForm.getElementById("updateBTN");
 	uBtn.name = id;
 	eBox.classList.remove("hidden");
