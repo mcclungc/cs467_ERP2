@@ -162,6 +162,8 @@ app.get('/add-user', function(req, res, next){
 		//Starts here
 			let callbackCount = 0;
 			let context = {};
+			context.layout = 'admin';
+                        context.title = '| Create User';
 			let Request = require('request');
 			Request.get("http://localhost:5000/api/org/departments", (error, response,body)=> {
 				if(error) {
