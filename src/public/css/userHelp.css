@@ -1,0 +1,20 @@
+.hlink {
+    color: blue;
+    font-family: Arial, Verdana, serif;
+}
+
+.htext {
+    font-family: Arial, Verdana, serif;
+}
+
+#helpheader {
+    font-family: Arial, Verdana, serif;
+}
+
+#helpbody {
+    margin: auto;
+    width: 50%;
+    text-align: center;
+    
+}
+
