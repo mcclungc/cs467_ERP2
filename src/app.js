@@ -322,6 +322,33 @@ app.get('/change-password', function(req, res, next){
 	}
 });
 
+app.get('/userhelp', function(req, res, next){
+	if(!req.cookies.erp_is_admin) {
+		res.redirect('/');
+	} else if(req.cookies.erp_is_admin === '0') {
+		sessionValidation(req.cookies).then(user_id => {
+			res.render('userHelp', {layout: 'user', title: 'User Help'});
+		}).catch(error => {
+			res.redirect('/');
+		})
+	} else {
+		res.redirect('/');
+	}
+});
+
+app.get('/adminhelp', function(req, res, next){
+	if(!req.cookies.erp_is_admin) {
+		res.redirect('/');
+	} else if(req.cookies.erp_is_admin === '1') {
+		sessionValidation(req.cookies).then(user_id => {
+			res.render('adminHelp', {layout: 'admin', title: 'Admin Help'});
+		}).catch(error => {
+			res.redirect('/');
+		})
+	} else {
+		res.redirect('/');
+	}
+});
 
 //Error pages
 app.use(function(req, res, next){
