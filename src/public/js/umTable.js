@@ -211,7 +211,7 @@ function edit() {
 	
 	//Edit Form and display it
 	eContent.innerHTML = '<div id="updateForm" class="createForm"><form id="accountForm" method="post"><fieldset><p class="fields"><input id="nameUpdate" value="' + name + '" required></p><p class="fields"><input id="emailUpdate" value="' + email + '" required></p><p class="fields"><button class="lightBox-button" id="updateBTN">Update</button><button class="lightBox-button" onclick="closeLightBox()">Cancel</button></p></fieldset></form></div>"';
-	var innerForm.getElementById("updateForm");
+	var innerForm = document.getElementById("updateForm");
 	var uBtn = innerForm.getElementById("updateBTN");
 	uBtn.name = id;
 	eBox.classList.remove("hidden");
