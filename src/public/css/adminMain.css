@@ -30,6 +30,7 @@ body {
 
 .leftNav ul {
 	padding: 0;
+	padding-top: 60px;
 	margin: 0;
 	list-style: none;
 }
@@ -76,6 +77,8 @@ body {
 #topNav {
 	width: 100%;
 	background-color: #2e2e2e;
+	position: fixed;
+	top: 0;
 }
 
 /* Clear the container */

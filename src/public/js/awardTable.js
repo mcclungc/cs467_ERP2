@@ -188,7 +188,7 @@ function remove() {
 				awardArray.push(idElement[0].id);
 			}
 		}
-		rContent.innerHTML = '<p>Are you sure you want to remove:' + names + '?</p><p><button class="lightBox-button" onclick="deleteAwards(' + awardArray +')">Yes</button><button class="lightBox-button" onclick="closeLightBox()">No</button></p>';
+		rContent.innerHTML = '<p>Are you sure you want to remove the record(s) for ' + names + '?</p><p><button class="lightBox-button" onclick="deleteAwards(' + awardArray +')">Yes</button><button class="lightBox-button" onclick="closeLightBox()">No</button></p>';
 		rBox.classList.remove("hidden");
 	}
 }

@@ -6,6 +6,12 @@ updateBtn.addEventListener("click", function(event) {
 	event.preventDefault();
 	var req = new XMLHttpRequest();
 	var id = updateBtn.name; 
+	var name = document.getElementById("name");
+	var email = document.getElementById("email");
+	var entry = {
+		"name": name.value,
+		"email": email.value
+	};
 	req.open("PATCH", "/api/users/" + id, true);
 	req.setRequestHeader('Content-Type', 'application/json');
 	req.addEventListener('load', function() {
@@ -26,19 +32,28 @@ updateBtn.addEventListener("click", function(event) {
 	});
 	req.send(JSON.stringify(entry));
 	updateBtn.parentNode.style.display = "none";
+	update.style.display = "block";
 });
 
 function updateAccount() {
 	addInputFields();
 	updateBtn.parentNode.style.display = "block";
+	update.style.display = "none";
 }
 
 function addInputFields() {
 	var i = 0;
 	var value;
+	var identifier;
 	for (i = 0; i < current.length; i++) {
 		value = current[i].innerText;
-		current[i].innerHTML = '<input type="text" value="' + value + '"></p>';
+		if(i == 0){
+			identifier = "name";
+		}
+		else if(i == 1){
+			identifier = "email";
+		}	
+		current[i].innerHTML = '<input id=' + identifier  + ' type="text" value="' + value + '"></p>';
 	}
 }
 

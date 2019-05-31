@@ -337,10 +337,10 @@ for(k = 0; k < inactiveButtons.length; k++){
 var t;
 for(t = 0; t < rows.length; t++){
 	var type = rows.getElementsByClassName("userType");
-	if(type[0].name == 0){
-		type[0].innerText = "User";
+	if(type[t].name == 0){
+		type[t].innerText = "User";
 	}
 	else {
-		type[0].innerText = "Admin";
+		type[t].innerText = "Admin";
 	}
 }
