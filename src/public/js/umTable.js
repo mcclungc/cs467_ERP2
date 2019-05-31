@@ -210,7 +210,7 @@ function edit() {
 	var email = uEmail[0].innerText;
 	
 	//Edit Form and display it
-	eContent.innerHTML = '<div id="updateForm" class="createForm"><form id="accountForm" method="post"><fieldset><p class="fields"><input id="nameUpdate" value="' + name + '" required></p><p class="fields"><input id="emailUpdate" value="' + email + '" required></p><p class="fields"><button class="lightBox-button" id="updateBTN">Update</button><button class="lightBox-button" onclick="closeLightBox()">Cancel</button></p></fieldset></form></div>";
+	eContent.innerHTML = '<div id="updateForm" class="createForm"><form id="accountForm" method="post"><fieldset><p class="fields"><input id="nameUpdate" value="' + name + '" required></p><p class="fields"><input id="emailUpdate" value="' + email + '" required></p><p class="fields"><button class="lightBox-button" id="updateBTN">Update</button><button class="lightBox-button" onclick="closeLightBox()">Cancel</button></p></fieldset></form></div>"';
 	var innerForm.getElementById("updateForm");
 	var uBtn = innerForm.getElementById("updateBTN");
 	uBtn.name = id;
@@ -328,8 +328,8 @@ for(k = 0; k < inactiveButtons.length; k++){
 
 //Update wording of user type
 var t;
-var type = rows.getElementsByClassName("userType");
-for(t = 0; t < rows.length; t++){
+var type = document.getElementsByClassName("userType");
+for(t = 0; t < type.length; t++){
 	if(type[t].name == 0){
 		type[t].innerText = "User";
 	}
