@@ -211,8 +211,7 @@ function edit() {
 	
 	//Edit Form and display it
 	eContent.innerHTML = '<div id="updateForm" class="createForm"><form id="accountForm" method="post"><fieldset><p class="fields"><input id="nameUpdate" value="' + name + '" required></p><p class="fields"><input id="emailUpdate" value="' + email + '" required></p><p class="fields"><button class="lightBox-button" id="updateBTN">Update</button><button class="lightBox-button" onclick="closeLightBox()">Cancel</button></p></fieldset></form></div>"';
-	var innerForm = document.getElementById("updateForm");
-	var uBtn = innerForm.getElementById("updateBTN");
+	var uBtn = document.getElementById("updateBTN");
 	uBtn.name = id;
 	eBox.classList.remove("hidden");
 
@@ -330,7 +329,7 @@ for(k = 0; k < inactiveButtons.length; k++){
 var t;
 var type = document.getElementsByClassName("userType");
 for(t = 0; t < type.length; t++){
-	if(type[t].name == 0){
+	if(type[t].name == "0"){
 		type[t].innerText = "User";
 	}
 	else {
