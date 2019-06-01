@@ -220,6 +220,8 @@ app.get('/history', function(req, res, next){
 		sessionValidation(req.cookies.erp_session).then(userData => {
 			if(userData.is_admin === 0) {
 				let context = {};
+				context.layout = 'user';
+				context.title = 'Award History';
 				let Request = require('request');
 				Request.get("http://localhost:5000/api/awards_currentuser/" + userData.user_id, (error, response,body) => {
 					if(error) {
