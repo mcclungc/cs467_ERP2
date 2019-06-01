@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		let regions = responses[0];
 		let departments = responses[1];
 		fillOptions(regions, "region", "region_name");
-		fillOptions(departments, "department", "depart_name");
+		fillOptions(departments, "department", "department_name");
 	}).catch(error => {
 		console.log(error);
 	});

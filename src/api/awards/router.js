@@ -159,6 +159,36 @@ function getAwards(req,res){
     });
 }
 
+//list all award records for current user by session
+function getAwardsCurrentUser(req,res){  
+    const sql = 'SELECT awards.certificate_id as awardtypeID, awards.id as awardID, awards.sent_on as date, awards.recipient_name as recipient, awards.recipient_email as recipient_email, awards.presenter_id as presenter_id, awards.recipient_department_id as department, awards.recipient_region_id as region, users.name as presenter, departments.department_name as department_name, certificates.certificate_type as awardtype, regions.region_name as recipient_region FROM users INNER JOIN awards on users.id = awards.presenter_id INNER JOIN departments on awards.recipient_department_id = departments.id INNER JOIN certificates on awards.certificate_id = certificates.id INNER JOIN regions on awards.recipient_region_id = regions.id WHERE awards.presenter_id  = ? ORDER BY awards.id ASC';
+    let inserts = [req.params.id];
+    db.pool.query(sql, inserts, (error, results, fields) => {
+        if(error){
+            res.write(JSON.stringify(error));
+            res.end();
+        } else if(results.length == 0 ){
+            res.status(200).json({}).send();
+        } else {
+            let data = [];
+            results.forEach(element => {
+                data.push({
+                    "awardID": element.awardID,
+                    "awardtype": element.awardtype,
+                    "awardtypeID": element.awardtypeID,
+                    "recipient":element.recipient,
+                    "recipient_email": element.recipient_email,
+                    "recipient_department": element.department_name,
+                    "recipient_region": element.recipient_region,
+                    "presenter": element.presenter,
+                    "award_date": dateFormat(element.date, 'shortDate')
+                });
+            });
+            res.status(200).send(data);
+        }
+    });
+}
+
 //get individual award record
 function getAward(req,res){
     const sql = 'SELECT awards.certificate_id as awardtypeID, awards.id as awardID, awards.sent_on as date, awards.recipient_name as recipient, awards.recipient_email as recipient_email, awards.presenter_id as presenter_id, awards.recipient_department_id as department, awards.recipient_region_id as region, users.name as presenter, departments.department_name as department_name, certificates.certificate_type as awardtype, regions.region_name as recipient_region FROM users INNER JOIN awards on users.id = awards.presenter_id INNER JOIN departments on awards.recipient_department_id = departments.id INNER JOIN certificates on awards.certificate_id = certificates.id INNER JOIN regions on awards.recipient_region_id = regions.id WHERE awards.id  = ? ORDER BY awards.id ASC';
@@ -247,6 +277,7 @@ function deleteAwardRecord(req, res) {
 
 //routes
 router.get('/awards', getAwards);
+router.get('/awards_currentuser/:id', getAwardsCurrentUser);
 router.get('/awards/:id', getAward);
 router.get('/awards_regions', getRegions);
 router.get('/awards_departments', getDepartments);
