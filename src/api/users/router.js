@@ -1,30 +1,10 @@
 const router = require('express').Router();
 const Joi = require('@hapi/joi');
 const db = require('../../db');
+const sessionValidation = require('../../session');
 const crypto = require('crypto');
 const multer = require('multer');
 const upload = multer();
-
-function sessionValidation(cookie) {	
-	return new Promise((resolve, reject) => {
-		db.pool.query("SELECT * FROM sessions WHERE id = ?", [cookie], (error, results, fields) => {
-			if(error) throw(error);
-
-			if(results.length === 0) {
-				reject('Session ID Invalid');
-			} else {
-                db.pool.query("SELECT * FROM users WHERE id = ?", [results[0].user_id], (error, results, fields) => {
-                    if(error) throw(error);
-                    
-                    if(results.length === 0) {
-                        reject('User does not exist');
-                    }
-                    resolve(results[0].is_admin);
-                });
-			}
-		});
-	});
-}
 
 function querySalt(salt) {
     db.pool.query("SELECT count(id) as count FROM users WHERE salt = ?", [salt], (error, results, fields) => {
@@ -62,8 +42,8 @@ function createUser(req, res) {
         res.status(401).json({ 'message': 'Invalid User' }).send();
         return;
     } else {
-        sessionValidation(req.cookies.erp_session).then(admin => {
-            if(admin !== 1) {
+        sessionValidation(req.cookies.erp_session).then(userData => {
+            if(userData.is_admin !== 1) {
                 res.status(401).json({ 'message': 'Invalid User' }).send();
                 return;
             } else {
@@ -171,7 +151,7 @@ function getUsers(req, res) {
     if(!req.cookies.erp_session) {
         res.status(401).json({ 'message': 'Invalid User' }).send();
     } else {
-        sessionValidation(req.cookies.erp_session).then(admin => {
+        sessionValidation(req.cookies.erp_session).then(userData => {
             let is_admin = null;
             let region_id = null;
             let department_id = null;
@@ -218,7 +198,7 @@ function getUser(req, res) {
         res.status(401).json({ 'message': 'Invalid User' }).send();
         return;
     } else {
-        sessionValidation(req.cookies.erp_session).then(admin => {
+        sessionValidation(req.cookies.erp_session).then(userData => {
             db.pool.query("SELECT * FROM users WHERE id = ?", [req.params.id], (err, results, fields) => {
                 if(results.length == 0) {
                     res.status(200).json({}).send();
@@ -249,7 +229,7 @@ function updateUser(req, res) {
     if(!req.cookies.erp_session) {
         res.status(401).json({ 'message': 'Invalid User' }).send();
     } else {
-        sessionValidation(req.cookies.erp_session).then(admin => {
+        sessionValidation(req.cookies.erp_session).then(userData => {
             const schema = Joi.object().keys ({
                 name: Joi.string().max(255).trim().optional(),
                 signature: Joi.any().optional(),
@@ -298,8 +278,8 @@ function deleteUser(req, res) {
     if(!req.cookies.erp_session) {
         res.status(401).json({ 'message': 'Invalid User' }).send();
     } else {
-        sessionValidation(req.cookies.erp_session).then(admin => {
-            if(admin !== 1) {
+        sessionValidation(req.cookies.erp_session).then(userData => {
+            if(userData.is_admin !== 1) {
                 res.status(401).json({ 'message': 'Invalid User' }).send();
             } else {
                 db.pool.query("DELETE FROM users WHERE id = ?", [req.params.id], (error, results, fields) => {
