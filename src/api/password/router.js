@@ -4,6 +4,7 @@ const db = require('../../db');
 const crypto = require('crypto');
 const mailer = require('nodemailer');
 const email = require('../../email');
+const sessionValidation = require('../../session');
 
 let transporter = mailer.createTransport({
     service: 'gmail',
@@ -100,28 +101,6 @@ function resetPassword(req, res) {
     });
 }
 
-function sessionValidation(cookie) {	
-	return new Promise((resolve, reject) => {
-		db.pool.query("SELECT * FROM sessions WHERE id = ?", [cookie], (error, results, fields) => {
-			if(error) throw(error);
-
-			if(results.length === 0) {
-				reject('Session ID Invalid');
-			} else {
-                const user_id = results[0].user_id
-                db.pool.query("SELECT * FROM users WHERE id = ?", [results[0].user_id], (error, results, fields) => {
-                    if(error) throw(error);
-                    
-                    if(results.length === 0) {
-                        reject('User does not exist');
-                    }
-                    resolve(user_id);
-                });
-			}
-		});
-	});
-}
-
 function querySalt(salt) {
     db.pool.query("SELECT count(id) as count FROM users WHERE salt = ?", [salt], (error, results, fields) => {
         if(error) throw error;
@@ -143,7 +122,7 @@ function changePassword(req, res) {
     if(!req.cookies.erp_session) {
         res.status(401).json({ 'message': 'Invalid User' }).send();
     } else {
-        sessionValidation(req.cookies.erp_session).then(user_id => {
+        sessionValidation(req.cookies.erp_session).then(userData => {
             const schema = Joi.object().keys ({
                 newPassword: Joi.string().required(),
                 confirmPassword: Joi.string().required()
@@ -169,7 +148,7 @@ function changePassword(req, res) {
                             "salt": salt
                         }
 
-                        db.pool.query("UPDATE users SET ? WHERE id = ?", [data, user_id], (error, results, fields) => {
+                        db.pool.query("UPDATE users SET ? WHERE id = ?", [data, userData.user_id], (error, results, fields) => {
                             if(error) throw error;
     
                             res.status(200).json({ 'message': 'Password Updated' }).send();

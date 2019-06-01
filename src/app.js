@@ -13,6 +13,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var request = require('request');
 var mysql = require('./db.js');//go to db.js to set up database
+var sessionValidation = require('./session');
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
@@ -32,20 +33,6 @@ app.use("/award", require("./award.js"));
 app.set('port', 5000);//enter in port number when you run
 app.set('mysql', mysql);
 
-function sessionValidation(cookie) {	
-	return new Promise((resolve, reject) => {
-		mysql.pool.query("SELECT * FROM sessions WHERE id = ?", [cookie.erp_session], (error, results, fields) => {
-			if(error) throw error;
-
-			if(results.length === 0) {
-				reject('Session ID Invalid');
-			} else {
-				resolve(results[0].user_id);
-			}
-		})
-	});
-}
-
 //set up pages and what you can do on those pages
 app.get('/', function(req, res, next){
 	//renders index page
@@ -59,252 +46,277 @@ app.get('/reset-password', function(req, res, next){
 
 //Admin pages
 app.get('/admin', function(req, res, next){
-	if(!req.cookies.erp_is_admin) {
+	if(!req.cookies.erp_session) {
 		res.redirect('/');
-	} else if(req.cookies.erp_is_admin === '1') {
-		sessionValidation(req.cookies).then(user_id => {
-			res.render('adminHome', {layout: 'admin'});
+	} else {
+		sessionValidation(req.cookies.erp_session).then(userData => {
+			if(userData.is_admin === 1) {
+				res.render('adminHome', {layout: 'admin'});
+			} else {
+				res.redirect('/');
+			}	
 		}).catch(error => {
 			res.redirect('/');
 		})
-	} else {
-		res.redirect('/');
 	}
 });
 
 app.get('/admin-account', function(req, res, next){
-	if(!req.cookies.erp_is_admin) {
+	if(!req.cookies.erp_session) {
 		res.redirect('/');
-	} else if(req.cookies.erp_is_admin === '1') {
-		sessionValidation(req.cookies).then(user_id => {
-			var context = {};
-			context.layout = 'admin';
-			context.title = '| Account';
-			mysql.pool.query('SELECT id, name, email, created_on FROM `users` WHERE id = ?', user_id, function(err, rows, fields) {
-				if (err) {
-					next(err);
-					return;
-				}
-				var userInfo = {
-					'id': rows[0].id,
-					'name': rows[0].name,
-					'email': rows[0].email,
-					'created_on' : rows[0].created_on
-				};
-				context.user = userInfo;
-				res.render('adminAccount', context);
-			});
+	} else {
+		sessionValidation(req.cookies.erp_session).then(userData => {
+			if(userData.is_admin === 1) {
+				var context = {};
+				context.layout = 'admin';
+				context.title = '| Account';
+				mysql.pool.query('SELECT id, name, email, created_on FROM `users` WHERE id = ?', userData.user_id, function(err, rows, fields) {
+					if (err) {
+						next(err);
+						return;
+					}
+					var userInfo = {
+						'id': rows[0].id,
+						'name': rows[0].name,
+						'email': rows[0].email,
+						'created_on' : rows[0].created_on
+					};
+					context.user = userInfo;
+					res.render('adminAccount', context);
+				});
+			} else {
+				res.redirect('/');
+			}	
 		}).catch(error => {
 			res.redirect('/');
 		})
-	} else {
-		res.redirect('/');
 	}
 });
 
 app.get('/admin-reports', function(req, res, next){
-	if(!req.cookies.erp_is_admin) {
+	if(!req.cookies.erp_session) {
 		res.redirect('/');
-	} else if(req.cookies.erp_is_admin === '1') {
-		sessionValidation(req.cookies).then(user_id => {
-			res.render('adminReports', {layout: 'admin', title: '| Reports'});
+	} else {
+		sessionValidation(req.cookies.erp_session).then(userData => {
+			if(userData.is_admin === 1) {
+				res.render('adminReports', {layout: 'admin', title: '| Reports'});
+			} else {
+				res.redirect('/');
+			}	
 		}).catch(error => {
 			res.redirect('/');
 		})
-	} else {
-		res.redirect('/');
 	}
 });
 
 app.get('/admin-usermanagement', function(req, res, next){
-	if(!req.cookies.erp_is_admin) {
+	if(!req.cookies.erp_session) {
 		res.redirect('/');
-	} else if(req.cookies.erp_is_admin === '1') {
-		sessionValidation(req.cookies).then(user_id => {
-			var context = {};
-			context.layout = 'admin';
-			context.title = '| User Management';
-			mysql.pool.query('SELECT u.id as id, u.name as name, u.email as email, r.region_name as region_name, d.department_name as department_name, u.is_admin as userType, u.created_on as created_on FROM `users` u INNER JOIN `regions` r on u.region_id = r.id INNER JOIN `departments` d on u.department_id = d.id ORDER BY u.id', function(err, rows, fields) {
-				if (err) {
-					next(err);
-					return;
-				}
-				var userArray = [];
-				for (var row in rows) {
-					var newItem = {
-						'id': rows[row].id,
-						'name': rows[row].name,
-						'email': rows[row].email,
-						'usertype': rows[row].userType,
-						'department_name': rows[row].department_name,
-						'region_name': rows[row].region_name,
-						'created_on' : rows[row].created_on};
-					userArray.push(newItem); //Use push to add all the parameters we kept track of
-				}
-				context.users = userArray;
-				res.render('adminUM', context);
-			});
+	} else {
+		sessionValidation(req.cookies.erp_session).then(userData => {
+			if(userData.is_admin === 1) {
+				var context = {};
+				context.layout = 'admin';
+				context.title = '| User Management';
+				mysql.pool.query('SELECT u.id as id, u.name as name, u.email as email, r.region_name as region_name, d.department_name as department_name, u.is_admin as userType, u.created_on as created_on FROM `users` u INNER JOIN `regions` r on u.region_id = r.id INNER JOIN `departments` d on u.department_id = d.id ORDER BY u.id', function(err, rows, fields) {
+					if (err) {
+						next(err);
+						return;
+					}
+					var userArray = [];
+					for (var row in rows) {
+						var newItem = {
+							'id': rows[row].id,
+							'name': rows[row].name,
+							'email': rows[row].email,
+							'usertype': rows[row].userType,
+							'department_name': rows[row].department_name,
+							'region_name': rows[row].region_name,
+							'created_on' : rows[row].created_on};
+						userArray.push(newItem); //Use push to add all the parameters we kept track of
+					}
+					context.users = userArray;
+					res.render('adminUM', context);
+				});
+			} else {
+				res.redirect('/');
+			}	
 		}).catch(error => {
 			res.redirect('/');
 		})
-	} else {
-		res.redirect('/');
 	}
 });
 
 app.get('/add-user', function(req, res, next){
-	if(!req.cookies.erp_is_admin) {
+	if(!req.cookies.erp_session) {
 		res.redirect('/');
-	} else if(req.cookies.erp_is_admin === '1') {
-		sessionValidation(req.cookies).then(user_id => { 
-		res.render('adminCreateUser', {layout: 'admin', title : '| Create User'});
+	} else {
+		sessionValidation(req.cookies.erp_session).then(userData => {
+			if(userData.is_admin === 1) {
+				res.render('adminCreateUser', {layout: 'admin', title : '| Create User'});
+			} else {
+				res.redirect('/');
+			}
 		}).catch(error => {
 			res.redirect('/');
 		})
-	} else {
-		res.redirect('/');
 	}
 });
 
 app.get('/admin-change-password', function(req, res, next){
-	if(!req.cookies.erp_is_admin) {
+	if(!req.cookies.erp_session) {
 		res.redirect('/');
-	} else if(req.cookies.erp_is_admin === '1') {
-		sessionValidation(req.cookies).then(user_id => {
-			res.render('adminPassword', {layout: 'admin', title: '| Change Password'});
+	} else {
+		sessionValidation(req.cookies.erp_session).then(userData => {
+			if(userData.is_admin === 1) {
+				res.render('adminPassword', {layout: 'admin', title: '| Change Password'});
+			} else {
+				res.redirect('/');
+			}	
 		}).catch(error => {
 			res.redirect('/');
 		})
-	} else {
-		res.redirect('/');
 	}
 });
 
 
 //User pages
 app.get('/home', function(req, res, next){
-	if(!req.cookies.erp_is_admin) {
+	if(!req.cookies.erp_session) {
 		res.redirect('/');
-	} else if(req.cookies.erp_is_admin === '0') {
-		sessionValidation(req.cookies).then(user_id => {
-			res.render('userHome', {layout: 'user', title: 'ERP Dashboard'});
+	} else {
+		sessionValidation(req.cookies.erp_session).then(userData => {
+			if(userData.is_admin === 0) {
+				res.render('userHome', {layout: 'user', title: 'ERP Dashboard'});
+			} else {
+				res.redirect('/');
+			}	
 		}).catch(error => {
 			res.redirect('/');
 		})
-	} else {
-		res.redirect('/');
 	}
 });
 
 app.get('/award', function(req, res, next){
-	if(!req.cookies.erp_is_admin) {
+	if(!req.cookies.erp_session) {
 		res.redirect('/');
-	} else if(req.cookies.erp_is_admin === '0') {
-		sessionValidation(req.cookies).then(user_id => {
-			res.render('userAward', {layout: 'user', title: 'ERP Awards'});
+	} else {
+		sessionValidation(req.cookies.erp_session).then(userData => {
+			if(userData.is_admin === 0) {
+				res.render('userAward', {layout: 'user', title: 'ERP Awards'});
+			} else {
+				res.redirect('/');
+			}	
 		}).catch(error => {
 			res.redirect('/');
 		})
-	} else {
-		res.redirect('/');
 	}
 });
 
 app.get('/history', function(req, res, next){
-	if(!req.cookies.erp_is_admin) {
+	if(!req.cookies.erp_session) {
 		res.redirect('/');
-	} else if(req.cookies.erp_is_admin === '0') {
-		sessionValidation(req.cookies).then(user_id => {
-			let context = {};
-			let Request = require('request');
-			Request.get("http://localhost:5000/api/awards_currentuser/"+ user_id, (error, response,body)=> {
-				if(error) {
-					res.write(JSON.stringify(error));
-					res.end();
-				}    
-				context.awardrecords = JSON.parse(body);
-				//console.log(context.awardrecords);
-            	res.render('userHistory', context);
+	} else {
+		sessionValidation(req.cookies.erp_session).then(userData => {
+			if(userData.is_admin === 0) {
+				let context = {};
+				let Request = require('request');
+				Request.get("http://localhost:5000/api/awards_currentuser/" + userData.user_id, (error, response,body) => {
+					if(error) {
+						res.write(JSON.stringify(error));
+						res.end();
+					}    
+					context.awardrecords = JSON.parse(body);
+					res.render('userHistory', context);
 				});
-			}).catch(error => {
+			} else {
+				res.redirect('/');
+			}	
+		}).catch(error => {
 			res.redirect('/');
 		})
-	} else {
-		res.redirect('/');
 	}
 });
 
 app.get('/account', function(req, res, next){
-	if(!req.cookies.erp_is_admin) {
+	if(!req.cookies.erp_session) {
 		res.redirect('/');
-	} else if(req.cookies.erp_is_admin === '0') {
-		sessionValidation(req.cookies).then(user_id => {
-			var context = {};
-			context.layout = 'user';
-			context.title = 'Account Management';
-			mysql.pool.query('SELECT u.id as id, u.name as name, u.email as email, r.region_name as region_name, d.department_name as department_name, u.created_on as created_on FROM `users` u INNER JOIN `regions` r on u.region_id = r.id INNER JOIN `departments` d on u.department_id = d.id WHERE u.id = ?', user_id, function(err, rows, fields) {
-				if (err) {
-					next(err);
-					return;
-				}
-				var userInfo = {
-					'id': rows[0].id,
-					'name': rows[0].name,
-					'email': rows[0].email,
-					'department_name': rows[0].department_name,
-					'region_name': rows[0].region_name,
-					'created_on' : rows[0].created_on
-				};
-				context.user = userInfo;
-				res.render('userAccount', context);
-			});
+	} else {
+		sessionValidation(req.cookies.erp_session).then(userData => {
+			if(userData.is_admin === 0) {
+				var context = {};
+				context.layout = 'user';
+				context.title = 'Account Management';
+				mysql.pool.query('SELECT u.id as id, u.name as name, u.email as email, r.region_name as region_name, d.department_name as department_name, u.created_on as created_on FROM `users` u INNER JOIN `regions` r on u.region_id = r.id INNER JOIN `departments` d on u.department_id = d.id WHERE u.id = ?', userData.user_id, function(err, rows, fields) {
+					if (err) {
+						next(err);
+						return;
+					}
+					var userInfo = {
+						'id': rows[0].id,
+						'name': rows[0].name,
+						'email': rows[0].email,
+						'department_name': rows[0].department_name,
+						'region_name': rows[0].region_name,
+						'created_on' : rows[0].created_on
+					};
+					context.user = userInfo;
+					res.render('userAccount', context);
+				});
+			} else {
+				res.redirect('/');
+			}	
 		}).catch(error => {
 			res.redirect('/');
 		})
-	} else {
-		res.redirect('/');
 	}
 });
 
 app.get('/change-password', function(req, res, next){
-	if(!req.cookies.erp_is_admin) {
+	if(!req.cookies.erp_session) {
 		res.redirect('/');
-	} else if(req.cookies.erp_is_admin === '0') {
-		sessionValidation(req.cookies).then(user_id => {
-			res.render('userPassword', {layout: 'user', title: 'Change Password'});
+	} else {
+		sessionValidation(req.cookies.erp_session).then(userData => {
+			if(userData.is_admin === 0) {
+				res.render('userPassword', {layout: 'user', title: 'Change Password'});
+			} else {
+				res.redirect('/');
+			}	
 		}).catch(error => {
 			res.redirect('/');
 		})
-	} else {
-		res.redirect('/');
 	}
 });
 
 app.get('/userhelp', function(req, res, next){
-	if(!req.cookies.erp_is_admin) {
+	if(!req.cookies.erp_session) {
 		res.redirect('/');
-	} else if(req.cookies.erp_is_admin === '0') {
-		sessionValidation(req.cookies).then(user_id => {
-			res.render('userHelp', {layout: 'user', title: 'User Help'});
+	} else {
+		sessionValidation(req.cookies.erp_session).then(userData => {
+			if(userData.is_admin === 0) {
+				res.render('userHelp', {layout: 'user', title: 'User Help'});
+			} else {
+				res.redirect('/');
+			}	
 		}).catch(error => {
 			res.redirect('/');
 		})
-	} else {
-		res.redirect('/');
 	}
 });
 
 app.get('/adminhelp', function(req, res, next){
-	if(!req.cookies.erp_is_admin) {
+	if(!req.cookies.erp_session) {
 		res.redirect('/');
-	} else if(req.cookies.erp_is_admin === '1') {
-		sessionValidation(req.cookies).then(user_id => {
-			res.render('adminHelp', {layout: 'admin', title: 'Admin Help'});
+	} else {
+		sessionValidation(req.cookies.erp_session).then(userData => {
+			if(userData.is_admin === 1) {
+				res.render('adminHelp', {layout: 'admin', title: 'Admin Help'});
+			} else {
+				res.redirect('/');
+			}	
 		}).catch(error => {
 			res.redirect('/');
 		})
-	} else {
-		res.redirect('/');
 	}
 });
 

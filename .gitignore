@@ -6,3 +6,4 @@ src/public/latexfiles/output/*.pdf
 src/public/latexfiles/output/*.aux
 src/public/latexfiles/output/*.log
 src/email.js
+*.swp
