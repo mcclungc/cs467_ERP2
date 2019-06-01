@@ -156,7 +156,7 @@ app.get('/add-user', function(req, res, next){
 				res.render('adminCreateUser', {layout: 'admin', title : '| Create User'});
 			} else {
 				res.redirect('/');
-			}	
+			}
 		}).catch(error => {
 			res.redirect('/');
 		})
@@ -221,7 +221,7 @@ app.get('/history', function(req, res, next){
 			if(userData.is_admin === 0) {
 				let context = {};
 				let Request = require('request');
-				Request.get("http://localhost:5000/api/awards", (error, response,body)=> {
+				Request.get("http://localhost:5000/api/awards_currentuser/" + userData.user_id, (error, response,body) => {
 					if(error) {
 						res.write(JSON.stringify(error));
 						res.end();
