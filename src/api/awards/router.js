@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../../db');
+const sessionValidation = require('../../session');
 const Joi = require('@hapi/joi');
 const fs = require('fs');
 var dateFormat = require('dateformat');
@@ -190,44 +191,56 @@ function getAward(req,res){
 
 //get individual award record
 function createAwardRecord(req,res){
-    const schema = Joi.object().keys ({
-        certificate_id: Joi.number().positive().integer().required(),
-        recipient_name: Joi.string().max(255).trim().required(),
-        recipient_email: Joi.string().max(256).email().required(),
-        recipient_department_id: Joi.number().positive().integer().required(),
-        recipient_region_id: Joi.number().positive().integer().required(),
-        presenter_id: Joi.number().positive().integer().required(),
-        sent_on: Joi.date().required()
-    });
-
-    Joi.validate(req.body, schema, (err, value) => {
-        if (err) {
-            res.status(400).json({ 'message': err.details[0].message }).send();
-            return;
-        } else {
-            var sql = 'INSERT INTO awards (certificate_id,  recipient_name, recipient_email, recipient_department_id, recipient_region_id, presenter_id, sent_on) VALUES (?,?,?,?,?,?,?)';
-            var inserts = [req.body.certificate_id, req.body.recipient_name, req.body.recipient_email, req.body.recipient_department_id, req.body.recipient_region_id,  req.body.presenter_id, req.body.sent_on];
-            db.pool.query(sql,inserts, (error, results, fields) => {
-                if(error) throw error;
-                else {
-                    let data = [];
-                    data.push({
-                        "awardID": results.insertId,
-                        "awardtypeID": req.body.certificate_id,
-                        "recipient_name":req.body.recipient_name,
-                        "recipient_email": req.body.recipient_email,
-                        "recipient_department_id": req.body.recipient_department_id,
-                        "recipient_region_id": req.body.recipient_region_id,   
-                        "presenter_id": req.body.presenter_id,            
-                        "award_date": req.body.sent_on
-                    });
-                    res.status(200).send(data);
-                }
-            });
-        }
-    });
+    if(!req.cookies.erp_session) {
+        res.status(401).json({ 'message': 'Invalid User' }).send();
+        return;
+    } else {
+        sessionValidation(req.cookies.erp_session).then(userData => {
+            if(userData.is_admin === 0) {
+                const schema = Joi.object().keys ({
+                    certificate_id: Joi.number().positive().integer().required(),
+                    recipient_name: Joi.string().max(255).trim().required(),
+                    recipient_email: Joi.string().max(256).email().required(),
+                    recipient_department_id: Joi.number().positive().integer().required(),
+                    recipient_region_id: Joi.number().positive().integer().required(),
+                    sent_on: Joi.date().required()
+                });
+            
+                Joi.validate(req.body, schema, (err, value) => {
+                    if (err) {
+                        res.status(400).json({ 'message': err.details[0].message }).send();
+                        return;
+                    } else {
+                        var sql = 'INSERT INTO awards (certificate_id,  recipient_name, recipient_email, recipient_department_id, recipient_region_id, presenter_id, sent_on) VALUES (?,?,?,?,?,?,?)';
+                        var inserts = [req.body.certificate_id, req.body.recipient_name, req.body.recipient_email, req.body.recipient_department_id, req.body.recipient_region_id,  userData.user_id, req.body.sent_on];
+                        db.pool.query(sql,inserts, (error, results, fields) => {
+                            if(error) throw error;
+                            else {
+                                let data = [];
+                                data.push({
+                                    "awardID": results.insertId,
+                                    "awardtypeID": req.body.certificate_id,
+                                    "recipient_name":req.body.recipient_name,
+                                    "recipient_email": req.body.recipient_email,
+                                    "recipient_department_id": req.body.recipient_department_id,
+                                    "recipient_region_id": req.body.recipient_region_id,   
+                                    "presenter_id": req.body.presenter_id,            
+                                    "award_date": req.body.sent_on
+                                });
+                                res.status(200).send(data);
+                            }
+                        });
+                    }
+                });
+            } else {
+                res.status(401).json({ 'message': 'Invalid User' }).send();
+                return;
+            }
+        }).catch(error => {
+            res.status(401).json({ 'message': error }).send();
+        })
+    }
 }
-
 
 function deleteAwardRecord(req, res) {
     db.pool.query("DELETE FROM awards WHERE id = ?", [req.params.id], (error, results, fields) => {
@@ -242,8 +255,6 @@ function deleteAwardRecord(req, res) {
     });
             
 }
-
-       
 
 //routes
 router.get('/awards', getAwards);

@@ -109,23 +109,23 @@ module.exports = function(){
    
     //routes
     // page for /award
-    router.get('/', function(req, res){
-        var callbackCount = 0;
-        var context = {}; 
-        context.layout = 'user';
-        context.title = 'ERP Awards';
-        callAPIAwardTypes("http://localhost:5000/api/awards_types", context, complete);
-        callAPIPresenters("http://localhost:5000/api/awards_presenters",  context,  complete);
-        callAPIDepartments("http://localhost:5000/api/awards_departments",  context,  complete);
-        callAPIRegions("http://localhost:5000/api/awards_regions", context,  complete);
-        callAPIAwardRecords("http://localhost:5000/api/awards", context,  complete);
-        function complete(){
-            callbackCount++;
-            if(callbackCount >= 5){
-                res.render('userAward', context);
-            }
-        }
-    });
+    // router.get('/', function(req, res){
+    //     var callbackCount = 0;
+    //     var context = {}; 
+    //     context.layout = 'user';
+    //     context.title = 'ERP Awards';
+    //     callAPIAwardTypes("http://localhost:5000/api/awards_types", context, complete);
+    //     callAPIPresenters("http://localhost:5000/api/awards_presenters",  context,  complete);
+    //     callAPIDepartments("http://localhost:5000/api/awards_departments",  context,  complete);
+    //     callAPIRegions("http://localhost:5000/api/awards_regions", context,  complete);
+    //     callAPIAwardRecords("http://localhost:5000/api/awards", context,  complete);
+    //     function complete(){
+    //         callbackCount++;
+    //         if(callbackCount >= 5){
+    //             res.render('userAward', context);
+    //         }
+    //     }
+    // });
 
        
     //add an award record TO DO: MOVE TO API CALL  

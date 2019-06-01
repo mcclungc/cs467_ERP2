@@ -2,46 +2,29 @@
 <link rel="stylesheet" href="css/table.css" type="text/css">
 <h1 class="title">Create an Employee Award</h1>
 <div id="createAward" class="createForm">
-	<form id="addAward" action="award" method="post">
+	<form id="addAward">
 		<fieldset>
-			<p style="text-align:center;">Complete this form to personalize and preview an Employee award.</p>
+			<p style="text-align:center;">Complete this form to create an Employee award.</p>
 			<p class="fields"><input id="name" name="recipient_name" type="text" placeholder="Recipient Name" autocomplete="on" required></p>
 			<p class="fields"><input id="email" name="recipient_email" type="email" placeholder="Recipient Email" autocomplete="on" required></p>
 			<p class="fields">
-				<select name="department" required>
+				<select name="department" id="department" required>
 					<option value="">Department</option>
-					{{#each departments}}
-					<option value="{{id}}">{{department_name}}</option>
-					{{/each}}
 				</select>
 			</p>
 			<p class="fields">
-				<select name="region" required>
+				<select name="region" id="region" required>
 					<option value="">Region</option>
-					{{#each regions}}
-					<option value="{{id}}">{{region_name}}</option>
-					{{/each}}
 				</select>
 			</p>
 			<p class="fields">
-				<select name="awardtype" required>
+				<select name="awardtype" id="award-type" required>
 					<option value="">Award Type</option>
-					{{#each awardtypes}}
-					<option value="{{id}}">{{certificate_type}}</option>
-					{{/each}}
 				</select>
 			</p>
-			<p class="fields">
-				<select name="awarder" required>
-					<option value="">Awarded By</option>
-					{{#each presenters}}
-					<option value="{{id}}">{{name}}</option>
-					{{/each}}
-				</select>
-			</p>
-			<p class="oddField">Award Date: <input type="date" name="date" required></p>
-			<p class="button"><input class="submit" id="createAward" type="submit" value="Create Award Record"></p>
+			<p class="oddField">Award Date: <input type="date" name="date" id="award-date" required></p>
+			<p class="button"><input class="submit" id="createAward" type="submit" value="Create Award"></p>
 		</fieldset>
 	</form>
 </div>
-
+<script type="text/javascript" src="/js/createAward.js"></script>
