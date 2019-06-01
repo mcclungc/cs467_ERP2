@@ -204,28 +204,14 @@ function edit() {
 	var user = this.parentNode.parentNode.parentNode;
 	var userName = user.getElementsByClassName("name");
 	var uEmail = user.getElementsByClassName("email");
-	var uType = user.getElementsByClassName("userType");
-	var uDepartment = user.getElementsByClassName("department");
-	var uRegion = user.getElementsByClassName("region");
 	var eBox = document.getElementById("lightBox");
 	var eContent = document.getElementById("lightBox-Inner");
 	var name = userName[0].innerText;
-	var type = uType[0].innerText;
 	var email = uEmail[0].innerText;
-	var dep = uDepartment[0].innerText;
-	var reg = uRegion[0].innerText;
-
-	//Edit Form and display it
-	var updateForm = document.getElementById("updateForm");
-	eContent.innerHTML = updateForm;
 	
-	var innerForm = eContent.getElementById("updateForm");
-	innerForm.style.display = "block";
-	var nameValue = innerForm.getElementById("name");
-	nameValue.value = name;
-	var emailValue = innerForm.getElementById("email");
-	emailValue.value = email;
-	var uBtn = innerForm.getElementById("updateBTN");
+	//Edit Form and display it
+	eContent.innerHTML = '<div id="updateForm" class="createForm"><form id="accountForm" method="post"><fieldset><p class="fields"><input id="nameUpdate" value="' + name + '" required></p><p class="fields"><input id="emailUpdate" value="' + email + '" required></p><p class="fields"><button class="lightBox-button" id="updateBTN">Update</button><button class="lightBox-button" onclick="closeLightBox()">Cancel</button></p></fieldset></form></div>"';
+	var uBtn = document.getElementById("updateBTN");
 	uBtn.name = id;
 	eBox.classList.remove("hidden");
 
@@ -242,21 +228,17 @@ function edit() {
 		var updateInfo = {};
 		var newN = updateForm.getElementsById("name");
 		var newE = updateForm.getElementsById("email");
-		var newType = updateForm.getElementsById("userType");
-		var newRNum = updateForm.getElementsById("region");
-		var newDNum = updateForm.getElementsById("department");
 		updateInfo.name = newN.value;
 		updateInfo.email = newE.value;
 		updateInfo.id = id;
-		updateInfo.is_admin = newType.value;
-		updateInfo.region_id = newRNum.value;
-		updateInfo.department_id = newDNum.value;
 		req.open("PATCH", request, true);
 		req.setRequestHeader('Content-Type', 'application/json');
 		req.addEventListener('load', function() {
 			if (req.status >= 200 && req.status < 400) {
 				var response = JSON.parse(req.responseText);
 				console.log(response);
+				userName[0].innerText = newN.value;
+				uEmail[0].innerText = newE.value;
 			} else {
 				console.log("Error in network request: " + req.statusText);
 			}
@@ -264,6 +246,7 @@ function edit() {
 		req.send(JSON.stringify(updateInfo));
 		updateForm.style.display = "none";
 		closeLightBox();
+	});
 }
 
 function deleteUsers() {
@@ -344,12 +327,12 @@ for(k = 0; k < inactiveButtons.length; k++){
 
 //Update wording of user type
 var t;
-for(t = 0; t < rows.length; t++){
-	var type = rows.getElementsByClassName("userType");
-	if(type[0].name == 0){
-		type[0].innerText = "User";
+var type = document.getElementsByClassName("userType");
+for(t = 0; t < type.length; t++){
+	if(type[t].name == "0"){
+		type[t].innerText = "User";
 	}
 	else {
-		type[0].innerText = "Admin";
+		type[t].innerText = "Admin";
 	}
 }

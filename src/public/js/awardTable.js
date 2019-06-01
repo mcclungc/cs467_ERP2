@@ -1,14 +1,14 @@
 /*
- * Description: Javascript for user history page
+ * Description: Javascript for award Table
 */
 
 //Search function to display all results from database
 //Source: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_filter_table
 function search(){
-	var searchInput, filter, table, tr, td, itr;
+	var searchInput, filter, tr, td, itr;
 	searchInput = document.getElementById("myInput");
 	filter = searchInput.value.toUpperCase(); //make the search case insensitive
-	table = document.getElementById("awardTable");
+	//table = document.getElementById("userTable");
 	tr = table.getElementsByTagName("tr");
 	for( itr = 0; itr < tr.length; itr++){
 		td = tr[itr].getElementsByTagName("td")[1];
@@ -38,10 +38,10 @@ function sortToggle(){
 function sortAscending(col) {
 	ascending = true;
 	var sorted = false;
-	var table, body, rows, td, itr;
-	table = document.getElementById("awardTable");
-	body = document.getElementById("tableBody");
-	rows = table.getElementsByClassName("row");
+	//var table, body, rows, td, itr;
+	//table = document.getElementById("userTable");
+	//body = document.getElementById("tableBody");
+	//rows = table.getElementsByClassName("row");
 	while(!sorted){
 		for(itr = 0; itr < rows.length - 1; itr++){
 			if(rows[itr].cells[col].innerText.toUpperCase() > rows[itr + 1].cells[col].innerText.toUpperCase()){
@@ -72,10 +72,10 @@ function checkAscending(array, col){
 function sortDescending(col) {
 	ascending = false;
 	var sorted = false;
-	var table, body, rows, td, itr;
-	table = document.getElementById("awardTable");
-	body = document.getElementById("tableBody");
-	rows = table.getElementsByClassName("row");
+	//var table, body, rows, td, itr;
+	//table = document.getElementById("userTable");
+	//body = document.getElementById("tableBody");
+	//rows = table.getElementsByClassName("row");
 	while(!sorted){
 		for(itr = 0; itr < rows.length - 1; itr++){
 			if(rows[itr].cells[col].innerText.toUpperCase() < rows[itr + 1].cells[col].innerText.toUpperCase()){
@@ -106,7 +106,7 @@ function checkDescending(array, col){
 function checkToggle() {
 	if(this.parentNode.parentNode.id == "tableHead"){
 		if(this.childNodes[0].classList.contains("checkoff")){
-			var table = document.getElementById("awardTable");
+			//var table = document.getElementById("userTable");
 			var checks = table.getElementsByClassName("fa-check");
 			var i;
 			for(i = 0; i < checks.length; i++){
@@ -115,8 +115,8 @@ function checkToggle() {
 			}
 		}
 		else if(this.childNodes[0].classList.contains("checkon")){
-			var tab = document.getElementById("awardTable");
-			var check = tab.getElementsByClassName("fa-check");
+			//var tab = document.getElementById("userTable");
+			var check = table.getElementsByClassName("fa-check");
 			var j;
 			for(j = 0; j < check.length; j++){
 				check[j].classList.remove("checkon");
@@ -148,8 +148,8 @@ function checkToggle() {
 function anyActive(){
 	var x, y;
 	var buttons = document.getElementsByClassName("actionButton");
-	var area = document.getElementById("awardTable");
-	var activeChecks = area.getElementsByClassName("checkon");
+	//var area = tableocument.getElementById("userTable");
+	var activeChecks = table.getElementsByClassName("checkon");
 	if(activeChecks.length > 0){
 		for(x = 0; x < buttons.length; x++){
 			buttons[x].classList.remove("inactive");
@@ -171,24 +171,24 @@ function anyActive(){
 //JS for the lightbox, remove, and edit buttons
 function remove() {
 	var rButton = document.getElementById("removeButton");
-	var table = document.getElementById("awardTable");
+	//var table = document.getElementById("userTable");
 	if(!rButton.classList.contains("inactive")){
 		var rBox = document.getElementById("lightBox");
 		var rContent = document.getElementById("lightBox-Inner");
 		var checks = table.getElementsByClassName("checkon");
 		var i;
 		var names = "";
-		var awards = "";
+		var awardArray = [];
 		for(i = 0; i < checks.length; i++){
 			var entry = checks[i].parentNode.parentNode.parentNode;
 			if(entry.id != "tableHead" && entry.style.display != "none"){
 				var cellName = entry.getElementsByClassName("name");
+				var idElement = entry.getElementsByClassName("editButton");
 				names = names + " " + cellName[0].innerText;
-				var awardName = entry.getElementsByClassName("awardType");
-				awards = awards + " " + awardName[0].innerText;
+				awardArray.push(idElement[0].id);
 			}
 		}
-		rContent.innerHTML = '<p>Are you sure you want to delete the awards of:' + names + '?</p><p><button class="lightBox-button" onclick="deleteAward()">Yes</button><button class="lightBox-button" onclick="closeLightBox()">No</button></p>';
+		rContent.innerHTML = '<p>Are you sure you want to remove the record(s) for ' + names + '?</p><p><button class="lightBox-button" onclick="deleteAwards(' + awardArray +')">Yes</button><button class="lightBox-button" onclick="closeLightBox()">No</button></p>';
 		rBox.classList.remove("hidden");
 	}
 }
@@ -198,25 +198,81 @@ function closeLightBox() {
 	lightB.classList.add("hidden");
 }
 
-//Function to delete award from the table and database
-function deleteAward() {
 
+function deleteAwards() {
+	var i;
+	for(i = 0; i < arguments.length; i++){
+		deleteAward(arguments[i]);
+	}
+	closeLightBox();
+}
+
+
+//Function to delete award from the table and database
+function deleteAward(id) {
+	var req = new XMLHttpRequest();
+	var request = `/api/awards/${id}`;
+	req.open("DELETE", request, true);
+	req.setRequestHeader('Content-Type', 'application/json');
+	req.addEventListener('load', function() {
+		if (req.status >= 200 && req.status < 400) {
+			var table = document.getElementById("awardTable");
+			var checks = table.getElementsByClassName("checkon");
+			var i;
+			var checksCount = checks.length
+			for(i = 0; i < checksCount; i++){
+				var entry = checks[i].parentNode.parentNode.parentNode;
+				if(entry.id != "tableHead" && entry.style.display != "none"){
+					table.deleteRow(entry.rowIndex);
+					checksCount--;
+					i--;
+				}
+			}
+		} else {
+			console.log("Error in network request: " + req.statusText);
+		}
+	});
+	req.send(null);
+}
+
+function preview() {
+	const id = this.id;
+	
+	var req = new XMLHttpRequest();
+	var request = `/award/${id}`;
+	req.open("GET", request, true);
+	req.setRequestHeader('Content-Type', 'application/json');
+	req.addEventListener('load', function() {
+		if (req.status >= 200 && req.status < 400) {
+			window.location.assign('../latexfiles/output/award'+id+'.pdf'); //needs to use award ID to pick correct award and type
+			//window.location.assign('../latexfiles/output/test.pdf'); //needs to use award ID to pick correct award and type
+
+			//<a href='../latexfiles/output/{{this.awardfilename}}.pdf' download='Award{{this.id}}.pdf'> <button class='download'>Download as PDF</button></a>
+		} else {
+			console.log("Error in network request: " + req.statusText);
+		}
+	});
+	req.send(null);
 }
 
 //Global Variables
 var ascending = true;
+var table = document.getElementById("awardTable");
+var body = document.getElementById("tableBody");
+var rows = table.getElementsByClassName("row");
 var searchBar = document.getElementById("myInput");
 var removeButton = document.getElementById("removeButton");
+var previewButtons = document.getElementsByClassName("editButton");
 var close = document.getElementById("close");
 var toggle = document.getElementsByClassName("sort");
 var toggleCheck = document.getElementsByClassName("checkMark");
-var i, j, k;
+var i, j, k, l;
 var inactiveButtons = document.getElementsByClassName("inactive");
 
 //Event Listeners
 removeButton.addEventListener("click", remove);
-close.addEventListener("click", closeLightBox);
 searchBar.addEventListener("keyup", search);
+close.addEventListener("click", closeLightBox);
 
 //Loop to activate sorting
 for(i = 0; i < toggle.length; i++){
@@ -226,6 +282,11 @@ for(i = 0; i < toggle.length; i++){
 //Loop to activate checkmarks
 for (j = 0; j < toggleCheck.length; j++) {
 	toggleCheck[j].addEventListener("click", checkToggle);
+}
+
+//Lopp to activate edit buttons
+for(l = 0; l < previewButtons.length; l++){
+	previewButtons[l].addEventListener("click", preview);
 }
 
 //Deactivate inactive buttons

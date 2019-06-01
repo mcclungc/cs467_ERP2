@@ -1,14 +1,3 @@
-<style>
-var hostName = document.location.origin + "/award";
-var style = document.getElementsByTagName("link");
-var i;
-for(i = 0; i < style.length; i++){
-	if(style[i].href != "https://use.fontawesome.com/releases/v5.8.1/css/all.css"){
-		var string = style[i].href;
-		style[i].href = string.substr(hostName.length);
-	}
-}
-</style>
 {{#if css}}
 {{#each css}}
 <link rel="stylesheet" href="{{this}}" type="text/css">
@@ -37,7 +26,7 @@ for(i = 0; i < style.length; i++){
                 <td>{{this.recipient_region}} </td>
                 <td>{{this.presenter}}</td>
 					<td>
-						<button class="actionButton" onclick='deleteAwardRecord({{awardrecord.awardID}})'>Delete </button>
+						<button class="actionButton" id="deleteAwardRec" onclick='deleteAwardRecord({{this.awardID}})'>Delete </button>
 					</td>      
 				</tr> 
 			</tbody> 
@@ -50,3 +39,7 @@ for(i = 0; i < style.length; i++){
     <input type='button' class="actionButton" name='email' value='Email to Recipient' onclick=''>
         {{/each}} 
 </p>
+		</div>
+	</body>
+
+

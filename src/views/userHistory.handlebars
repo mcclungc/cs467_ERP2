@@ -19,12 +19,12 @@
 					<td class="checkBox">
 						<div class="checkMark"><i class="fas fa-check checkoff"></i></div>
 					</td>
-					<th>Employee Name <i class="sort fas fa-sort"></i></th>
-					<th>Award Type <i class="sort fas fa-sort"></i></th>
-					<th>Department <i class="sort fas fa-sort"></i></th>
-					<th>Region <i class="sort fas fa-sort"></i></th>
-					<th>Employee Email <i class="sort fas fa-sort"></i></th>
-					<th>Sent Date <i class="sort fas fa-sort"></i></th>
+					<th>Recipient Name</th>
+					<th>Award Type</th>
+					<th>Department</th>
+					<th>Region</th>
+					<th>Recipient Email</th>
+					<th>Sent Date</th>
 					<th>Preview</th>
 				</tr>
 				{{#if awardrecords}}
@@ -39,7 +39,7 @@
 						<td>{{this.recipient_region}}</td>
 						<td>{{this.recipient_email}}</td>
 						<td>{{this.award_date}}</td>
-						<td><a href="/award/{{this.awardID}}"><input type="button" value="Preview"></a></td>
+						<td><p><button class="editButton" id="{{this.awardID}}">Preview</button></p></td>
 					</tr>
 					{{/each}}
 				{{/if}}

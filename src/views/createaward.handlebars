@@ -36,8 +36,8 @@
            
             </select></br>
             <label>Awarded By: </label><br/>
-            <select name='awarder'>
-                {{#each awarders}}
+            <select name='presenter'>
+                {{#each presenters}}
                 <option value='{{id}}'>{{name}}</option>
                 {{/each}}
             </select>
@@ -66,11 +66,11 @@
         <tr> 
             <td>{{this.awardID}}</td> 
             <td>{{this.awardtype}}</td> 
-            <td>{{this.date}}</td> 
+            <td>{{this.award_date}}</td> 
             <td>{{this.recipient}} </td>
-            <td>{{this.department_name}} </td>
-            <td>{{this.region_name}}</td>
-            <td>{{this.awarder}}</td>
+            <td>{{this.recipient_department}} </td>
+            <td>{{this.recipient_region}}</td>
+            <td>{{this.presenter}}</td>
                  
             <td><a href='/award/{{this.awardID}}'><input type='button' value='Preview'></a></td>
 

@@ -2,12 +2,12 @@
 <link rel="stylesheet" type="text/css" href="/css/account.css">
 <h1 class="title">User Account Settings</h1>
 <div class="accountInfo">
-	<form id="accountForm" method="post">
+	<form id="accountForm" method="patch">
 		<fieldset>
-		        <p><strong class="heading">Name:</strong> <span class="currentInfo">{{user.name}}</span></p>
-		        <p><strong class="heading">Email Address:</strong> <span class="currentInfo">{{user.email}}</span></p>
-			<p><strong class="heading">Region:</strong> <span class="currentInfo">{{user.region_name}}</span></p>
-			<p><strong class="heading">Department:</strong> <span class="currentInfo">{{user.department_name}}</span></p>
+		        <p><strong class="heading">Name:</strong> <span class="currentInfo" id="name">{{user.name}}</span></p>
+			<p><strong class="heading">Email Address:</strong> {{user.email}}</p>
+			<p><strong class="heading">Region:</strong> {{user.region_name}}</p>
+			<p><strong class="heading">Department:</strong> {{user.department_name}}</p>
 			<p><strong class="heading">Account Creation Date:</strong> {{user.created_on}}</p>
 			<p style="display:none; text-align: center;"><input class="submit" id="update" type="submit" name="{{user.id}}" value="Update"></p>
 		</fieldset>

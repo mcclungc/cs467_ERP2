@@ -27,6 +27,7 @@ app.use('/api', require('./api/awards/router'));
 app.use('/api', require('./api/password/router'));
 app.use('/api', require('./api/gcharts/router'));
 app.use('/api', require('./api/logout/router'));
+app.use('/api', require('./api/emailaward/router')); 
 app.use("/award", require("./award.js"));
 app.set('port', 5000);//enter in port number when you run
 app.set('mysql', mysql);
@@ -155,8 +156,39 @@ app.get('/add-user', function(req, res, next){
 	if(!req.cookies.erp_is_admin) {
 		res.redirect('/');
 	} else if(req.cookies.erp_is_admin === '1') {
-		sessionValidation(req.cookies).then(user_id => {
-			res.render('adminCreateUser', {layout: 'admin', title : '| Create User'});
+		sessionValidation(req.cookies).then(user_id => { 
+		//This is code to populate dropdowns for departments and regions, but the form doesn't seem to 
+		//be posting properly to the API, so I am commenting out until that is resolved.
+		//Starts here
+			let callbackCount = 0;
+			let context = {};
+			context.layout = 'admin';
+                        context.title = '| Create User';
+			let Request = require('request');
+			Request.get("http://localhost:5000/api/org/departments", (error, response,body)=> {
+				if(error) {
+					res.write(JSON.stringify(error));
+					res.end();
+				}  else{
+				context.departments = JSON.parse(body);
+				callbackCount++;
+			}
+			});
+			Request.get("http://localhost:5000/api/org/regions", (error, response,body)=> {
+				if(error) {
+					res.write(JSON.stringify(error));
+					res.end();
+				} else {
+				context.regions = JSON.parse(body);
+				callbackCount++;
+			}
+			if (callbackCount === 2) {
+			res.render('adminCreateUser', context);
+			}
+
+		});
+		//ends, uncomment the line below to restore to original code.
+		//res.render('adminCreateUser', {layout: 'admin', title : '| Create User'});
 		}).catch(error => {
 			res.redirect('/');
 		})
@@ -234,9 +266,9 @@ app.get('/history', function(req, res, next){
 					res.write(JSON.stringify(error));
 					res.end();
 				}    
-			context.awardrecords = JSON.parse(body);
-			//console.log(context.awardrecords);
-            res.render('userHistory', context);
+				context.awardrecords = JSON.parse(body);
+				//console.log(context.awardrecords);
+            	res.render('userHistory', context);
 				});
 			}).catch(error => {
 			res.redirect('/');
@@ -292,6 +324,33 @@ app.get('/change-password', function(req, res, next){
 	}
 });
 
+app.get('/userhelp', function(req, res, next){
+	if(!req.cookies.erp_is_admin) {
+		res.redirect('/');
+	} else if(req.cookies.erp_is_admin === '0') {
+		sessionValidation(req.cookies).then(user_id => {
+			res.render('userHelp', {layout: 'user', title: 'User Help'});
+		}).catch(error => {
+			res.redirect('/');
+		})
+	} else {
+		res.redirect('/');
+	}
+});
+
+app.get('/adminhelp', function(req, res, next){
+	if(!req.cookies.erp_is_admin) {
+		res.redirect('/');
+	} else if(req.cookies.erp_is_admin === '1') {
+		sessionValidation(req.cookies).then(user_id => {
+			res.render('adminHelp', {layout: 'admin', title: 'Admin Help'});
+		}).catch(error => {
+			res.redirect('/');
+		})
+	} else {
+		res.redirect('/');
+	}
+});
 
 //Error pages
 app.use(function(req, res, next){
