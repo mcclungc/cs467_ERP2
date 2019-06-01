@@ -157,38 +157,7 @@ app.get('/add-user', function(req, res, next){
 		res.redirect('/');
 	} else if(req.cookies.erp_is_admin === '1') {
 		sessionValidation(req.cookies).then(user_id => { 
-		//This is code to populate dropdowns for departments and regions, but the form doesn't seem to 
-		//be posting properly to the API, so I am commenting out until that is resolved.
-		//Starts here
-			let callbackCount = 0;
-			let context = {};
-			context.layout = 'admin';
-                        context.title = '| Create User';
-			let Request = require('request');
-			Request.get("http://localhost:5000/api/org/departments", (error, response,body)=> {
-				if(error) {
-					res.write(JSON.stringify(error));
-					res.end();
-				}  else{
-				context.departments = JSON.parse(body);
-				callbackCount++;
-			}
-			});
-			Request.get("http://localhost:5000/api/org/regions", (error, response,body)=> {
-				if(error) {
-					res.write(JSON.stringify(error));
-					res.end();
-				} else {
-				context.regions = JSON.parse(body);
-				callbackCount++;
-			}
-			if (callbackCount === 2) {
-			res.render('adminCreateUser', context);
-			}
-
-		});
-		//ends, uncomment the line below to restore to original code.
-		//res.render('adminCreateUser', {layout: 'admin', title : '| Create User'});
+		res.render('adminCreateUser', {layout: 'admin', title : '| Create User'});
 		}).catch(error => {
 			res.redirect('/');
 		})
@@ -240,20 +209,7 @@ app.get('/award', function(req, res, next){
 		res.redirect('/');
 	}
 });
-/*
-app.get('/history', function(req, res, next){
-	if(!req.cookies.erp_is_admin) {
-		res.redirect('/');
-	} else if(req.cookies.erp_is_admin === '0') {
-		sessionValidation(req.cookies).then(user_id => {
-			res.render('userHistory', {layout: 'user', title: 'User History'});
-		}).catch(error => {
-			res.redirect('/');
-		})
-	} else {
-		res.redirect('/');
-	}
-});*/
+
 app.get('/history', function(req, res, next){
 	if(!req.cookies.erp_is_admin) {
 		res.redirect('/');
@@ -261,7 +217,7 @@ app.get('/history', function(req, res, next){
 		sessionValidation(req.cookies).then(user_id => {
 			let context = {};
 			let Request = require('request');
-			Request.get("http://localhost:5000/api/awards", (error, response,body)=> {
+			Request.get("http://localhost:5000/api/awards_currentuser/"+ user_id, (error, response,body)=> {
 				if(error) {
 					res.write(JSON.stringify(error));
 					res.end();
