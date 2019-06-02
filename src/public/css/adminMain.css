@@ -76,6 +76,8 @@ body {
 #topNav {
 	width: 100%;
 	background-color: #2e2e2e;
+	position: fixed;
+	top: 0;
 }
 
 /* Clear the container */
@@ -169,6 +171,7 @@ body {
 
 .bodyMain {
 	margin-left: 50px;
+	margin-top: 60px;
 }
 
 .body-container {
