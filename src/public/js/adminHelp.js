@@ -51,16 +51,16 @@ function search(){
     
     for (i = 0; i < included.length; i++){
         if(included[i] != 1){
-            answerTitle[i].style.visibility = "hidden";
-            answerTextElm[i].style.visibility = "hidden";
+            answerTitle[i].style.display = "none";
+            answerTextElm[i].style.display = "none";
         }
     } 
 }
 
 function resetSearch(){
     for (i = 0; i < clickedStatus.length; i++){
-        answerTitle[i].style.visibility = "visible";
-        answerTextElm[i].style.visibility = "visible";
+        answerTitle[i].style.display = "block";
+        answerTextElm[i].style.display = "block";
         answerTextElm[i].innerHTML = "";
         searchQuery.value = "";
     }

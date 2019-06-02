@@ -1,5 +1,4 @@
 .hlink {
-	font-family: Arial, Verdana, serif;
 	padding: 10px;
         font-size: 1em;
         text-decoration: none;
@@ -11,14 +10,6 @@
 
 .hlink:hover {
 	background-color: #20262e;
-}
-
-.htext {
-	font-family: Arial, Verdana, serif;
-}
-
-#helpheader {
-    font-family: Arial, Verdana, serif;
 }
 
 #helpbody {
