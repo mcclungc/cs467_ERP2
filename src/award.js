@@ -106,28 +106,7 @@ module.exports = function(){
         
         complete();
     }
-   
-    //routes
-    // page for /award
-    // router.get('/', function(req, res){
-    //     var callbackCount = 0;
-    //     var context = {}; 
-    //     context.layout = 'user';
-    //     context.title = 'ERP Awards';
-    //     callAPIAwardTypes("http://localhost:5000/api/awards_types", context, complete);
-    //     callAPIPresenters("http://localhost:5000/api/awards_presenters",  context,  complete);
-    //     callAPIDepartments("http://localhost:5000/api/awards_departments",  context,  complete);
-    //     callAPIRegions("http://localhost:5000/api/awards_regions", context,  complete);
-    //     callAPIAwardRecords("http://localhost:5000/api/awards", context,  complete);
-    //     function complete(){
-    //         callbackCount++;
-    //         if(callbackCount >= 5){
-    //             res.render('userAward', context);
-    //         }
-    //     }
-    // });
-
-       
+          
     //add an award record TO DO: MOVE TO API CALL  
     router.post('/', function(req, res){
         var mysql = req.app.get('mysql');
@@ -195,15 +174,16 @@ module.exports = function(){
                 latexmodule.renderLatexDoc(context.awardrecord[0].awardtypeID, context, complete);
             }
             else if (callbackCount === 4){
-                //console.log(callbackCount);
-                const emailurl = "http://localhost:5000/api/emailaward/"+ context.awardrecord[0].awardID;
-                //console.log(emailurl);
-                callAPIEmailAward(emailurl, context, complete);
-            }
-            else if (callbackCount === 5){
-                //console.log(callbackCount);
+                // //console.log(callbackCount);
+                // const emailurl = "http://localhost:5000/api/emailaward/"+ context.awardrecord[0].awardID;
+                // //console.log(emailurl);
+                // callAPIEmailAward(emailurl, context, complete);
                 res.status(200).send();
             }
+            // else if (callbackCount === 5){
+            //     //console.log(callbackCount);
+            //     // res.status(200).send();
+            // }
         }  
     });
 

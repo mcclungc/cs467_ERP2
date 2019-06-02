@@ -254,7 +254,7 @@ function createAwardRecord(req,res){
                                     "recipient_email": req.body.recipient_email,
                                     "recipient_department_id": req.body.recipient_department_id,
                                     "recipient_region_id": req.body.recipient_region_id,   
-                                    "presenter_id": req.body.presenter_id,            
+                                    "presenter_id": userData.user_id,            
                                     "award_date": req.body.sent_on
                                 });
                                 res.status(200).send(data);

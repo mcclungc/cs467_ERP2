@@ -30,7 +30,15 @@ submitButton.addEventListener("click", function(event) {
 	req.addEventListener('load', function() {
 		if (req.status >= 200 && req.status < 400) {
             var response = JSON.parse(req.responseText);
-            console.log(response);
+			if(response[0].awardID){
+				form.insertAdjacentHTML('afterend', '<p class="userCreated">Award Successfully Created!</p>');
+				user.value = '';
+				name.value = '';
+				department.value = '';
+				region.value = '';
+				awardType.value = '';
+				awardDate.value = '';
+			}
 		} else {
 			console.log("Error in network request: " + req.statusText);
 		}
