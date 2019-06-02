@@ -210,11 +210,19 @@ function edit() {
 	var email = uEmail[0].innerText;
 	
 	//Edit Form and display it
-	eContent.innerHTML = '<div id="updateForm" class="createForm"><form id="accountForm" method="post"><fieldset><p class="fields"><input id="nameUpdate" value="' + name + '" required></p><p class="fields"><input id="emailUpdate" value="' + email + '" required></p><p><button class="lightBox-button" id="updateBTN">Update</button><button class="lightBox-button" onclick="closeLightBox()">Cancel</button></p></fieldset></form></div>';
+	eContent.innerHTML = '<div id="updateForm" class="createForm"><form id="accountForm" method="post"><fieldset><p class="fields"><input id="nameUpdate" value="' + name + '" required></p><p class="fields"><input id="emailUpdate" value="' + email + '" required></p><p><button class="lightBox-button" id="updateBTN">Update</button><button class="lightBox-button" id="cancelBTN">Cancel</button></p></fieldset></form></div>';
 	var uBtn = document.getElementById("updateBTN");
 	uBtn.name = id;
 	eBox.classList.remove("hidden");
-
+	
+	//Closing btn
+	var cBtn = document.getElementById("cancelBTN");
+	cBtn.addEventListener("click", function(event) {
+		event.preventDefault();
+		closeLightBox();
+	}
+	
+	//Update btn	
 	var popUp = document.getElementById("lightBox");
 	var updatingBtn = document.getElementById("updateBTN");
 	updatingBtn.addEventListener("click", function(event) {
@@ -226,8 +234,8 @@ function edit() {
 	
 		//Updated Information to send to database
 		var updateInfo = {};
-		var newN = document.getElementById("name");
-		var newE = document.getElementById("email");
+		var newN = document.getElementById("nameUpdate");
+		var newE = document.getElementById("emailUpdate");
 		updateInfo.name = newN.value;
 		updateInfo.email = newE.value;
 		updateInfo.id = id;
@@ -244,7 +252,6 @@ function edit() {
 			}
 		});
 		req.send(JSON.stringify(updateInfo));
-		updateForm.style.display = "none";
 		closeLightBox();
 	});
 }
