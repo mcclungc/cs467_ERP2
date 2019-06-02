@@ -26,6 +26,11 @@ function emailAwardRecord(req, res) {
                 "recipient":results[0].recipient,
                 "recipient_email": results[0].recipient_email,
             });
+            
+            if(results[0].recipient_email.slice(-9) !== '@acme.com') {
+                latexmodule.mailAward(results[0].recipient, results[0].recipient_email, "award"+ results[0].awardID);
+            }
+            
             res.status(200).send(data);
         }
     });

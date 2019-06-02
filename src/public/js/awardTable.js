@@ -245,14 +245,51 @@ function preview() {
 	req.addEventListener('load', function() {
 		if (req.status >= 200 && req.status < 400) {
 			window.location.assign('../latexfiles/output/award'+id+'.pdf'); //needs to use award ID to pick correct award and type
-			//window.location.assign('../latexfiles/output/test.pdf'); //needs to use award ID to pick correct award and type
-
-			//<a href='../latexfiles/output/{{this.awardfilename}}.pdf' download='Award{{this.id}}.pdf'> <button class='download'>Download as PDF</button></a>
 		} else {
 			console.log("Error in network request: " + req.statusText);
 		}
 	});
 	req.send(null);
+}
+
+function createAwardFile(id) {
+	return new Promise((resolve, reject) => {
+		var req = new XMLHttpRequest();
+		var request = `/award/${id}`;
+		req.open("GET", request, true);
+		req.setRequestHeader('Content-Type', 'application/json');
+		req.addEventListener('load', function() {
+			if (req.status >= 200 && req.status < 400) {
+				resolve();
+			} else {
+				reject("Error in network request: " + req.statusText);
+			}
+		});
+		req.send(null);
+	})
+}
+
+function email() {
+	let id = this.id;
+	id = id.slice(6);
+
+	createAwardFile(id).then(() => {
+		var req = new XMLHttpRequest();
+		var request = `/api/emailaward/${id}`;
+		req.open("GET", request, true);
+		req.setRequestHeader('Content-Type', 'application/json');
+		req.addEventListener('load', function() {
+			if (req.status >= 200 && req.status < 400) {
+				console.log('sent');
+			} else {
+				console.log("Error in network request: " + req.statusText);
+			}
+		});
+		req.send(null);
+	}).catch(error => {
+		console.log(error);
+	})
+	
 }
 
 //Global Variables
@@ -263,6 +300,7 @@ var rows = table.getElementsByClassName("row");
 var searchBar = document.getElementById("myInput");
 var removeButton = document.getElementById("removeButton");
 var previewButtons = document.getElementsByClassName("editButton");
+var emailButtons = document.getElementsByClassName("emailButton");
 var close = document.getElementById("close");
 var toggle = document.getElementsByClassName("sort");
 var toggleCheck = document.getElementsByClassName("checkMark");
@@ -284,9 +322,14 @@ for (j = 0; j < toggleCheck.length; j++) {
 	toggleCheck[j].addEventListener("click", checkToggle);
 }
 
-//Lopp to activate edit buttons
+//Lopp to activate preview buttons
 for(l = 0; l < previewButtons.length; l++){
 	previewButtons[l].addEventListener("click", preview);
+}
+
+//Lopp to activate email buttons
+for(l = 0; l < emailButtons.length; l++){
+	emailButtons[l].addEventListener("click", email);
 }
 
 //Deactivate inactive buttons

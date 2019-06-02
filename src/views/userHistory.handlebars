@@ -25,7 +25,7 @@
 					<th>Region</th>
 					<th>Recipient Email</th>
 					<th>Sent Date</th>
-					<th>Preview</th>
+					<th></th>
 				</tr>
 				{{#if awardrecords}}
 					{{#each awardrecords}}
@@ -39,7 +39,12 @@
 						<td>{{this.recipient_region}}</td>
 						<td>{{this.recipient_email}}</td>
 						<td>{{this.award_date}}</td>
-						<td><p><button class="editButton" id="{{this.awardID}}">Preview</button></p></td>
+						<td>
+							<p>
+								<button class="editButton" id="{{this.awardID}}">Preview</button>
+								<button class="emailButton" id="email-{{this.awardID}}">Email</button>
+							</p>
+						</td>
 					</tr>
 					{{/each}}
 				{{/if}}
