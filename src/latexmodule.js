@@ -14,13 +14,12 @@ let transporter = awardmailer.createTransport({
         user: 'cs467.erp2@gmail.com',
         clientId: email.client,
         clientSecret: email.secret,
-        //not sure what these mean, using because Corey did in password reset function
         refreshToken: '1/Q4f4viCguSJLjfOfBuU2RuguW1uHNNdyC39kVcKWRDZpwxtuyRY5Bd83NkZV9nD9',
         accessToken: 'ya29.GlsQBzK-taNVovCNauIYlPrQllW7095SNg7Jf9cbSlSqXo-MqlIXI2v1Fotcf0ScV2aJgDzYWSZ1sZRe003obdzY2NwKy8sjZ0iKNqOFLx-DaHQO2fJB_GXIxzl-'
     }
 });
 
-//RIGHT NOW THIS IS EMAILING WHATEVER LATEX FILE FOR THAT AWARD TYPE IS IN THE DIRECTORY
+//Pulls award record by name from directory and emails it. to recipient email
 exports.mailAward = function(RecipientName, RecipientEmail, awardrootfilename){
 dirpath = 'public/latexfiles/output/'+ awardrootfilename + '.pdf';
 
@@ -75,14 +74,11 @@ exports.renderLatexDoc = function(awardtype,context, complete){
     //as discussed at https://stackoverflow.com/questions/41560344/how-to-use-a-pdflatex-child-process-to-get-a-pdf-as-a-stream-in-node-js     
     var process = require('process');
     process.chdir('public/latexfiles');  
-    //console.log('Current directory: ' + process.cwd());
     if (awardtype == 1)
     {
         templateName = 'eomtemplatewithfields.tex';
-        //var awardfilename ='eomaward'; 
         var awardfilename ='award' + context.awardrecord[0].awardID; //TO SAVE WITH AWARDRECORD ID
         context.awardrecord[0].awardfilename = awardfilename;
-        //console.log(context.awardrecord.awardfilename);
         var spawn  = require('child_process').spawnSync;
         var jobname = '-jobname='+awardfilename;
         var latex = spawn('pdflatex', ['-output-directory', 'output/',jobname, templateName]);
@@ -90,7 +86,6 @@ exports.renderLatexDoc = function(awardtype,context, complete){
     else if (awardtype ==2)
     {
         templateName = 'eowtemplatewithfields.tex';
-        //var awardfilename = 'eowaward';
         var awardfilename ='award' + context.awardrecord[0].awardID; //TO SAVE WITH AWARDRECORD ID
         context.awardrecord[0].awardfilename = awardfilename;
         var spawn  = require('child_process').spawnSync;
@@ -98,7 +93,6 @@ exports.renderLatexDoc = function(awardtype,context, complete){
         var latex = spawn('pdflatex', ['-output-directory', 'output/',jobname, templateName]);
     }
     process.chdir('../..');
-    //console.log('Current directory: ' + process.cwd());
     complete();   
 };
 
