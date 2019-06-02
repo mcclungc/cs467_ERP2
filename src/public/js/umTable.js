@@ -210,17 +210,17 @@ function edit() {
 	var email = uEmail[0].innerText;
 	
 	//Edit Form and display it
-	eContent.innerHTML = '<div id="updateForm" class="createForm"><form id="accountForm" method="post"><fieldset><p class="fields"><input id="nameUpdate" value="' + name + '" required></p><p class="fields"><input id="emailUpdate" value="' + email + '" required></p><p class="fields"><button class="lightBox-button" id="updateBTN">Update</button><button class="lightBox-button" onclick="closeLightBox()">Cancel</button></p></fieldset></form></div>"';
+	eContent.innerHTML = '<div id="updateForm" class="createForm"><form id="accountForm" method="post"><fieldset><p class="fields"><input id="nameUpdate" value="' + name + '" required></p><p class="fields"><input id="emailUpdate" value="' + email + '" required></p><p class="fields"><button class="lightBox-button" id="updateBTN">Update</button><button class="lightBox-button" onclick="closeLightBox()">Cancel</button></p></fieldset></form></div>';
 	var uBtn = document.getElementById("updateBTN");
 	uBtn.name = id;
 	eBox.classList.remove("hidden");
 
 	var popUp = document.getElementById("lightBox");
-	var updatingBtn = popUp.getElementById("updateBTN");
+	var updatingBtn = document.getElementById("updateBTN");
 	updatingBtn.addEventListener("click", function(event) {
 		event.preventDefault();
 		var id = updatingBtn.name;
-		var updateForm = popUp.getElementById("updateForm");
+		var updateForm = document.getElementById("updateForm");
 		var req = new XMLHttpRequest();
 		var request = `/api/users/${id}`;
 	
@@ -330,8 +330,8 @@ var t;
 var type = document.getElementsByClassName("userType");
 for(t = 0; t < type.length; t++){
 	console.log(type[t]);
-	console.log(type[t].name);
-	if(type[t].name != "0"){
+	console.log(type[t].id);
+	if(type[t].id == "0"){
 		type[t].innerText = "User";
 	}
 	else {
