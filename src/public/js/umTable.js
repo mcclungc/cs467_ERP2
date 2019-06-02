@@ -210,7 +210,7 @@ function edit() {
 	var email = uEmail[0].innerText;
 	
 	//Edit Form and display it
-	eContent.innerHTML = '<div id="updateForm" class="createForm"><form id="accountForm" method="post"><fieldset><p class="fields"><input id="nameUpdate" value="' + name + '" required></p><p class="fields"><input id="emailUpdate" value="' + email + '" required></p><p class="fields"><button class="lightBox-button" id="updateBTN">Update</button><button class="lightBox-button" onclick="closeLightBox()">Cancel</button></p></fieldset></form></div>';
+	eContent.innerHTML = '<div id="updateForm" class="createForm"><form id="accountForm" method="post"><fieldset><p class="fields"><input id="nameUpdate" value="' + name + '" required></p><p class="fields"><input id="emailUpdate" value="' + email + '" required></p><p><button class="lightBox-button" id="updateBTN">Update</button><button class="lightBox-button" onclick="closeLightBox()">Cancel</button></p></fieldset></form></div>';
 	var uBtn = document.getElementById("updateBTN");
 	uBtn.name = id;
 	eBox.classList.remove("hidden");
@@ -226,8 +226,8 @@ function edit() {
 	
 		//Updated Information to send to database
 		var updateInfo = {};
-		var newN = updateForm.getElementsById("name");
-		var newE = updateForm.getElementsById("email");
+		var newN = document.getElementById("name");
+		var newE = document.getElementById("email");
 		updateInfo.name = newN.value;
 		updateInfo.email = newE.value;
 		updateInfo.id = id;
@@ -329,8 +329,6 @@ for(k = 0; k < inactiveButtons.length; k++){
 var t;
 var type = document.getElementsByClassName("userType");
 for(t = 0; t < type.length; t++){
-	console.log(type[t]);
-	console.log(type[t].id);
 	if(type[t].id == "0"){
 		type[t].innerText = "User";
 	}

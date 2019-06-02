@@ -1,7 +1,7 @@
 .createForm {
     margin: 0 auto;
     width: 100%;
-    box-shadow: 0 14px 28px grey;
+    box-shadow: none;
     border-radius: 5px;
 }
 
