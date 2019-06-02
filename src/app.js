@@ -11,7 +11,7 @@ var app = express();
 var handlebars = require('express-handlebars').create({defaultLayout:'user'}); //default layout is required but can be changed per page.
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-var request = require('request');
+var Request = require('request');
 var mysql = require('./db.js');//go to db.js to set up database
 var sessionValidation = require('./session');
 
@@ -222,8 +222,16 @@ app.get('/history', function(req, res, next){
 				let context = {};
 				context.layout = 'user';
 				context.title = 'Award History';
-				let Request = require('request');
-				Request.get("http://localhost:5000/api/awards_currentuser/" + userData.user_id, (error, response,body) => {
+				const request = Request.defaults({jar: true})
+				var cookie = request.cookie('erp_session=' + req.cookies.erp_session);
+				const options = {
+					url: "http://localhost:5000/api/awards_currentuser/" + userData.user_id,
+					headers: {
+						'Cookie': cookie
+					},
+					method: 'GET'
+				}
+				request(options, (error, response,body) => {
 					if(error) {
 						res.write(JSON.stringify(error));
 						res.end();
@@ -235,7 +243,7 @@ app.get('/history', function(req, res, next){
 				res.redirect('/');
 			}	
 		}).catch(error => {
-			res.redirect('/');
+			console.log(error);
 		})
 	}
 });

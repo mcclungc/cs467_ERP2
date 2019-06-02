@@ -220,7 +220,8 @@ function edit() {
 	cBtn.addEventListener("click", function(event) {
 		event.preventDefault();
 		closeLightBox();
-	}
+	})
+	
 	
 	//Update btn	
 	var popUp = document.getElementById("lightBox");
