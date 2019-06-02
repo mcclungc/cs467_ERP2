@@ -329,7 +329,9 @@ for(k = 0; k < inactiveButtons.length; k++){
 var t;
 var type = document.getElementsByClassName("userType");
 for(t = 0; t < type.length; t++){
-	if(type[t].name == "0"){
+	console.log(type[t]);
+	console.log(type[t].name);
+	if(type[t].name != "0"){
 		type[t].innerText = "User";
 	}
 	else {
