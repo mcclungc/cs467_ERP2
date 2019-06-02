@@ -234,12 +234,13 @@ function edit() {
 		var request = `/api/users/${id}`;
 	
 		//Updated Information to send to database
-		var updateInfo = {};
 		var newN = document.getElementById("nameUpdate");
 		var newE = document.getElementById("emailUpdate");
-		updateInfo.name = newN.value;
-		updateInfo.email = newE.value;
-		updateInfo.id = id;
+		var updateInfo = {
+			"id": id,
+			"name": newN.value,
+			"email": newE.value
+		}
 		req.open("PATCH", request, true);
 		req.setRequestHeader('Content-Type', 'application/json');
 		req.addEventListener('load', function() {
