@@ -1,20 +1,33 @@
 .hlink {
-    color: blue;
-    font-family: Arial, Verdana, serif;
+	padding: 10px;
+        font-size: 1em;
+        text-decoration: none;
+        border-radius: 5px;
+        background-color: #03A9F4;
+        color: #fff;
+        cursor: pointer;
 }
 
-.htext {
-    font-family: Arial, Verdana, serif;
-}
-
-#helpheader {
-    font-family: Arial, Verdana, serif;
+.hlink:hover {
+	background-color: #20262e;
 }
 
 #helpbody {
     margin: auto;
     width: 50%;
-    text-align: center;
-    
+    text-align: center;   
 }
 
+button {
+	padding: 10px;
+	border: none;
+	text-decoration: none;
+	border-radius: 5px;
+	background-color: #03A9F4;
+	color: #fff;
+	cursor: pointer;
+}
+
+button:hover {
+	background-color: #20262e;
+}

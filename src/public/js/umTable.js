@@ -203,34 +203,41 @@ function edit() {
 	var id = this.id;
 	var user = this.parentNode.parentNode.parentNode;
 	var userName = user.getElementsByClassName("name");
-	var uEmail = user.getElementsByClassName("email");
+	//var uEmail = user.getElementsByClassName("email");
 	var eBox = document.getElementById("lightBox");
 	var eContent = document.getElementById("lightBox-Inner");
 	var name = userName[0].innerText;
-	var email = uEmail[0].innerText;
+	//var email = uEmail[0].innerText;
 	
 	//Edit Form and display it
-	eContent.innerHTML = '<div id="updateForm" class="createForm"><form id="accountForm" method="post"><fieldset><p class="fields"><input id="nameUpdate" value="' + name + '" required></p><p class="fields"><input id="emailUpdate" value="' + email + '" required></p><p class="fields"><button class="lightBox-button" id="updateBTN">Update</button><button class="lightBox-button" onclick="closeLightBox()">Cancel</button></p></fieldset></form></div>"';
+	eContent.innerHTML = '<div id="updateForm" class="createForm"><form id="accountForm" method="post"><fieldset><p><input id="nameUpdate" value="' + name + '" required></p><p><button class="lightBox-button" id="updateBTN">Update</button><button class="lightBox-button" id="cancelBTN">Cancel</button></p></fieldset></form></div>';
 	var uBtn = document.getElementById("updateBTN");
 	uBtn.name = id;
 	eBox.classList.remove("hidden");
-
+	
+	//Closing btn
+	var cBtn = document.getElementById("cancelBTN");
+	cBtn.addEventListener("click", function(event) {
+		event.preventDefault();
+		closeLightBox();
+	});
+	
+	//Update btn	
 	var popUp = document.getElementById("lightBox");
-	var updatingBtn = popUp.getElementById("updateBTN");
+	var updatingBtn = document.getElementById("updateBTN");
 	updatingBtn.addEventListener("click", function(event) {
 		event.preventDefault();
 		var id = updatingBtn.name;
-		var updateForm = popUp.getElementById("updateForm");
+		var updateForm = document.getElementById("updateForm");
 		var req = new XMLHttpRequest();
 		var request = `/api/users/${id}`;
 	
 		//Updated Information to send to database
-		var updateInfo = {};
-		var newN = updateForm.getElementsById("name");
-		var newE = updateForm.getElementsById("email");
-		updateInfo.name = newN.value;
-		updateInfo.email = newE.value;
-		updateInfo.id = id;
+		var newN = document.getElementById("nameUpdate");
+		//var newE = document.getElementById("emailUpdate");
+		var updateInfo = {
+			"name": newN.value
+		}
 		req.open("PATCH", request, true);
 		req.setRequestHeader('Content-Type', 'application/json');
 		req.addEventListener('load', function() {
@@ -238,13 +245,12 @@ function edit() {
 				var response = JSON.parse(req.responseText);
 				console.log(response);
 				userName[0].innerText = newN.value;
-				uEmail[0].innerText = newE.value;
+				//uEmail[0].innerText = newE.value;
 			} else {
 				console.log("Error in network request: " + req.statusText);
 			}
 		});
 		req.send(JSON.stringify(updateInfo));
-		updateForm.style.display = "none";
 		closeLightBox();
 	});
 }
@@ -329,7 +335,7 @@ for(k = 0; k < inactiveButtons.length; k++){
 var t;
 var type = document.getElementsByClassName("userType");
 for(t = 0; t < type.length; t++){
-	if(type[t].name == "0"){
+	if(type[t].id == "0"){
 		type[t].innerText = "User";
 	}
 	else {
