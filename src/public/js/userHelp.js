@@ -1,7 +1,8 @@
-var t1aText = "In order to create an award you must click on the create award button after logging into" +
-        " your user account. Next you will be presented with a screen where you will need to fill in all requested data" +
-        " about the recipeient of the award. Upon submission the recipient will receive an email containing a signed PDF " +
-        "representation of the award you issued them.";
+var t1aText = "To create an employee award, click on the Create Awards dashboard button " +
+        "or the Create Awards link on the navigation menu after logging into your" +
+        " user account. Enter all required information on the award creation form and click " +
+        "the Create Award button. To preview or email an award, click on the Recent History button or " +
+        "the History link, locate the award record, and click the Preview or Email button. ";
 
 var t2aText = "Click on the Account button which is located on the top right. Select account and then click the change signature button. You will be given the option to either free draw a signature or if you prefer you can use the upload signature option to import a signature you have saved locally on your computer. A user can only have one signature associated with their account at any given time so any time you submit a signature, regardless of whether freedrawn or imported, your previous signature will be replaced with the most recently submitted one.";
         
@@ -9,7 +10,7 @@ var t3aText = "Click on the Account button which is located on the top right and
         
 var t4aText = "Click on the Account button which is located on the top right and select Account. Next click on the 'Update Information' button. You should be presented with a page that allows you to edit your name, email address, region and Department. Make any alterations necessary and click 'Update' to finalize your changes.";
         
-var t5aText = "You can access a searchable history of all the awards you have ever issued from the user home page by either clicking on 'History' along the top navigation bar or alternatively clicking on the 'Recent Activity' button. You have the ability to search for an Employee by name. You also have the option to preview award certifictes that have already been issued or alternatively have them emailed again to the recipient. You can do so by clicking the 'Preview' button next to a recipients award and you will be given the options to 'Download as PDF' or to 'Email to Recipient'. You also have the ability to Delete an award from the system if you so choose by clicking the 'Delete' button.";
+var t5aText = "You can access a searchable history of all the awards you have ever issued from the user home page by either clicking on 'History' along the top navigation bar or alternatively clicking on the 'Recent Activity' button. You have the ability to search for an Employee by name. You also have the option to preview award certificates that have already been created or alternatively have them emailed again to the recipient. You can do so by clicking the 'Preview' or 'Email' button next to a recipient's award. You also have the ability to Delete an award from the system if you so choose by clicking the 'Delete' button.";
         
 var t6aText = "If you ever forget your password you always have the option of resetting it. This can be done so by clicking on the 'Forgot Password?' link on the login page. You will be asked to enter in the email the account was registered under.  If the email is registered, a password reset email will be sent. If you do not receive an email, please contact your system administrator.";
         
