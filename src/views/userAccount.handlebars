@@ -34,8 +34,8 @@
 	<div id="uploadSigDiv">
 		<img id="sigPic" width=500 height=100/>
 		<p>
-			<input id=uploadSig type="file" accept="image/*" onchange="loadFile(event)">
-			<button id="submitUploadedSig" class="submitButtons accountButton" type="button">Submit</button> 
+			<input id="sigFile" type="file" accept="image/*" onchange="loadFile(event)">
+			<button id="submitUploadedSig" class="submitButtons accountButton" type="button" name="{{user.id}}">Submit</button> 
 		</p>
 	<div>
 </div>

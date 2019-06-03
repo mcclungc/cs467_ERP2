@@ -3,7 +3,6 @@ var sigChange = document.getElementById("sigChange");
 var sigPad = document.getElementById("signaturePad")
 var clearButton = document.getElementById("clearFunc")
 var submitSigButton = document.getElementById("submitSig")
-var uploadSigButton = document.getElementById("uploadSig")
 var submitUploadedSigButton = document.getElementById("submitUploadedSig")
 
 //Event Listeners
@@ -116,17 +115,21 @@ function sendHandDrawnSigToDatabase(){
 }
 
 function sendUploadedSigToDatabase(){
-    //Creates link
-    var download = document.createElement('a')
-    download.download = 'mysignature.png'
-    download.href = sigPic.src
-    
-    //Allows user to download signature image, eventually
-    //This will instead just send the signature data to
-    //our SQL database.
-    document.body.appendChild( download )
-    download.click()
-    document.body.removeChild( download);
+    event.preventDefault();
+    var req = new XMLHttpRequest();
+    var fd = new FormData();
+    fd.append('signature', document.getElementById('sigFile').files[0])
+    var id = submitUploadedSigButton.name;
+	req.open("POST", "/api/users/" + id, true);
+    req.setRequestHeader('enctype', 'multipart/form-data');
+	req.addEventListener('load', function() {
+		if (req.status >= 200 && req.status < 400) {
+            console.log('success');
+		} else {
+			console.log("Error in network request: " + req.statusText);
+		}
+	});
+	req.send(fd);
 }
 
 function setMouseDownFalse(){
