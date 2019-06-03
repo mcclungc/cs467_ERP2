@@ -115,6 +115,8 @@ function sendHandDrawnSigToDatabase(){
 }
 
 function sendUploadedSigToDatabase(){
+    // Referenced this StackOverflow post on how to send forms with files 
+    // https://stackoverflow.com/questions/6974684/how-to-send-formdata-objects-with-ajax-requests-in-jquery
     event.preventDefault();
     var req = new XMLHttpRequest();
     var fd = new FormData();
