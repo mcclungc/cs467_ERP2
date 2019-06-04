@@ -6,6 +6,7 @@ const mailer = require('nodemailer');
 const email = require('../../email');
 const sessionValidation = require('../../session');
 
+// Setup nodemailer
 let transporter = mailer.createTransport({
     service: 'gmail',
     auth: {
@@ -18,6 +19,7 @@ let transporter = mailer.createTransport({
     }
 });
 
+// Check if the user exists
 function userCheck(email) {
     return new Promise((resolve, reject) => {
         db.pool.query("SELECT * FROM users WHERE email = ?", [email], (error, results, fields) => {
@@ -32,6 +34,7 @@ function userCheck(email) {
     });
 }
 
+// Check if the salt value already exists in the users table
 function querySalt(salt) {
     db.pool.query("SELECT count(id) as count FROM users WHERE salt = ?", [salt], (error, results, fields) => {
         if(error) throw error;
@@ -40,6 +43,7 @@ function querySalt(salt) {
     });
 }
 
+// Create a new unique password salt
 function createSalt() {
     let salt = '';
     do {
@@ -49,10 +53,13 @@ function createSalt() {
     return salt;
 }
 
+// Generate a random password
 function generatePassword() {
     return crypto.randomBytes(8).toString('hex');
 }
 
+// Reset the password for the user. Verifies the user exists in the system, creates a random password,
+// and then emails that password to the user.
 function resetPassword(req, res) {
     const schema = Joi.object().keys ({
         email: Joi.string().max(256).email({minDomainSegments: 2, tlds: {allow: ['com', 'edu']}}).required()
@@ -101,23 +108,7 @@ function resetPassword(req, res) {
     });
 }
 
-function querySalt(salt) {
-    db.pool.query("SELECT count(id) as count FROM users WHERE salt = ?", [salt], (error, results, fields) => {
-        if(error) throw error;
-
-        return results[0].count;
-    });
-}
-
-function createSalt() {
-    let salt = '';
-    do {
-        salt = crypto.randomBytes(16).toString('hex');
-        saltCount = querySalt(salt);
-    } while(saltCount > 0);
-    return salt;
-}
-
+// Route handler to change the user's password
 function changePassword(req, res) {
     if(!req.cookies.erp_session) {
         res.status(401).json({ 'message': 'Invalid User' }).send();

@@ -8,7 +8,12 @@ submitButton.addEventListener("click", function(event) {
 	var department = document.getElementById("department");
 	var region = document.getElementById("region");
     var awardType = document.getElementById("award-type");
-    var awardDate = document.getElementById("award-date");
+	var awardDate = document.getElementById("award-date");
+	var message = document.getElementById("result");
+
+	if(message) {
+		message.remove();
+	}
 
 	var formInput = {};
 	formInput.recipient_email = user.value;
@@ -31,7 +36,7 @@ submitButton.addEventListener("click", function(event) {
 		if (req.status >= 200 && req.status < 400) {
             var response = JSON.parse(req.responseText);
 			if(response[0].awardID){
-				form.insertAdjacentHTML('afterend', '<p class="userCreated">Award Successfully Created!</p>');
+				form.insertAdjacentHTML('afterend', '<p class="userCreated" id="result">Award Successfully Created!</p>');
 				user.value = '';
 				name.value = '';
 				department.value = '';
@@ -41,6 +46,7 @@ submitButton.addEventListener("click", function(event) {
 			}
 		} else {
 			console.log("Error in network request: " + req.statusText);
+			form.insertAdjacentHTML('afterend', '<p class="userFailed" id="result">Failed To Create Award</p>');
 		}
 	});
 	req.send(JSON.stringify(formInput));
