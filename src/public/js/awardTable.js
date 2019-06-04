@@ -8,7 +8,6 @@ function search(){
 	var searchInput, filter, tr, td, itr;
 	searchInput = document.getElementById("myInput");
 	filter = searchInput.value.toUpperCase(); //make the search case insensitive
-	//table = document.getElementById("userTable");
 	tr = table.getElementsByTagName("tr");
 	for( itr = 0; itr < tr.length; itr++){
 		td = tr[itr].getElementsByTagName("td")[1];
@@ -38,10 +37,6 @@ function sortToggle(){
 function sortAscending(col) {
 	ascending = true;
 	var sorted = false;
-	//var table, body, rows, td, itr;
-	//table = document.getElementById("userTable");
-	//body = document.getElementById("tableBody");
-	//rows = table.getElementsByClassName("row");
 	while(!sorted){
 		for(itr = 0; itr < rows.length - 1; itr++){
 			if(rows[itr].cells[col].innerText.toUpperCase() > rows[itr + 1].cells[col].innerText.toUpperCase()){
@@ -72,10 +67,6 @@ function checkAscending(array, col){
 function sortDescending(col) {
 	ascending = false;
 	var sorted = false;
-	//var table, body, rows, td, itr;
-	//table = document.getElementById("userTable");
-	//body = document.getElementById("tableBody");
-	//rows = table.getElementsByClassName("row");
 	while(!sorted){
 		for(itr = 0; itr < rows.length - 1; itr++){
 			if(rows[itr].cells[col].innerText.toUpperCase() < rows[itr + 1].cells[col].innerText.toUpperCase()){
@@ -106,7 +97,6 @@ function checkDescending(array, col){
 function checkToggle() {
 	if(this.parentNode.parentNode.id == "tableHead"){
 		if(this.childNodes[0].classList.contains("checkoff")){
-			//var table = document.getElementById("userTable");
 			var checks = table.getElementsByClassName("fa-check");
 			var i;
 			for(i = 0; i < checks.length; i++){
@@ -115,7 +105,6 @@ function checkToggle() {
 			}
 		}
 		else if(this.childNodes[0].classList.contains("checkon")){
-			//var tab = document.getElementById("userTable");
 			var check = table.getElementsByClassName("fa-check");
 			var j;
 			for(j = 0; j < check.length; j++){
@@ -148,7 +137,6 @@ function checkToggle() {
 function anyActive(){
 	var x, y;
 	var buttons = document.getElementsByClassName("actionButton");
-	//var area = tableocument.getElementById("userTable");
 	var activeChecks = table.getElementsByClassName("checkon");
 	if(activeChecks.length > 0){
 		for(x = 0; x < buttons.length; x++){
@@ -171,7 +159,6 @@ function anyActive(){
 //JS for the lightbox, remove, and edit buttons
 function remove() {
 	var rButton = document.getElementById("removeButton");
-	//var table = document.getElementById("userTable");
 	if(!rButton.classList.contains("inactive")){
 		var rBox = document.getElementById("lightBox");
 		var rContent = document.getElementById("lightBox-Inner");
@@ -235,6 +222,7 @@ function deleteAward(id) {
 	req.send(null);
 }
 
+// Function to preview the pdf of the award
 function preview() {
 	const id = this.id;
 	
@@ -252,6 +240,7 @@ function preview() {
 	req.send(null);
 }
 
+// Function to create the award file
 function createAwardFile(id) {
 	return new Promise((resolve, reject) => {
 		var req = new XMLHttpRequest();
@@ -269,6 +258,7 @@ function createAwardFile(id) {
 	})
 }
 
+// Function to email the award file to the recipient
 function email() {
 	let id = this.id;
 	id = id.slice(6);
@@ -280,7 +270,7 @@ function email() {
 		req.setRequestHeader('Content-Type', 'application/json');
 		req.addEventListener('load', function() {
 			if (req.status >= 200 && req.status < 400) {
-				console.log('sent');
+				window.location.assign('/history');
 			} else {
 				console.log("Error in network request: " + req.statusText);
 			}

@@ -3,6 +3,7 @@ const Joi = require('@hapi/joi');
 const db = require('../../db');
 const crypto = require('crypto');
 
+// Query the session table for the id passed in
 function querySession(session_id) {
     db.pool.query("SELECT count(id) as count FROM sessions WHERE id = ?", [session_id], (error, results, fields) => {
         if(error) throw error;
@@ -11,6 +12,8 @@ function querySession(session_id) {
     });
 }
 
+// Create a new session for the user and store it in the session table. Delete any previously existing
+// sessions.
 function createSession(user_id, expiration) {
     return new Promise((resolve, reject) => {
         let sessionIDCount = 0;
@@ -39,6 +42,8 @@ function createSession(user_id, expiration) {
     });
 }
 
+// Route handler to log  the user in. Performs password validation and creates a new session as well
+// as cookies for determining the user throughout the application
 function login (req, res) {
     if(!req.is('application/json')) {
         res.status(400).json({ 'message': 'Request must be application/json' }).send();
