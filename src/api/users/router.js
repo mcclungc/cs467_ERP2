@@ -6,6 +6,7 @@ const crypto = require('crypto');
 const multer = require('multer');
 const upload = multer();
 
+// Check if the salt value already exists in the users table
 function querySalt(salt) {
     db.pool.query("SELECT count(id) as count FROM users WHERE salt = ?", [salt], (error, results, fields) => {
         if(error) throw error;
@@ -14,6 +15,7 @@ function querySalt(salt) {
     });
 }
 
+// Create a new unique password salt
 function createSalt() {
     let salt = '';
     do {
@@ -23,6 +25,7 @@ function createSalt() {
     return salt;
 }
 
+// Check if the email already exists for a user
 function userCheck(email) {
     return new Promise((resolve, reject) => {
         db.pool.query("SELECT * FROM users WHERE email = ?", [email], (error, results, fields) => {
@@ -37,6 +40,7 @@ function userCheck(email) {
     });
 }
 
+// Route handler to create a new user
 function createUser(req, res) {
     if(!req.cookies.erp_session) {
         res.status(401).json({ 'message': 'Invalid User' }).send();
@@ -114,6 +118,7 @@ function createUser(req, res) {
     }  
 }
 
+// Build's out query for pulling users based on parameters a user may choose
 function queryBuilder(is_admin, region_id, department_id) {
     let query = "SELECT * FROM users";
     let clauseArray = [];
@@ -147,6 +152,7 @@ function queryBuilder(is_admin, region_id, department_id) {
     return query;
 }
 
+// Route handler to get user data with ability to query certain parameters
 function getUsers(req, res) {
     if(!req.cookies.erp_session) {
         res.status(401).json({ 'message': 'Invalid User' }).send();
@@ -193,6 +199,7 @@ function getUsers(req, res) {
     }
 }
 
+// Route handler to pull single user
 function getUser(req, res) {
     if(!req.cookies.erp_session) {
         res.status(401).json({ 'message': 'Invalid User' }).send();
@@ -225,6 +232,7 @@ function getUser(req, res) {
     }
 }
 
+// Route handler to update user
 function updateUser(req, res) {
     if(!req.cookies.erp_session) {
         res.status(401).json({ 'message': 'Invalid User' }).send();
@@ -232,7 +240,6 @@ function updateUser(req, res) {
         sessionValidation(req.cookies.erp_session).then(userData => {
             const schema = Joi.object().keys ({
                 name: Joi.string().max(255).trim().optional(),
-                signature: Joi.any().optional(),
                 region_id: Joi.number().positive().integer().optional(),
                 department_id: Joi.number().positive().integer().optional()
             });
@@ -274,6 +281,49 @@ function updateUser(req, res) {
     }
 }
 
+function updateSignature(req, res) {
+    if(!req.cookies.erp_session) {
+        res.status(401).json({ 'message': 'Invalid User' }).send();
+    } else {
+        sessionValidation(req.cookies.erp_session).then(userData => {
+            if(req.file.size > 15000000) {
+                res.status(400).json({ 'message': "Signature file too large" });
+                return;
+            }
+
+            if(req.file.mimetype !== 'image/jpeg' && req.file.mimetype !== 'image/png') {
+                res.status(400).json({ 'message': "Incorrect filetype" });
+                return;
+            }
+
+
+            const sig = req.file.buffer;
+
+            db.pool.query("UPDATE users SET signature = ? WHERE id = ?", [sig, req.params.id], (error, results, fields) => {
+                if(error) throw error;
+
+                db.pool.query("SELECT * FROM users WHERE id = ?", [req.params.id], (err, results, fields) => {
+                    if(err) throw err;
+
+                    const data = {
+                        "id": results[0].id,
+                        "email": results[0].email,
+                        "name": results[0].name,
+                        "created_on": results[0].created_on,
+                        "is_admin": results[0].is_admin,
+                        "region_id": results[0].region_id,
+                        "department_id": results[0].department_id
+                    }
+                    res.status(200).json(data).send();
+                });
+            })
+        }).catch(error => {
+            res.status(401).json({ 'message': error }).send();
+        })
+    }
+}
+
+// Router handler to delete specific user
 function deleteUser(req, res) {
     if(!req.cookies.erp_session) {
         res.status(401).json({ 'message': 'Invalid User' }).send();
@@ -299,6 +349,7 @@ router.post('/users', upload.single('signature'), createUser);
 router.get('/users', getUsers);
 router.get('/users/:id', getUser);
 router.patch('/users/:id', updateUser);
+router.post('/users/:id', upload.single('signature'), updateSignature)
 router.delete('/users/:id', deleteUser);
 
 module.exports = router;

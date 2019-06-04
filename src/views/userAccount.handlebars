@@ -27,15 +27,15 @@
 		</canvas> 
 		<p>
 			<button id="clearFunc" type="button" class="accountButton">Clear</button> 
-			<button id="submitSig" class="submitButtons accountButton" type="button">Submit</button> 
+		<button id="submitSig" class="submitButtons accountButton" type="button" name={{user.id}}>Submit</button> 
 		</p>
 	</div>
 	<h2 class="sigSection">Upload a Signature from a File</h2>
 	<div id="uploadSigDiv">
 		<img id="sigPic" width=500 height=100/>
 		<p>
-			<input id=uploadSig type="file" accept="image/*" onchange="loadFile(event)">
-			<button id="submitUploadedSig" class="submitButtons accountButton" type="button">Submit</button> 
+			<input id="sigFile" type="file" accept="image/*" onchange="loadFile(event)">
+			<button id="submitUploadedSig" class="submitButtons accountButton" type="button" name="{{user.id}}">Submit</button> 
 		</p>
 	<div>
 </div>

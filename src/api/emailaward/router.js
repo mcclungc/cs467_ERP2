@@ -7,8 +7,8 @@ const fs = require('fs');
 const latexmodule = require('../../latexmodule');
 var dateFormat = require('dateformat');
 
-//RIGHT NOW THIS FUNCTION JUST LOOKS FOR THE AWARD FILE IF IT IS ALREADY IN THE DIRECTORY. IF NOT IT
-//WILL THROW AN ERROR
+//query db by award record ID, retrieve recipient info, and call award email function
+//will not send to dummy email accounts @acme.com
 function emailAwardRecord(req, res) {
     if(!req.cookies.erp_session) {
         res.status(401).json({ 'message': 'Invalid User' }).send();
@@ -31,7 +31,7 @@ function emailAwardRecord(req, res) {
                             "awardtype": results[0].awardtype,
                             "awardtypeID": results[0].awardtypeID,
                             "recipient":results[0].recipient,
-                            "recipient_email": results[0].recipient_email,
+                            "recipient_email": results[0].recipient_email
                         });
                         
                         if(results[0].recipient_email.slice(-9) !== '@acme.com') {

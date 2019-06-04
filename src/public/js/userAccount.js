@@ -3,8 +3,9 @@ var sigChange = document.getElementById("sigChange");
 var sigPad = document.getElementById("signaturePad")
 var clearButton = document.getElementById("clearFunc")
 var submitSigButton = document.getElementById("submitSig")
-var uploadSigButton = document.getElementById("uploadSig")
 var submitUploadedSigButton = document.getElementById("submitUploadedSig")
+var submitUploadedSigConfirmation = document.getElementById("submitUploadedSigConfirmation")
+var submitSigConfirmation = document.getElementById("submitSigConfirmation")
 
 //Event Listeners
 submitSigButton.addEventListener("click",sendHandDrawnSigToDatabase)
@@ -100,33 +101,63 @@ function clearSig (){
 }
 
 function sendHandDrawnSigToDatabase(){
-    var freeHandSigImage = sigPad.toDataURL()
-    
-    //Creates link
-    var download = document.createElement('a')
-    download.download = 'mysignature.png'
-    download.href = freeHandSigImage
-    
-    //Allows user to download signature image, eventually
-    //This will instead just send the signature data to
-    //our SQL database.
-    document.body.appendChild( download )
-    download.click()
-    document.body.removeChild( download);
+    // Referenced this StackOverflow post on how to send forms with files 
+    // https://stackoverflow.com/questions/6974684/how-to-send-formdata-objects-with-ajax-requests-in-jquery
+    event.preventDefault();
+    var req = new XMLHttpRequest();
+    var fd = new FormData();
+    fd.append('signature', dataURItoBlob(sigPad.toDataURL ('image/png')));
+    var id = submitSig.name;
+	req.open("POST", "/api/users/" + id, true);
+    req.setRequestHeader('enctype', 'multipart/form-data');
+	req.addEventListener('load', function() {
+		if (req.status >= 200 && req.status < 400) {
+			submitSigButton.innerText = 'Success!';
+			setTimeout(restoreSubmitSigButton, 1500);
+			clearSig();
+		} else {
+			submitSigButton.innerText = 'Failure!';
+			setTimeout(restoreSubmitSigButton, 1500);
+			console.log("Error in network request: " + req.statusText);
+		}
+	});
+	req.send(fd);
 }
 
 function sendUploadedSigToDatabase(){
-    //Creates link
-    var download = document.createElement('a')
-    download.download = 'mysignature.png'
-    download.href = sigPic.src
-    
-    //Allows user to download signature image, eventually
-    //This will instead just send the signature data to
-    //our SQL database.
-    document.body.appendChild( download )
-    download.click()
-    document.body.removeChild( download);
+    // Referenced this StackOverflow post on how to send forms with files 
+    // https://stackoverflow.com/questions/6974684/how-to-send-formdata-objects-with-ajax-requests-in-jquery
+    event.preventDefault();
+    var req = new XMLHttpRequest();
+    var fd = new FormData();
+    fd.append('signature', document.getElementById('sigFile').files[0])
+    var id = submitUploadedSigButton.name;
+	req.open("POST", "/api/users/" + id, true);
+    req.setRequestHeader('enctype', 'multipart/form-data');
+	req.addEventListener('load', function() {
+		if (req.status >= 200 && req.status < 400) {
+			submitUploadedSigButton.innerText = 'Success!';
+			setTimeout(restoreSubmitUploadedSigButton, 1500);
+		}
+		else {
+			submitUploadedSigButton.innerText = 'Failure!';
+			setTimeout(restoreSubmitUploadedSigButton, 1500);
+			console.log("Error in network request: " + req.statusText);
+		}
+	});
+	req.send(fd);
+}
+
+function dataURItoBlob(dataURI) {
+// Referenced this StackOverflow post on how to convert the base64 representatio//n of a canvas to a blob
+// https://stackoverflow.com/questions/4998908/convert-data-uri-to-file-then-append-to-formdata
+    var bS = atob(dataURI.split(',')[1]);
+    var arrayBuff = new ArrayBuffer(bS.length);
+    var intArray = new Uint8Array(arrayBuff);
+    for (var i = 0; i < bS.length; i++) {
+        intArray[i] = bS.charCodeAt(i);
+    }
+    return new Blob([arrayBuff], { type: 'image/png' });
 }
 
 function setMouseDownFalse(){
@@ -136,6 +167,14 @@ function setMouseDownFalse(){
 
 function setMouseDownTrue(){
     mousedown = true
+}
+
+function restoreSubmitSigButton(){
+	submitSigButton.innerText = 'Submit';
+}
+
+function restoreSubmitUploadedSigButton(){
+	submitUploadedSigButton.innerText = 'Submit';
 }
 
 var loadFile = function(event) {
