@@ -149,15 +149,15 @@ function sendUploadedSigToDatabase(){
 }
 
 function dataURItoBlob(dataURI) {
-// Referenced this StackOverflow post on how to convert the base64 represent//ation of a canvas to a blob
+// Referenced this StackOverflow post on how to convert the base64 representatio//n of a canvas to a blob
 // https://stackoverflow.com/questions/4998908/convert-data-uri-to-file-then-append-to-formdata
-    var byteString = atob(dataURI.split(',')[1]);
-    var ab = new ArrayBuffer(byteString.length);
-    var ia = new Uint8Array(ab);
-    for (var i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
+    var bS = atob(dataURI.split(',')[1]);
+    var arrayBuff = new ArrayBuffer(bS.length);
+    var intArray = new Uint8Array(arrayBuff);
+    for (var i = 0; i < bS.length; i++) {
+        intArray[i] = bS.charCodeAt(i);
     }
-    return new Blob([ab], { type: 'image/png' });
+    return new Blob([arrayBuff], { type: 'image/png' });
 }
 
 function setMouseDownFalse(){
