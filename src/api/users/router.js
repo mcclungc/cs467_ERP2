@@ -281,6 +281,48 @@ function updateUser(req, res) {
     }
 }
 
+function updateSignature(req, res) {
+    if(!req.cookies.erp_session) {
+        res.status(401).json({ 'message': 'Invalid User' }).send();
+    } else {
+        sessionValidation(req.cookies.erp_session).then(userData => {
+            if(req.file.size > 15000000) {
+                res.status(400).json({ 'message': "Signature file too large" });
+                return;
+            }
+
+            if(req.file.mimetype !== 'image/jpeg' && req.file.mimetype !== 'image/png') {
+                res.status(400).json({ 'message': "Incorrect filetype" });
+                return;
+            }
+
+
+            const sig = req.file.buffer;
+
+            db.pool.query("UPDATE users SET signature = ? WHERE id = ?", [sig, req.params.id], (error, results, fields) => {
+                if(error) throw error;
+
+                db.pool.query("SELECT * FROM users WHERE id = ?", [req.params.id], (err, results, fields) => {
+                    if(err) throw err;
+
+                    const data = {
+                        "id": results[0].id,
+                        "email": results[0].email,
+                        "name": results[0].name,
+                        "created_on": results[0].created_on,
+                        "is_admin": results[0].is_admin,
+                        "region_id": results[0].region_id,
+                        "department_id": results[0].department_id
+                    }
+                    res.status(200).json(data).send();
+                });
+            })
+        }).catch(error => {
+            res.status(401).json({ 'message': error }).send();
+        })
+    }
+}
+
 // Router handler to delete specific user
 function deleteUser(req, res) {
     if(!req.cookies.erp_session) {
@@ -307,6 +349,7 @@ router.post('/users', upload.single('signature'), createUser);
 router.get('/users', getUsers);
 router.get('/users/:id', getUser);
 router.patch('/users/:id', updateUser);
+router.post('/users/:id', upload.single('signature'), updateSignature)
 router.delete('/users/:id', deleteUser);
 
 module.exports = router;
