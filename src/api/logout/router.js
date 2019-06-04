@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const db = require('../../db');
 
+// Route handler to log the user out. Clears their session from the table and sets the cookie
+// expiration to in the past so the browser wipes them out.
 function logout(req, res) {
         
     db.pool.query("DELETE FROM sessions WHERE id = ?", [req.cookies.erp_session], (error, results, fields) => {
