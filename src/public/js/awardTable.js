@@ -205,6 +205,8 @@ function deleteAwards() {
 		deleteAward(arguments[i]);
 	}
 	closeLightBox();
+	var removeBtn = document.getElementById("removeButton");
+        removeBtn.classList.add("inactive");
 }
 
 
