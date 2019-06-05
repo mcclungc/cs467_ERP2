@@ -195,24 +195,38 @@ function createAwardRecord(req,res){
                         res.status(400).json({ 'message': err.details[0].message }).send();
                         return;
                     } else {
-                        var sql = 'INSERT INTO awards (certificate_id,  recipient_name, recipient_email, recipient_department_id, recipient_region_id, presenter_id, sent_on) VALUES (?,?,?,?,?,?,?)';
-                        var inserts = [req.body.certificate_id, req.body.recipient_name, req.body.recipient_email, req.body.recipient_department_id, req.body.recipient_region_id,  userData.user_id, req.body.sent_on];
-                        db.pool.query(sql,inserts, (error, results, fields) => {
+                        db.pool.query('SELECT signature FROM users WHERE id = ?', [userData.user_id], (error, results, fields) => {
                             if(error) throw error;
-                            else {
-                                let data = [];
-                                data.push({
-                                    "awardID": results.insertId,
-                                    "awardtypeID": req.body.certificate_id,
-                                    "recipient_name":req.body.recipient_name,
-                                    "recipient_email": req.body.recipient_email,
-                                    "recipient_department_id": req.body.recipient_department_id,
-                                    "recipient_region_id": req.body.recipient_region_id,   
-                                    "presenter_id": userData.user_id,            
-                                    "award_date": req.body.sent_on
-                                });
-                                res.status(200).send(data);
+                            
+                            if(results.length === 0) {
+                                res.status(401).json({ 'message': 'Invalid User' }).send();
+                                return;
                             }
+
+                            if(!results[0].signature) {
+                                res.status(401).json({ 'message': 'Missing Signature' }).send();
+                                return;
+                            }
+
+                            var sql = 'INSERT INTO awards (certificate_id,  recipient_name, recipient_email, recipient_department_id, recipient_region_id, presenter_id, sent_on) VALUES (?,?,?,?,?,?,?)';
+                            var inserts = [req.body.certificate_id, req.body.recipient_name, req.body.recipient_email, req.body.recipient_department_id, req.body.recipient_region_id,  userData.user_id, req.body.sent_on];
+                            db.pool.query(sql,inserts, (error, results, fields) => {
+                                if(error) throw error;
+                                else {
+                                    let data = [];
+                                    data.push({
+                                        "awardID": results.insertId,
+                                        "awardtypeID": req.body.certificate_id,
+                                        "recipient_name":req.body.recipient_name,
+                                        "recipient_email": req.body.recipient_email,
+                                        "recipient_department_id": req.body.recipient_department_id,
+                                        "recipient_region_id": req.body.recipient_region_id,   
+                                        "presenter_id": userData.user_id,            
+                                        "award_date": req.body.sent_on
+                                    });
+                                    res.status(200).send(data);
+                                }
+                            });
                         });
                     }
                 });
