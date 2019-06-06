@@ -118,7 +118,7 @@ app.get('/admin-usermanagement', function(req, res, next){
 				var context = {};
 				context.layout = 'admin';
 				context.title = '| User Management';
-				mysql.pool.query('SELECT u.id as id, u.name as name, u.email as email, r.region_name as region_name, d.department_name as department_name, u.is_admin as userType, u.created_on as created_on FROM `users` u INNER JOIN `regions` r on u.region_id = r.id INNER JOIN `departments` d on u.department_id = d.id ORDER BY u.id', function(err, rows, fields) {
+				mysql.pool.query(`SELECT u.id as id, u.name as name, u.email as email, r.region_name as region_name, d.department_name as department_name, u.is_admin as userType, u.created_on as created_on FROM users u LEFT JOIN regions r on u.region_id = r.id LEFT JOIN departments d on u.department_id = d.id WHERE u.id != ${userData.user_id} ORDER BY is_admin, u.id`, function(err, rows, fields) {
 					if (err) {
 						next(err);
 						return;
