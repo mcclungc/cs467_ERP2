@@ -28,7 +28,7 @@ submitButton.addEventListener("click", function(event) {
 			form.insertAdjacentHTML('afterend', '<p class="userFailed" id="result">Admin Users Must Not Have Region Nor Department</p>');
 			return;
 		}
-	} else {
+	} else if(uType.value === '0'){
 		if(department.value === '' || region.value === '') {
 			form.insertAdjacentHTML('afterend', '<p class="userFailed" id="result">Region and Department Required for User Accounts</p>');
 			return;
