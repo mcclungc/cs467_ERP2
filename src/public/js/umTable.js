@@ -261,6 +261,8 @@ function deleteUsers() {
 		deleteUser(arguments[i]);
 	}
 	closeLightBox();
+	var removeBtn = document.getElementById("removeButton");
+	removeBtn.classList.add("inactive");
 }
 
 

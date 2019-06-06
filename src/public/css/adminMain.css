@@ -78,6 +78,7 @@ body {
 	background-color: #2e2e2e;
 	position: fixed;
 	top: 0;
+	z-index: 100;
 }
 
 /* Clear the container */

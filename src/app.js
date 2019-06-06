@@ -203,7 +203,7 @@ app.get('/award', function(req, res, next){
 	} else {
 		sessionValidation(req.cookies.erp_session).then(userData => {
 			if(userData.is_admin === 0) {
-				res.render('userAward', {layout: 'user', title: 'ERP Awards'});
+				res.render('userAward', {layout: 'user', title: 'ERP Awards', userID: userData.user_id});
 			} else {
 				res.redirect('/');
 			}	

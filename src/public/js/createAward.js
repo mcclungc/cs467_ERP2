@@ -45,8 +45,12 @@ submitButton.addEventListener("click", function(event) {
 				awardDate.value = '';
 			}
 		} else {
-			console.log("Error in network request: " + req.statusText);
-			form.insertAdjacentHTML('afterend', '<p class="userFailed" id="result">Failed To Create Award</p>');
+			var response = JSON.parse(req.responseText);
+			if(response.message === 'Missing Signature') {
+				form.insertAdjacentHTML('afterend', '<p class="userFailed" id="result">You Must Have a Signature To Create An Award</p>');
+			} else {
+				form.insertAdjacentHTML('afterend', '<p class="userFailed" id="result">Failed To Create Award</p>');
+			}
 		}
 	});
 	req.send(JSON.stringify(formInput));
